@@ -1,64 +1,40 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot.subsystems;
 
-public class shooter {
-    //The shooter needs to run the motors at a certain speed when called upon
-    // It will need to shoot at two different speeds.  1 is slower for scoring in the amp, one is faster for scoring in the speaker
-    // it will have two brushless NEO motors.  
-    // it will have two SPARKMax controllers
-    // It has two belts.  
-// data types
-    //integer - negative and positive whole numbers
-    //double - decimal
-    //string - letters,numbers, and characters that have no numeric value
-    //char - 1 character
-    //array - list of strings in a reserved set of space.  
-    //boolean - 
+import com.revrobotics.CANSparkMax;
 
-    //Things I have to know
-    // gear ratio
-    // diameter of the wheels that shoot the note
-    // Distance to speaker
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
-    //variables 
-    // rotation speed
-    // distance to the speaker ??? 
-    // control input on/off 
-    // PID??? 
-    // shootSpeakerSpeed double 
-    // shootAmpSpeed double 
+public class Shooter extends SubsystemBase {
 
+    private CANSparkMax m_leftShootMotor;
+    private CANSparkMax m_rightShootMotor;
 
+    public void leftShooter() {
+        m_leftShootMotor = new CANSparkMax(Constants.shooterConstants.leftShootSparkMaxCANID, MotorType.kBrushles);
+        m_rightShootMotor = new CANSparkMax(Constants.shooterConstants.rightShootSparkMaxCANID, MotorType.kBrushless);
+    }
 
+  /** Creates a new Shooter. */
+  public Shooter() {
+    
+    }
+        public void shooter() {
+        m_leftShootMotor.set(Constants.shooterConstants.lShootSpeed);
+        m_rightShootMotor.set(Constants.shooterConstants.rShootSpeed);
+        }
+    public void stop() {
+        m_leftShootMotor.set(Constants.shooterConstants.stop);
+        m_rightShootMotor.set(Constants.shooterConstants.stop);
 
-    //constants
-    // gear ratio
-    // wheel diameter
-    // 
+    }
 
-
-    //methods
-
-    // ShootSpeaker (High speed shot)
-//1. recieve input from button push
-//2. turn on motor
-    //i. use shootSpeaker to set speed
-    //ii. turn on motor
-//3. allow to run for specific amount of time
-    //i. add interrupt for external controller override
-//4. turn off 
-
-    // OoozeAmp (Low speed shot)
-    //1. recieve input from button push
-//2. turn on motor
-    //i. use ShootAmpSpeed to set speed
-    //ii. turn on motor
-//3. allow to run for specific amount of time
-    //i. add interrupt for external controller override
-//4. turn off 
-
-
-
-
-
-
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+  }
 }

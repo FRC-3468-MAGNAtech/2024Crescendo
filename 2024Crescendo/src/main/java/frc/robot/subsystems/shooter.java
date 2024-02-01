@@ -24,14 +24,17 @@ public class Shooter extends SubsystemBase {
   public Shooter() {
     
     }
-        public void shoot() {
-        m_leftShootMotor.set(Constants.shooterConstants.lShootSpeed);
-        m_rightShootMotor.set(Constants.shooterConstants.rShootSpeed);
-        }
+    public void shoot() {
+      m_leftShootMotor.set(Constants.shooterConstants.lShootSpeed);
+      m_rightShootMotor.set(Constants.shooterConstants.rShootSpeed);
+    }
+    public void amp() {
+      m_leftShootMotor.set(Constants.shooterConstants.lAmpSpeed);
+      m_rightShootMotor.set(Constants.shooterConstants.rAmpSpeed);
+    }
     public void stop() {
         m_leftShootMotor.set(Constants.shooterConstants.stop);
         m_rightShootMotor.set(Constants.shooterConstants.stop);
-
     }
 
   @Override

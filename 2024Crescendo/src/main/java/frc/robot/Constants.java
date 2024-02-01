@@ -22,6 +22,8 @@ public final class Constants {
     public static final int rightShootSparkMaxCANID = 0;
     public static final double rShootSpeed = -1.0;
     public static final double lShootSpeed = 1.0;
+    public static final double rAmpSpeed = -0.5;
+    public static final double lAmpSpeed = 0.5;
     public static final double stop = 0.0;
   }    
 }

@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.drivetrain.ArcadeDriveCmd;
-import frc.robot.subsystems.ExampleSys;
 import frc.robot.subsystems.SwerveSys;
 
 public class RobotContainer {

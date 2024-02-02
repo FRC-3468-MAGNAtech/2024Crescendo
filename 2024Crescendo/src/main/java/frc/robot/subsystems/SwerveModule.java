@@ -7,10 +7,8 @@ import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -35,8 +33,8 @@ public class SwerveModule extends SubsystemBase {
     // Absolute offset for the CANCoder so that the wheels can be aligned when the robot is turned on.
     private final Rotation2d offset;
 
-    private final SparkMaxPIDController steerController;
-    private final SparkMaxPIDController driveController;
+    private final SparkPIDController steerController;
+    private final SparkPIDController driveController;
 
     /**
      * Constructs a new SwerveModule.
@@ -50,8 +48,8 @@ public class SwerveModule extends SubsystemBase {
      */
     public SwerveModule(int driveMtrId, int steerMtrId, int canCoderId, double measuredOffsetRadians) {
         
-        driveMtr = new CANSparkMax(driveMtrId, MotorType.kBrushless);
-        steerMtr = new CANSparkMax(steerMtrId, MotorType.kBrushless);
+        driveMtr = new CANSparkMax(driveMtrId, com.revrobotics.CANSparkLowLevel.MotorType.kBrushless);
+        steerMtr = new CANSparkMax(steerMtrId, com.revrobotics.CANSparkLowLevel.MotorType.kBrushless);
 
         driveEnc = driveMtr.getEncoder();
         steerEnc = steerMtr.getEncoder();

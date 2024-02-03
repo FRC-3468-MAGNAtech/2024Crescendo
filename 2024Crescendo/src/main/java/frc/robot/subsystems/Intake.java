@@ -46,56 +46,47 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Intake extends SubsystemBase {
   
   // Intake Motor Controllers
-  private CANSparkMax m_lowerIntakeBar; // NEO 550 motor
-  private CANSparkMax m_upperIntakeBar; // NEO 550 motor
-
-  private RelativeEncoder m_lowerIntakeBarEncoder;  // NEO 550 encoder
+  private CANSparkMax m_upperIntakeBar; // NEO 550 motor  
   private RelativeEncoder m_upperIntakeBarEncoder;  // NEO 550 encoder
+  private double upperIntakeBarRPM;
 
-  private double lowerIntakeBarRPM, upperIntakeBarRPM;
 
   /** Subsystem for controlling the Intake */
   public Intake() {
     // Instantiate the Intake motor controllers
-    m_lowerIntakeBar = new CANSparkMax(IntakeConstants.lowerIntakeMotorID, MotorType.kBrushless);
     m_upperIntakeBar = new CANSparkMax(IntakeConstants.upperIntakeMotorID, MotorType.kBrushless);
 
-    // Reverse some of the motors if needed
-    m_lowerIntakeBar.setInverted(IntakeConstants.lowerIntakeMotorInvert);
-    m_upperIntakeBar.setInverted(IntakeConstants.upperIntakeMotorInvert);
 
-    m_lowerIntakeBarEncoder = m_lowerIntakeBar.getEncoder();
+    // Reverse some of the motors if needed
+    m_upperIntakeBar.setInverted(IntakeConstants.upperIntakeMotorInvert);
     m_upperIntakeBarEncoder = m_upperIntakeBar.getEncoder();
 
+
     SmartDashboard.putNumber("Upper Intake Bar Speed", IntakeConstants.upperIntakeMotorSpeed);
-    SmartDashboard.putNumber("Lower Intake Bar Speed", IntakeConstants.lowerIntakeMotorSpeed);
   }
 
   /* Set power to the intake motors */
-  public void setPower(double upperPower, double lowerPower) {
+  public void setPower(double upperPower) {
     m_upperIntakeBar.set(upperPower);
-    m_lowerIntakeBar.set(lowerPower);
+    
   }
   public void stop() {
-    m_lowerIntakeBar.set(0);
     m_upperIntakeBar.set(0);
   }
 
   /* Read the speed of the intake motors */
   public double getLowerIntakeBarRPM() {
-    return lowerIntakeBarRPM;
-  }
-  public double getUpperIntakeBarRPM() {
     return upperIntakeBarRPM;
   }
+  
 
   @Override
   public void periodic() {
-    lowerIntakeBarRPM = m_lowerIntakeBarEncoder.getVelocity();
+    
     upperIntakeBarRPM = m_upperIntakeBarEncoder.getVelocity();
 
     // Add intake bar RPM readingss to SmartDashboard for the sake of datalogging
-    SmartDashboard.putNumber("Lower Intake Bar RPM", lowerIntakeBarRPM);
+    
     SmartDashboard.putNumber("Upper Intake Bar RPM", upperIntakeBarRPM);
-  }
+ }
 }

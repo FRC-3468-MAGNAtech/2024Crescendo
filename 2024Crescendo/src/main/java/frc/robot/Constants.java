@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.XboxController;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -28,5 +30,10 @@ package frc.robot;
     public static final double upperIntakeMotorSpeed = .2;
     public static final boolean lowerIntakeMotorInvert = false;
     public static final boolean upperIntakeMotorInvert = false;
+  }
+
+  public static final class driveControllerConstants {
+    public static final int intakeButton = XboxController.Button.kX.value;
+    
   }
 }

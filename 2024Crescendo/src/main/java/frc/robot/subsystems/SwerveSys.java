@@ -24,7 +24,8 @@ public class SwerveSys extends SubsystemBase {
             CANDevices.frontLeftDriveMtrId,
             CANDevices.frontLeftSteerMtrId,
             CANDevices.frontLeftCanCoderId,
-            DriveConstants.frontLeftModOffset
+            DriveConstants.frontLeftModOffset,
+            DriveConstants.frontLeftModInvert
         );
 
     private final SwerveModule frontRightMod = 
@@ -32,7 +33,8 @@ public class SwerveSys extends SubsystemBase {
             CANDevices.frontRightDriveMtrId,
             CANDevices.frontRightSteerMtrId,
             CANDevices.frontRightCanCoderId,
-            DriveConstants.frontRightModOffset
+            DriveConstants.frontRightModOffset,
+            DriveConstants.frontRightModInvert
         );
 
     private final SwerveModule backLeftMod = 
@@ -40,7 +42,8 @@ public class SwerveSys extends SubsystemBase {
             CANDevices.backLeftDriveMtrId,
             CANDevices.backLeftSteerMtrId,
             CANDevices.backLeftCanCoderId,
-            DriveConstants.backLeftModOffset
+            DriveConstants.backLeftModOffset,
+            DriveConstants.backLeftModInvert
         );
 
     private final SwerveModule backRightMod = 
@@ -48,7 +51,8 @@ public class SwerveSys extends SubsystemBase {
             CANDevices.backRightDriveMtrId,
             CANDevices.backRightSteerMtrId,
             CANDevices.backRightCanCoderId,
-            DriveConstants.backRightModOffset
+            DriveConstants.backRightModOffset,
+            DriveConstants.backRightModInvert
         );
 
     private boolean isLocked = false;

@@ -1,6 +1,5 @@
 package frc.robot;
 
-import com.pathplanner.lib.util.PIDConstants;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -107,10 +106,15 @@ public class Constants {
         // FIXME: Don't quote me on that they should be pointing to the left. (I'm almost positive though.) If 
         // the drive base drives 180 off from the commanded direction, flip these readings 180 degrees and change
         // the comment above for future reference.
-        public static final double frontLeftModOffset = Units.degreesToRadians(13.184); 
-        public static final double frontRightModOffset = Units.degreesToRadians(-42.715 + 180.0);
-        public static final double backLeftModOffset = Units.degreesToRadians(87.275 + 180.0);
-        public static final double backRightModOffset = Units.degreesToRadians(45.703 + 180.0); 
+        public static final double frontLeftModOffset = Units.degreesToRadians(64); 
+        public static final double frontRightModOffset = Units.degreesToRadians(64);
+        public static final double backLeftModOffset = Units.degreesToRadians(64);
+        public static final double backRightModOffset = Units.degreesToRadians(64); 
+
+        public static final boolean frontLeftModInvert = false;
+        public static final boolean frontRightModInvert = false;
+        public static final boolean backLeftModInvert = false;
+        public static final boolean backRightModInvert = false;
 
         // FIXME: You may want to change this value.
         public static final int driveCurrentLimitAmps = 40;
@@ -139,11 +143,5 @@ public class Constants {
         public static final double drivekP = 12.8;
         public static final double drivekD = 0.085;
 
-        public static final PIDConstants driveConstants = new PIDConstants(drivekD, drivekD);
-
-        public static final double rotkP = 1.27;
-        public static final double rotkD = 0.5;
-
-        public static final PIDConstants rotConstants = new PIDConstants(rotkP, rotkD);
     }
 }

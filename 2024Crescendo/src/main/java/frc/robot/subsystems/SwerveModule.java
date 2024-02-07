@@ -4,12 +4,12 @@ import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.ControlType;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -61,7 +61,7 @@ public class SwerveModule extends SubsystemBase {
         offset = new Rotation2d(measuredOffsetRadians);
 
         driveMtr.setIdleMode(IdleMode.kBrake);
-        steerMtr.setIdleMode(IdleMode.kCoast);
+        steerMtr.setIdleMode(IdleMode.kBrake);
 
         driveMtr.setSmartCurrentLimit(DriveConstants.driveCurrentLimitAmps);
         driveMtr.setInverted(invert);
@@ -89,7 +89,6 @@ public class SwerveModule extends SubsystemBase {
             new CANcoderConfiguration().withMagnetSensor(
                 new MagnetSensorConfigs().withAbsoluteSensorRange(AbsoluteSensorRangeValue.Unsigned_0To1)
         ));
-
         
 
         // Initializes the steer encoder position to the CANCoder position, accounting for offset.
@@ -102,8 +101,8 @@ public class SwerveModule extends SubsystemBase {
      * @return The current position of the module.
      */
     public SwerveModulePosition getPosition() {
-    return new SwerveModulePosition(
-        driveEnc.getPosition(), getSteerEncAngle());
+        return new SwerveModulePosition(
+            driveEnc.getPosition(), getSteerEncAngle());
     }
 
     /**
@@ -132,7 +131,7 @@ public class SwerveModule extends SubsystemBase {
      * @return The value of the CANCoder.
      */
     public Rotation2d getCanCoderAngle() {
-        return new Rotation2d(canCoder.getAbsolutePosition().getValueAsDouble() * 2.0 * Math.PI);
+        return Rotation2d.fromRotations(canCoder.getAbsolutePosition().getValueAsDouble());
     }
 
     /**

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.drivetrain.ArcadeDriveCmd;
+import frc.robot.subsystems.ExampleSys;
 import frc.robot.subsystems.SwerveSys;
 
 public class RobotContainer {
@@ -35,7 +36,7 @@ public class RobotContainer {
         swerveSys.setDefaultCommand(new ArcadeDriveCmd(
             () -> MathUtil.applyDeadband(driverController.getLeftY(), ControllerConstants.joystickDeadband),
             () -> MathUtil.applyDeadband(driverController.getLeftX(), ControllerConstants.joystickDeadband),
-            () -> MathUtil.applyDeadband(-driverController.getRightX(), ControllerConstants.joystickDeadband),
+            () -> MathUtil.applyDeadband(driverController.getRightX(), ControllerConstants.joystickDeadband),
             true,
             true,
             swerveSys
@@ -65,6 +66,8 @@ public class RobotContainer {
         SmartDashboard.putNumber("FR angle degrees", swerveSys.getModuleStates()[1].angle.getDegrees());
         SmartDashboard.putNumber("BL angle degrees", swerveSys.getModuleStates()[2].angle.getDegrees());
         SmartDashboard.putNumber("BR angle degrees", swerveSys.getModuleStates()[3].angle.getDegrees());
+
+        SmartDashboard.putNumber("CANCoder BL", swerveSys.backLeftMod.canCoder.getPosition().getValueAsDouble());
 
     }
 }

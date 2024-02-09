@@ -21,7 +21,7 @@ public class ArcadeDriveCmd extends Command {
      */
     private final DoubleSupplier drive;
     private final DoubleSupplier strafe;
-    //private final DoubleSupplier rot;
+    private final DoubleSupplier rot;
     
     private final boolean isFieldRelative;
     private final boolean squareInputs;
@@ -50,7 +50,7 @@ public class ArcadeDriveCmd extends Command {
 
         this.drive = drive;
         this.strafe = strafe;
-        //this.rot = rot;
+        this.rot = rot;
 
         this.isFieldRelative = isFieldRelative;
         this.squareInputs = squareInputs;
@@ -67,7 +67,7 @@ public class ArcadeDriveCmd extends Command {
     public void execute() {
         double drive = this.drive.getAsDouble();
         double strafe = this.strafe.getAsDouble();
-        //double rot = this.rot.getAsDouble();
+        double rot = this.rot.getAsDouble();
 
         if(squareInputs) {
             // Squaring inputs while preserving commanded lateral direction
@@ -77,14 +77,13 @@ public class ArcadeDriveCmd extends Command {
             drive = r * Math.sin(theta);
             strafe = r * Math.cos(theta);
 
-            //rot = Math.copySign(Math.pow(rot, 2.0), rot);
+            rot = Math.copySign(Math.pow(rot, 2.0), rot);
         }
 
         swerveSys.drive(
-            drive,
-            strafe,
-            //-rot,
-            0,
+            -drive,
+            -strafe,
+            -rot,
             isFieldRelative
         );
     }

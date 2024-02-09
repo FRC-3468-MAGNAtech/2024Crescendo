@@ -4,16 +4,18 @@ import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
-import com.revrobotics.CANSparkBase.ControlType;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
@@ -30,7 +32,7 @@ public class SwerveModule extends SubsystemBase {
     private final RelativeEncoder driveEnc;
     private final RelativeEncoder steerEnc;
 
-    private final CANcoder canCoder;
+    public final CANcoder canCoder;
 
     // Absolute offset for the CANCoder so that the wheels can be aligned when the robot is turned on.
     private final Rotation2d offset;
@@ -48,7 +50,7 @@ public class SwerveModule extends SubsystemBase {
      * @param canCoderId CAN ID of the CANCoder.
      * @param measuredOffsetRadians Offset of CANCoder reading from forward.
      */
-    public SwerveModule(int driveMtrId, int steerMtrId, int canCoderId, double measuredOffsetRadians, boolean invert) {
+    public SwerveModule(int driveMtrId, int steerMtrId, int canCoderId, double measuredOffsetRadians) {
         
         driveMtr = new CANSparkMax(driveMtrId, MotorType.kBrushless);
         steerMtr = new CANSparkMax(steerMtrId, MotorType.kBrushless);
@@ -61,11 +63,10 @@ public class SwerveModule extends SubsystemBase {
         offset = new Rotation2d(measuredOffsetRadians);
 
         driveMtr.setIdleMode(IdleMode.kBrake);
-        steerMtr.setIdleMode(IdleMode.kBrake);
+        steerMtr.setIdleMode(IdleMode.kCoast);
 
         driveMtr.setSmartCurrentLimit(DriveConstants.driveCurrentLimitAmps);
-        driveMtr.setInverted(invert);
-        
+
         steerController = steerMtr.getPIDController();
         driveController = driveMtr.getPIDController();
 
@@ -84,15 +85,18 @@ public class SwerveModule extends SubsystemBase {
         //set the output of the steeration encoder to be in radians
         steerEnc.setPositionConversionFactor(DriveConstants.steerRadiansPerEncRev);
 
+        steerEnc.setVelocityConversionFactor(DriveConstants.steerRadiansPerSecPerRPM);
+
         //configure the CANCoder to output in unsigned (wrap around from sensor value 1 to 0)
         canCoder.getConfigurator().apply(
             new CANcoderConfiguration().withMagnetSensor(
                 new MagnetSensorConfigs().withAbsoluteSensorRange(AbsoluteSensorRangeValue.Unsigned_0To1)
         ));
-        
 
-        // Initializes the steer encoder position to the CANCoder position, accounting for offset.
-        steerEnc.setPosition(getCanCoderAngle().getRadians() - offset.getRadians());
+        // Initializes the steer encoder position to the CANCoder position;
+        steerEnc.setPosition(getCanCoderAngle().getRadians());
+        driveEnc.setPosition(0);
+        
     }
 
     /**
@@ -131,7 +135,8 @@ public class SwerveModule extends SubsystemBase {
      * @return The value of the CANCoder.
      */
     public Rotation2d getCanCoderAngle() {
-        return Rotation2d.fromRotations(canCoder.getAbsolutePosition().getValueAsDouble());
+        return new Rotation2d(canCoder.getAbsolutePosition().getValueAsDouble() * 2.0 * Math.PI);
+        //return Rotation2d.fromRotations(canCoder.getPosition().getValueAsDouble());
     }
 
     /**
@@ -141,7 +146,17 @@ public class SwerveModule extends SubsystemBase {
      * @return The current absolute angle of the module.
      */
     public Rotation2d getSteerEncAngle() {
-        return new Rotation2d(steerEnc.getPosition());
+        Rotation2d rot = new Rotation2d(steerEnc.getPosition());
+
+        if (rot.getDegrees() > 359) {
+            steerEnc.setPosition(0);
+            rot = new Rotation2d(0);
+        } else if (rot.getDegrees() < 0) {
+            steerEnc.setPosition(Units.degreesToRadians(359));
+            rot = Rotation2d.fromDegrees(359);
+        }
+        
+        return rot;
     }
 
     /**
@@ -196,9 +211,8 @@ public class SwerveModule extends SubsystemBase {
             ControlType.kPosition
         );
 
-        if(isOpenLoop) {
+        if(isOpenLoop) 
             driveMtr.set(desiredState.speedMetersPerSecond / DriveConstants.kFreeMetersPerSecond);
-        }
         else {
             double speedMetersPerSecond = desiredState.speedMetersPerSecond * DriveConstants.maxDriveSpeedMetersPerSec;
 

@@ -34,8 +34,10 @@ import edu.wpi.first.wpilibj.XboxController;
 
   public static final class driveControllerConstants {
     public static final int intakeButton = XboxController.Button.kX.value;
-    
+    public static final int speakerShooterButton = XboxController.Button.kA.value;
+    public static final int ampShooterButton = XboxController.Button.kY.value;
   }
+    
 
   public static final class shooterConstants {
     public static final int bottomShootSparkMaxCANID = 0;
@@ -46,8 +48,4 @@ import edu.wpi.first.wpilibj.XboxController;
     public static final double topAmpSpeed = 0.5;
     public static final double stop = 0.0;
   }    
-  public static final class driveControllerConstants {
-    public static final int speakerShooterButton = XboxController.Button.kA.value;
-    public static final int ampShooterButton = XboxController.Button.kY.value;
-  }
 }

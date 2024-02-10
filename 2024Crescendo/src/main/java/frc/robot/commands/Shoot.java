@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
 public class Shoot extends Command {
-  final Shooter pew;
   /** Creates a new ShooterCommands. */
+  final Shooter pew;
+  
   public Shoot(Shooter subsytem) {
-    
       pew = subsytem;
       addRequirements(pew);
   }

@@ -9,7 +9,6 @@ import frc.robot.subsystems.Intake;
 
 public class IntakeSpeed extends Command {
   /** Creates a new IntakeSpeed. */
-
   private Intake i_subsystem;
 
   public IntakeSpeed(Intake subsystem) {

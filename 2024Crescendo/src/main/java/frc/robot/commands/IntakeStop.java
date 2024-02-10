@@ -9,7 +9,6 @@ import frc.robot.subsystems.Intake;
 
 public class IntakeStop extends Command {
   /** Creates a new IntakeStop. */
-
   private Intake i_subsystem;
 
   public IntakeStop(Intake subsystem) {

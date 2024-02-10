@@ -33,6 +33,8 @@ import edu.wpi.first.wpilibj.XboxController;
   }
 
   public static final class driveControllerConstants {
+    public static final int primaryDriveControllerPort = 0;
+    public static final int secondaryDriveControllerPort = 1;
     public static final int intakeButton = XboxController.Button.kX.value;
     public static final int speakerShooterButton = XboxController.Button.kA.value;
     public static final int ampShooterButton = XboxController.Button.kY.value;

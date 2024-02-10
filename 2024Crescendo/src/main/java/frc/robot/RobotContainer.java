@@ -6,7 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AmpOoze;
-import frc.robot.Constants.driveControllerConstants;
+import frc.robot.Constants.*;
 import frc.robot.commands.Autos;
 import frc.robot.commands.IntakeSpeed;
 import frc.robot.commands.ExampleCommand;
@@ -18,41 +18,27 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Constants.driveControllerConstants;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
-import frc.robot.Constants.shooterConstants;
 public class RobotContainer {
-
-  private final XboxController secondaryDriver = new XboxController(1);
-
+  // Initialize subsystems/controllers
+  private final XboxController secondaryDriveController = new XboxController(driveControllerConstants.secondaryDriveControllerPort);
   private final Shooter m_shooter = new Shooter();
-
-
-  // The robot's subsystems and commands are defined here...
-
-  private final XboxController secondaryController = new XboxController(0);
-  
   private final Intake m_intake = new Intake();
-  
-  
-  
   
 
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
 
-
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  // // Replace with CommandPS4Controller or CommandJoystick if needed
+  // private final CommandXboxController m_driverController =
+  //     new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -71,33 +57,29 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-
     // Speaker button
-     JoystickButton Speaker = new JoystickButton(
-       secondaryDriver,
-       driveControllerConstants.speakerShooterButton); 
+    JoystickButton Speaker = new JoystickButton(
+      secondaryDriveController,
+      driveControllerConstants.speakerShooterButton); 
       
     JoystickButton Amp = new JoystickButton(
-      secondaryDriver, 
+      secondaryDriveController, 
       driveControllerConstants.ampShooterButton);
 
+    JoystickButton intakeButton = new JoystickButton(
+      secondaryDriveController,
+      driveControllerConstants.intakeButton );
 
 
 
-       // buttons
-       Speaker.onTrue(new Shoot(m_shooter));
+    // buttons
+    Speaker.onTrue(new Shoot(m_shooter));
 
-      //  Amp.onTrue(new AmpOoze(m_shooter));
-       
+    // Amp.onTrue(new AmpOoze(m_shooter));
+      
+    intakeButton.whileTrue(new IntakeSpeed(m_intake));
     }
    
-    JoystickButton intaButton = new JoystickButton(
-    secondaryController,
-   driveControllerConstants.intakeButton );
-
-    intaButton.whileTrue(new IntakeSpeed(m_intake));
-  }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -106,11 +88,5 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return Autos.exampleAuto(m_exampleSubsystem);
- 
- 
- 
- 
- 
- 
   }
 }

@@ -12,26 +12,29 @@ import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
 
-    private CANSparkMax m_leftShootMotor;
-    private CANSparkMax m_rightShootMotor;
+    private CANSparkMax m_bottomShootMotor;
+    private CANSparkMax m_topShootMotor;
 
     public void motors() {
-        m_leftShootMotor = new CANSparkMax(Constants.shooterConstants.leftShootSparkMaxCANID, MotorType.kBrushless);
-        m_rightShootMotor = new CANSparkMax(Constants.shooterConstants.rightShootSparkMaxCANID, MotorType.kBrushless);
+        m_bottomShootMotor = new CANSparkMax(Constants.shooterConstants.bottomShootSparkMaxCANID, MotorType.kBrushless);
+        m_topShootMotor = new CANSparkMax(Constants.shooterConstants.topShootSparkMaxCANID, MotorType.kBrushless);
     }
 
   /** Creates a new Shooter. */
   public Shooter() {
     
     }
-        public void shoot() {
-        m_leftShootMotor.set(Constants.shooterConstants.lShootSpeed);
-        m_rightShootMotor.set(Constants.shooterConstants.rShootSpeed);
-        }
+    public void shoot() {
+      m_bottomShootMotor.set(Constants.shooterConstants.bottomShootSpeed);
+      m_topShootMotor.set(Constants.shooterConstants.topShootSpeed);
+    }
+    public void amp() {
+      m_bottomShootMotor.set(Constants.shooterConstants.bottomAmpSpeed);
+      m_topShootMotor.set(Constants.shooterConstants.topAmpSpeed);
+    }
     public void stop() {
-        m_leftShootMotor.set(Constants.shooterConstants.stop);
-        m_rightShootMotor.set(Constants.shooterConstants.stop);
-
+        m_bottomShootMotor.set(Constants.shooterConstants.stop);
+        m_topShootMotor.set(Constants.shooterConstants.stop);
     }
 
   @Override

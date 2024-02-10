@@ -81,9 +81,9 @@ public class ArcadeDriveCmd extends Command {
         }
 
         swerveSys.drive(
-            -drive,
+            drive,
             -strafe,
-            -rot,
+            rot,
             isFieldRelative
         );
     }

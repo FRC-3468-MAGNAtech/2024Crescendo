@@ -87,14 +87,8 @@ public class SwerveModule extends SubsystemBase {
 
         steerEnc.setVelocityConversionFactor(DriveConstants.steerRadiansPerSecPerRPM);
 
-        //configure the CANCoder to output in unsigned (wrap around from sensor value 1 to 0)
-        canCoder.getConfigurator().apply(
-            new CANcoderConfiguration().withMagnetSensor(
-                new MagnetSensorConfigs().withAbsoluteSensorRange(AbsoluteSensorRangeValue.Unsigned_0To1)
-        ));
-
         // Initializes the steer encoder position to the CANCoder position;
-        steerEnc.setPosition(getCanCoderAngle().getRadians());
+        steerEnc.setPosition(getCanCoderAngle().getRadians() - offset.getRadians());
         driveEnc.setPosition(0);
         
     }
@@ -135,8 +129,9 @@ public class SwerveModule extends SubsystemBase {
      * @return The value of the CANCoder.
      */
     public Rotation2d getCanCoderAngle() {
-        return new Rotation2d(canCoder.getAbsolutePosition().getValueAsDouble() * 2.0 * Math.PI);
-        //return Rotation2d.fromRotations(canCoder.getPosition().getValueAsDouble());
+        return new Rotation2d(Units.rotationsToRadians(
+            canCoder.getAbsolutePosition().getValueAsDouble()
+            ));
     }
 
     /**
@@ -146,17 +141,7 @@ public class SwerveModule extends SubsystemBase {
      * @return The current absolute angle of the module.
      */
     public Rotation2d getSteerEncAngle() {
-        Rotation2d rot = new Rotation2d(steerEnc.getPosition());
-
-        if (rot.getDegrees() > 359) {
-            steerEnc.setPosition(0);
-            rot = new Rotation2d(0);
-        } else if (rot.getDegrees() < 0) {
-            steerEnc.setPosition(Units.degreesToRadians(359));
-            rot = Rotation2d.fromDegrees(359);
-        }
-        
-        return rot;
+        return new Rotation2d(steerEnc.getPosition());
     }
 
     /**

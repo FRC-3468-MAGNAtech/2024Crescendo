@@ -67,7 +67,10 @@ public class RobotContainer {
         SmartDashboard.putNumber("BL angle degrees", swerveSys.getModuleStates()[2].angle.getDegrees());
         SmartDashboard.putNumber("BR angle degrees", swerveSys.getModuleStates()[3].angle.getDegrees());
 
-        SmartDashboard.putNumber("CANCoder BL", swerveSys.backLeftMod.canCoder.getPosition().getValueAsDouble());
+        SmartDashboard.putNumber("FL CANCoder", swerveSys.frontLeftMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
+        SmartDashboard.putNumber("FR CANCoder", swerveSys.frontRightMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
+        SmartDashboard.putNumber("BL CANCoder", swerveSys.backLeftMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
+        SmartDashboard.putNumber("BR CANCoder", swerveSys.backRightMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
 
     }
 }

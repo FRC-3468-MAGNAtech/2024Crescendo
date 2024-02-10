@@ -19,7 +19,7 @@ import frc.robot.Constants.DriveConstants;
 public class SwerveSys extends SubsystemBase {
 
     // Initializes swerve module objects
-    private final SwerveModule frontLeftMod = 
+    public final SwerveModule frontLeftMod = 
         new SwerveModule(
             CANDevices.frontLeftDriveMtrId,
             CANDevices.frontLeftSteerMtrId,
@@ -27,7 +27,7 @@ public class SwerveSys extends SubsystemBase {
             DriveConstants.frontLeftModOffset
         );
 
-    private final SwerveModule frontRightMod = 
+    public final SwerveModule frontRightMod = 
         new SwerveModule(
             CANDevices.frontRightDriveMtrId,
             CANDevices.frontRightSteerMtrId,

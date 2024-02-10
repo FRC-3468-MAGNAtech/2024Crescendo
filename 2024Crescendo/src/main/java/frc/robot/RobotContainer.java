@@ -6,11 +6,14 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AmpOoze;
+import frc.robot.commands.ArmLower;
+import frc.robot.commands.ArmRaise;
 import frc.robot.Constants.*;
 import frc.robot.commands.Autos;
 import frc.robot.commands.IntakeSpeed;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Shoot;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Intake;
@@ -31,7 +34,7 @@ public class RobotContainer {
   private final XboxController secondaryDriveController = new XboxController(driveControllerConstants.secondaryDriveControllerPort);
   private final Shooter m_shooter = new Shooter();
   private final Intake m_intake = new Intake();
-  
+  private final Arm m_arm = new Arm();
 
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
@@ -70,14 +73,28 @@ public class RobotContainer {
       secondaryDriveController,
       driveControllerConstants.intakeButton );
 
+    JoystickButton raiseButton = new JoystickButton(
+      secondaryDriveController, 
+      driveControllerConstants.armRaiseButton);
+
+    JoystickButton lowerButton = new JoystickButton(
+      secondaryDriveController,
+      driveControllerConstants.armLowerButton);
+
+    
 
 
     // buttons
     Speaker.onTrue(new Shoot(m_shooter));
 
-    // Amp.onTrue(new AmpOoze(m_shooter));
+    Amp.onTrue(new AmpOoze(m_shooter));
       
     intakeButton.whileTrue(new IntakeSpeed(m_intake));
+
+    raiseButton.whileTrue(new ArmRaise(m_arm));
+
+    lowerButton.whileTrue(new ArmLower(m_arm));
+
     }
    
   /**

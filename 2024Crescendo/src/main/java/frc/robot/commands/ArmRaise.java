@@ -5,16 +5,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Arm;
 
-public class AmpOoze extends Command {
-   Shooter ooze;
+public class ArmRaise extends Command {
+  /** Creates a new ArmRaise. */
+    Arm uppies;
   /** Creates a new ShooterCommands. 
    * @return */
-  public void amp(Shooter subsytem) {
+  public void raise(Arm subsytem) {
     
-      ooze = subsytem;
-      addRequirements(ooze);
+      uppies = subsytem;
+      addRequirements(uppies);
+  }
+  public ArmRaise(Arm m_armRaise) {
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -24,13 +28,13 @@ public class AmpOoze extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ooze.amp();
+    uppies.raise();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    ooze.stop();
+    uppies.stop();
   }
 
   // Returns true when the command should end.

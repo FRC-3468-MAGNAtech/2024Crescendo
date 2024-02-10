@@ -36,4 +36,12 @@ import edu.wpi.first.wpilibj.XboxController;
     public static final int intakeButton = XboxController.Button.kX.value;
     
   }
+
+  public static final class shooterConstants {
+    public static final int leftShootSparkMaxCANID = 0;
+    public static final int rightShootSparkMaxCANID = 0;
+    public static final double rShootSpeed = -1.0;
+    public static final double lShootSpeed = 1.0;
+    public static final double stop = 0.0;
+  }    
 }

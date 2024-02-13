@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.drivetrain.ArcadeDriveCmd;
-import frc.robot.subsystems.ExampleSys;
 import frc.robot.subsystems.SwerveSys;
 
 public class RobotContainer {
@@ -19,6 +19,7 @@ public class RobotContainer {
 
     // Initialize joysticks.
     private final CommandXboxController driverController = new CommandXboxController(ControllerConstants.driverGamepadPort);
+    private final JoystickButton zeroGyro = new JoystickButton(driverController.getHID(), XboxController.Button.kBack.value);
 
     // Initialize auto selector.
     SendableChooser<Command> autoSelector = new SendableChooser<Command>();
@@ -37,11 +38,12 @@ public class RobotContainer {
             () -> MathUtil.applyDeadband(driverController.getLeftY(), ControllerConstants.joystickDeadband),
             () -> MathUtil.applyDeadband(driverController.getLeftX(), ControllerConstants.joystickDeadband),
             () -> MathUtil.applyDeadband(driverController.getRightX(), ControllerConstants.joystickDeadband),
+            () -> zeroGyro.getAsBoolean(),
             true,
             true,
             swerveSys
         ));
-        
+
         // FIXME: Consider building simple commands this way instead of creating a whole file for them.
         // If you're more comfortable with it, you still can use the other way (i.e. new ResetHeadingCmd(swerveSys)).
         // Otherwise I would delete those simple commands just to keep things clean.

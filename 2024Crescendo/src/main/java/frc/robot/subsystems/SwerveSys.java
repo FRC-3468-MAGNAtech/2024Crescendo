@@ -368,7 +368,7 @@ public class SwerveSys extends SubsystemBase {
      * @return The current heading of the robot as a Rotation2d.
      */
     public Rotation2d getHeading() {
-        return Rotation2d.fromRadians(MathUtil.angleModulus(Units.degreesToRadians(imu.getYaw().getValueAsDouble())));
+        return Rotation2d.fromRadians(MathUtil.angleModulus(Units.degreesToRadians(-imu.getYaw().getValueAsDouble())));
     }
 
     /**

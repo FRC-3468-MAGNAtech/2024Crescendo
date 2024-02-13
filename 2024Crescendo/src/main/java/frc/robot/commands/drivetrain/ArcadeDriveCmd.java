@@ -1,5 +1,6 @@
 package frc.robot.commands.drivetrain;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,6 +23,7 @@ public class ArcadeDriveCmd extends Command {
     private final DoubleSupplier drive;
     private final DoubleSupplier strafe;
     private final DoubleSupplier rot;
+    private final BooleanSupplier gyroZero;
     
     private final boolean isFieldRelative;
     private final boolean squareInputs;
@@ -42,6 +44,7 @@ public class ArcadeDriveCmd extends Command {
         DoubleSupplier drive, 
         DoubleSupplier strafe, 
         DoubleSupplier rot,
+        BooleanSupplier gyroZero,
         boolean isFieldRelative,
         boolean squareInputs,
         SwerveSys swerveSys
@@ -51,6 +54,7 @@ public class ArcadeDriveCmd extends Command {
         this.drive = drive;
         this.strafe = strafe;
         this.rot = rot;
+        this.gyroZero = gyroZero;
 
         this.isFieldRelative = isFieldRelative;
         this.squareInputs = squareInputs;
@@ -68,6 +72,10 @@ public class ArcadeDriveCmd extends Command {
         double drive = this.drive.getAsDouble();
         double strafe = this.strafe.getAsDouble();
         double rot = this.rot.getAsDouble();
+        boolean zeroGyro = this.gyroZero.getAsBoolean();
+
+        if (zeroGyro)
+            swerveSys.resetHeading();
 
         if(squareInputs) {
             // Squaring inputs while preserving commanded lateral direction

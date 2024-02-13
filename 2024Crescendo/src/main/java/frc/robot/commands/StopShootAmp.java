@@ -9,12 +9,10 @@ import frc.robot.subsystems.Shooter;
 
 public class StopShootAmp extends Command {
   Shooter stop;
-  /** Creates a new ShooterCommands. 
-   * @return */
-  public void amp(Shooter subsytem) {
-    
-      stop = subsytem;
-      addRequirements(stop);
+  
+  public StopShootAmp(Shooter subsytem) {
+    stop = subsytem;
+    addRequirements(stop);
   }
 
   // Called when the command is initially scheduled.

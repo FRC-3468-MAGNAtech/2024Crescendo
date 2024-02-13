@@ -9,17 +9,13 @@ import frc.robot.subsystems.Arm;
 
 public class ArmRaise extends Command {
   /** Creates a new ArmRaise. */
-    Arm uppies;
-  /** Creates a new ShooterCommands. 
-   * @return */
-  public void raise(Arm subsytem) {
-    
-      uppies = subsytem;
-      addRequirements(uppies);
+  private Arm uppies;
+
+  public ArmRaise(Arm subsytem) {
+    uppies = subsytem;
+    addRequirements(uppies);
   }
-  public ArmRaise(Arm m_armRaise) {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+
 
   // Called when the command is initially scheduled.
   @Override

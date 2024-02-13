@@ -7,12 +7,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm;
 
-public class ArmLower extends Command {
+public class ArmStop extends Command {
   /** Creates a new ArmLower. */
 
   private Arm i_subsystem;
 
-  public ArmLower( Arm subsystem) {
+  public ArmStop( Arm subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     subsystem = i_subsystem;
     addRequirements(subsystem);
@@ -25,7 +25,7 @@ public class ArmLower extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    i_subsystem.lower();
+    i_subsystem.stop();
   }
 
   // Called once the command ends or is interrupted.

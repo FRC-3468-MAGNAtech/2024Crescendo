@@ -47,7 +47,7 @@ public class SwerveModule extends SubsystemBase {
      * @param canCoderId CAN ID of the CANCoder.
      * @param measuredOffsetRadians Offset of CANCoder reading from forward.
      */
-    public SwerveModule(int driveMtrId, int steerMtrId, int canCoderId, double measuredOffsetRadians) {
+    public SwerveModule(int driveMtrId, int steerMtrId, int canCoderId, double measuredOffsetRadians, boolean invertDrive, boolean invertSteer) {
         
         driveMtr = new CANSparkMax(driveMtrId, MotorType.kBrushless);
         steerMtr = new CANSparkMax(steerMtrId, MotorType.kBrushless);
@@ -63,6 +63,9 @@ public class SwerveModule extends SubsystemBase {
         steerMtr.setIdleMode(IdleMode.kCoast);
 
         driveMtr.setSmartCurrentLimit(DriveConstants.driveCurrentLimitAmps);
+        
+        driveMtr.setInverted(invertDrive);
+        steerMtr.setInverted(invertSteer);
 
         steerController = steerMtr.getPIDController();
         driveController = driveMtr.getPIDController();

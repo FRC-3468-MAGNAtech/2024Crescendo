@@ -108,10 +108,20 @@ public class Constants {
         // FIXME: Don't quote me on that they should be pointing to the left. (I'm almost positive though.) If 
         // the drive base drives 180 off from the commanded direction, flip these readings 180 degrees and change
         // the comment above for future reference.
-        public static final double frontLeftModOffset = Units.degreesToRadians(180); 
+        public static final double frontLeftModOffset = Units.degreesToRadians(0); 
         public static final double frontRightModOffset = Units.degreesToRadians(0);
         public static final double backLeftModOffset = Units.degreesToRadians(0);
-        public static final double backRightModOffset = Units.degreesToRadians(180); 
+        public static final double backRightModOffset = Units.degreesToRadians(0); 
+
+        public static final boolean frontLeftDriveInvert = false;
+        public static final boolean frontRightDriveInvert = false;
+        public static final boolean backLeftDriveInvert = false;
+        public static final boolean backRightDriveInvert = true;
+
+        public static final boolean frontLeftSteerInvert = false;
+        public static final boolean frontRightSteerInvert = false;
+        public static final boolean backLeftSteerInvert = false;
+        public static final boolean backRightSteerInvert = false;
 
         // FIXME: You may want to change this value.
         public static final int driveCurrentLimitAmps = 40;

@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -24,7 +23,9 @@ public class SwerveSys extends SubsystemBase {
             CANDevices.frontLeftDriveMtrId,
             CANDevices.frontLeftSteerMtrId,
             CANDevices.frontLeftCanCoderId,
-            DriveConstants.frontLeftModOffset
+            DriveConstants.frontLeftModOffset,
+            DriveConstants.frontLeftDriveInvert,
+            DriveConstants.frontLeftSteerInvert
         );
 
     public final SwerveModule frontRightMod = 
@@ -32,7 +33,9 @@ public class SwerveSys extends SubsystemBase {
             CANDevices.frontRightDriveMtrId,
             CANDevices.frontRightSteerMtrId,
             CANDevices.frontRightCanCoderId,
-            DriveConstants.frontRightModOffset
+            DriveConstants.frontRightModOffset,
+            DriveConstants.frontRightDriveInvert,
+            DriveConstants.frontRightSteerInvert
         );
 
     public final SwerveModule backLeftMod = 
@@ -40,7 +43,9 @@ public class SwerveSys extends SubsystemBase {
             CANDevices.backLeftDriveMtrId,
             CANDevices.backLeftSteerMtrId,
             CANDevices.backLeftCanCoderId,
-            DriveConstants.backLeftModOffset
+            DriveConstants.backLeftModOffset,
+            DriveConstants.backLeftDriveInvert,
+            DriveConstants.backLeftSteerInvert
         );
 
     public final SwerveModule backRightMod = 
@@ -48,7 +53,9 @@ public class SwerveSys extends SubsystemBase {
             CANDevices.backRightDriveMtrId,
             CANDevices.backRightSteerMtrId,
             CANDevices.backRightCanCoderId,
-            DriveConstants.backRightModOffset
+            DriveConstants.backRightModOffset,
+            DriveConstants.backRightDriveInvert,
+            DriveConstants.backRightSteerInvert
         );
 
     private boolean isLocked = false;
@@ -74,7 +81,7 @@ public class SwerveSys extends SubsystemBase {
         this.speedFactor = speedFactor;
     }
 
-    private final Pigeon2 imu = new Pigeon2(CANDevices.imuId);
+    public final Pigeon2 imu = new Pigeon2(CANDevices.imuId);
 
     // Odometry for the robot, measured in meters for linear motion and radians for rotational motion
     // Takes in kinematics and robot angle for parameters
@@ -99,6 +106,7 @@ public class SwerveSys extends SubsystemBase {
         backLeftMod.resetDriveDistance();
         backRightMod.resetDriveDistance();
 
+        resetHeading();
         resetPose();
     }
 
@@ -368,7 +376,8 @@ public class SwerveSys extends SubsystemBase {
      * @return The current heading of the robot as a Rotation2d.
      */
     public Rotation2d getHeading() {
-        return Rotation2d.fromRadians(MathUtil.angleModulus(Units.degreesToRadians(-imu.getYaw().getValueAsDouble())));
+        //return Rotation2d.fromRadians(MathUtil.angleModulus(Units.degreesToRadians(-imu.getYaw().getValueAsDouble())));
+        return Rotation2d.fromDegrees(-imu.getYaw().getValueAsDouble());
     }
 
     /**

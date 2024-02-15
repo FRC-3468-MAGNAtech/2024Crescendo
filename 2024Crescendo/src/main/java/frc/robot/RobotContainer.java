@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.commands.drivetrain.ArcadeDriveCmd;
+import frc.robot.commands.drivetrain.SwerveDrive;
 import frc.robot.subsystems.SwerveSys;
 
 public class RobotContainer {
@@ -34,7 +34,7 @@ public class RobotContainer {
     }
 
     public void configDriverBindings() {
-        swerveSys.setDefaultCommand(new ArcadeDriveCmd(
+        swerveSys.setDefaultCommand(new SwerveDrive(
             () -> MathUtil.applyDeadband(driverController.getLeftY(), ControllerConstants.joystickDeadband),
             () -> MathUtil.applyDeadband(driverController.getLeftX(), ControllerConstants.joystickDeadband),
             () -> MathUtil.applyDeadband(driverController.getRightX(), ControllerConstants.joystickDeadband),

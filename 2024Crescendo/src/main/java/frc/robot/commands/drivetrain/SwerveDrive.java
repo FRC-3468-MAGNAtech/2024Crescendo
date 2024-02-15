@@ -6,7 +6,7 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SwerveSys;
 
-public class ArcadeDriveCmd extends Command {
+public class SwerveDrive extends Command {
 
     /**
      * Command to allow for driver input in teleop
@@ -40,7 +40,7 @@ public class ArcadeDriveCmd extends Command {
      * @param squareInputs Whether the commanded inputs should be squared or linear.
      * @param swerveSys The required SwerveSys.
      */
-    public ArcadeDriveCmd(
+    public SwerveDrive(
         DoubleSupplier drive, 
         DoubleSupplier strafe, 
         DoubleSupplier rot,
@@ -91,7 +91,7 @@ public class ArcadeDriveCmd extends Command {
         swerveSys.drive(
             drive,
             -strafe,
-            rot,
+            -rot,
             isFieldRelative
         );
     }

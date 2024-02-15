@@ -130,8 +130,7 @@ public class Constants {
         public static final double drivekP = 0.005;
         public static final double drivekD = 0.0;
 
-        public static final double steerkP = 0.37431;
-        //public static final double steerkD = 0.27186;
+        public static final double steerkP = 1;
         public static final double steerkD = 0.0;
 
         public static final double ksVolts = 0.667;

@@ -23,10 +23,10 @@ public class SwerveDrive extends Command {
     private final DoubleSupplier drive;
     private final DoubleSupplier strafe;
     private final DoubleSupplier rot;
-    private final BooleanSupplier gyroZero;
     
     private final boolean isFieldRelative;
     private final boolean squareInputs;
+
 
     /**
      * Constructs a new ArcadeDriveCmd.
@@ -44,7 +44,6 @@ public class SwerveDrive extends Command {
         DoubleSupplier drive, 
         DoubleSupplier strafe, 
         DoubleSupplier rot,
-        BooleanSupplier gyroZero,
         boolean isFieldRelative,
         boolean squareInputs,
         SwerveSys swerveSys
@@ -54,8 +53,6 @@ public class SwerveDrive extends Command {
         this.drive = drive;
         this.strafe = strafe;
         this.rot = rot;
-        this.gyroZero = gyroZero;
-
         this.isFieldRelative = isFieldRelative;
         this.squareInputs = squareInputs;
 
@@ -72,10 +69,6 @@ public class SwerveDrive extends Command {
         double drive = this.drive.getAsDouble();
         double strafe = this.strafe.getAsDouble();
         double rot = this.rot.getAsDouble();
-        boolean zeroGyro = this.gyroZero.getAsBoolean();
-
-        if (zeroGyro)
-            swerveSys.resetHeading();
 
         if(squareInputs) {
             // Squaring inputs while preserving commanded lateral direction

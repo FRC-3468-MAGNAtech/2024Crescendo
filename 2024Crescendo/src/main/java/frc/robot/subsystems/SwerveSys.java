@@ -418,4 +418,13 @@ public class SwerveSys extends SubsystemBase {
         backLeftMod.setDriveCurrentLimit(amps);
         backRightMod.setDriveCurrentLimit(amps);
     }
+
+    public void setTurtleMode() {
+        if (speedFactor == 1) {
+            speedFactor = 0.3;
+        } else {
+            speedFactor = 1;
+        }
+        for (int i = 0; i < 4; i++) ;
+    }
 }

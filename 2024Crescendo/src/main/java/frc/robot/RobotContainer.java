@@ -9,13 +9,14 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.auto.routines.TestPath;
 import frc.robot.commands.drivetrain.SwerveDrive;
 import frc.robot.subsystems.SwerveSys;
 
 public class RobotContainer {
     
     // Initialize subsystems.
-    private final SwerveSys swerveSys = new SwerveSys();
+    public  final static SwerveSys swerveSys = new SwerveSys();
 
     // Initialize joysticks.
     private final CommandXboxController driverController = new CommandXboxController(ControllerConstants.driverGamepadPort);
@@ -29,6 +30,7 @@ public class RobotContainer {
 
         // Add programs to auto selector.
         autoSelector.setDefaultOption("Do Nothing", null);
+        autoSelector.addOption("TestPath", new TestPath(swerveSys));
         
         configDriverBindings();
     }

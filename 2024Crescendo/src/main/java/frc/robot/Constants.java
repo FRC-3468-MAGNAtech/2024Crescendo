@@ -80,6 +80,7 @@ public class Constants {
 
         public static final double wheelRadiusMeters = Units.inchesToMeters(2);
         public static final double wheelCircumferenceMeters = 2.0 * wheelRadiusMeters * Math.PI;
+        public static final double driveBaseRadius = Units.inchesToMeters(14);
 
         public static final double driveMetersPerEncRev = wheelCircumferenceMeters * driveMtrGearReduction;
         public static final double driveMetersPerSecPerRPM = driveMetersPerEncRev / 60.0;

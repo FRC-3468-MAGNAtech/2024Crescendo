@@ -1,6 +1,5 @@
 package frc.robot.commands.drivetrain;
 
-import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -12,7 +11,6 @@ public class SwerveDrive extends Command {
      * Command to allow for driver input in teleop
      * Can't be inlined efficiently if we want to edit the inputs in any way (deadband, square, etc.)
      */
-
     private final SwerveSys swerveSys;
 
     /**
@@ -81,6 +79,7 @@ public class SwerveDrive extends Command {
             rot = Math.copySign(Math.pow(rot, 2.0), rot);
         }
 
+        //robot go
         swerveSys.drive(
             drive,
             -strafe,

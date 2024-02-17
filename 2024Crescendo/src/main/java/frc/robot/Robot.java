@@ -10,15 +10,9 @@ public class Robot extends TimedRobot {
 
     private Command autonomousCommand;
 
-    // private UsbCamera camera;
-
     @Override
     public void robotInit() {
         robotContainer = new RobotContainer();
-
-        // camera = new UsbCamera("driver camera", 0);
-        
-        // CameraServer.startAutomaticCapture(camera);
     }
 
     @Override

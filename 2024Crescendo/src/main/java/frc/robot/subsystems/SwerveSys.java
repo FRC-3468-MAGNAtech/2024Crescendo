@@ -419,6 +419,9 @@ public class SwerveSys extends SubsystemBase {
         backRightMod.setDriveCurrentLimit(amps);
     }
 
+    /**
+     * Enables or disables Turtle Mode based on the current speedFactor value.
+     */
     public void setTurtleMode() {
         if (speedFactor == 1) {
             speedFactor = 0.3;

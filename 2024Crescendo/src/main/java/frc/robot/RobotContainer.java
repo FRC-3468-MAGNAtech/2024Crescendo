@@ -44,13 +44,10 @@ public class RobotContainer {
             true,
             swerveSys
         ));
-
+        
+        // Turtle and Gyro buttons
         turtleEnable.onTrue(new InstantCommand(() -> swerveSys.setTurtleMode()));
         zeroGyro.onTrue(new InstantCommand(() -> swerveSys.resetHeading()));
-
-        // FIXME: Consider building simple commands this way instead of creating a whole file for them.
-        // If you're more comfortable with it, you still can use the other way (i.e. new ResetHeadingCmd(swerveSys)).
-        // Otherwise I would delete those simple commands just to keep things clean.
 
         driverController.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, ControllerConstants.triggerPressedThreshhold)
             .whileTrue(Commands.runOnce(() -> swerveSys.lock()));

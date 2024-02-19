@@ -1,19 +1,28 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.auto.routines.TestPath;
+import frc.robot.auto.routines.PathPlanner;
+import frc.robot.commands.drivetrain.ResetPoseCmd;
+import frc.robot.commands.drivetrain.SetPoseCmd;
 import frc.robot.commands.drivetrain.SwerveDrive;
 import frc.robot.subsystems.SwerveSys;
 
 public class RobotContainer {
+
+    public static final ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
     
     // Initialize subsystems.
     public  final static SwerveSys swerveSys = new SwerveSys();
@@ -26,12 +35,7 @@ public class RobotContainer {
     SendableChooser<Command> autoSelector = new SendableChooser<Command>();
 
     public RobotContainer() {
-        SmartDashboard.putData("auto selector", autoSelector);
-
-        // Add programs to auto selector.
-        autoSelector.setDefaultOption("Do Nothing", null);
-        autoSelector.addOption("TestPath", new TestPath(swerveSys));
-        
+        PathPlanner.SetPathPlannerSettings();
         configDriverBindings();
     }
 
@@ -58,7 +62,9 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return autoSelector.getSelected();
+        
+        return PathPlanner.autoChooser.getSelected();
+        
     }
 
     // For uniformity, any information sent to Shuffleboard/SmartDashboard should go here.
@@ -77,6 +83,6 @@ public class RobotContainer {
         SmartDashboard.putNumber("BL CANCoder", swerveSys.backRightMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
 
         SmartDashboard.putNumber("Pigeon Yaw", swerveSys.imu.getYaw().getValueAsDouble());
-
+        
     }
 }

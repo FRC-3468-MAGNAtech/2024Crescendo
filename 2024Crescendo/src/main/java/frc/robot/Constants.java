@@ -129,9 +129,11 @@ public class Constants {
         
         // FIXME: These values should be fine, but if the modules start to rattle you may want to play with the steer PID values.
         public static final double drivekP = 0.005;
+        public static final double driveI = 0;
         public static final double drivekD = 0.0;
 
         public static final double steerkP = 1;
+        public static final double steerI = 0;
         public static final double steerkD = 0.0;
 
         public static final double ksVolts = 0.667;

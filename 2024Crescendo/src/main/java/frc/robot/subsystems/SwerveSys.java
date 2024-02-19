@@ -1,6 +1,10 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -12,6 +16,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.Constants;
 import frc.robot.Constants.CANDevices;
 import frc.robot.Constants.DriveConstants;
 
@@ -106,8 +113,9 @@ public class SwerveSys extends SubsystemBase {
         backLeftMod.resetDriveDistance();
         backRightMod.resetDriveDistance();
 
+        BuilderConfigure();
         resetHeading();
-        resetPose();
+        resetPose(new Pose2d());
     }
 
     // This method will be called once per scheduler run
@@ -262,7 +270,7 @@ public class SwerveSys extends SubsystemBase {
     /**
      * Resets the current pose to (0, 0) with a heading of zero.
      */
-    public void resetPose() {
+    public void resetPose(Pose2d pose) {
         resetDriveDistances();
         resetHeading();
 
@@ -270,7 +278,7 @@ public class SwerveSys extends SubsystemBase {
             DriveConstants.kinematics,
             new Rotation2d(),
             getModulePositions(),
-            new Pose2d()
+            pose
         );
     }
 
@@ -417,5 +425,22 @@ public class SwerveSys extends SubsystemBase {
         frontRightMod.setDriveCurrentLimit(amps);
         backLeftMod.setDriveCurrentLimit(amps);
         backRightMod.setDriveCurrentLimit(amps);
+    }
+    public boolean PathFlip() {
+        return false;
+    }
+
+    public void BuilderConfigure() {
+        AutoBuilder.configureHolonomic(
+            this:: getPose, 
+            this:: resetPose, 
+            this:: getChassisSpeeds, 
+            this:: setChassisSpeeds, 
+             new HolonomicPathFollowerConfig(
+                new PIDConstants(Constants.DriveConstants.drivekP, DriveConstants.driveI , DriveConstants.drivekD), 
+                new PIDConstants(DriveConstants.steerkP, DriveConstants.steerI, DriveConstants.steerkD), 
+                DriveConstants.maxDriveSpeedMetersPerSec, 
+                DriveConstants.driveBaseRadius, 
+                new ReplanningConfig(true, false)), this::PathFlip, this);
     }
 }

@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Test scoring",
   "previewStartingState": {
     "rotation": 111.70857418859865,
     "velocity": 0

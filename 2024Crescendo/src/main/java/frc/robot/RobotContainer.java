@@ -42,6 +42,7 @@ public class RobotContainer {
         configDriverBindings();
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto", autoChooser);
+        autoChooser.addOption("Test Scoring", new PathPlannerAuto("Test Scoring"));
     }
 
     public void configDriverBindings() {
@@ -65,19 +66,6 @@ public class RobotContainer {
         driverController.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, ControllerConstants.triggerPressedThreshhold)
             .whileTrue(Commands.runOnce(() -> swerveSys.lock()));
 
-        SmartDashboard.putData("Test Scoring", new PathPlannerAuto("Test Scoring"));
-
-        SmartDashboard.putData("Far down get", AutoBuilder.pathfindToPose(
-            new Pose2d(1.3, 2.29, Rotation2d.fromDegrees(1)),
-            new PathConstraints(3, 2, 
-            Units.degreesToRadians(360), Units.degreesToRadians(540)),
-            0,0));
-
-        SmartDashboard.putData("scoring far down", AutoBuilder.pathfindToPose(
-            new Pose2d(4.57, 1.74, Rotation2d.fromDegrees(154)),
-            new PathConstraints(3, 2, 
-            Units.degreesToRadians(360), Units.degreesToRadians(540)),
-            0,0));
     }
 
     public Command getAutonomousCommand() {

@@ -44,7 +44,7 @@ public class RobotContainer {
         configDriverBindings();
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto", autoChooser);
-        autoChooser.addOption("Test Scoring", new PathPlannerAuto("Test Scoring"));
+        autoChooser.addOption("TestScoring", new PathPlannerAuto("TestScoring"));
     }
 
     public void configDriverBindings() {

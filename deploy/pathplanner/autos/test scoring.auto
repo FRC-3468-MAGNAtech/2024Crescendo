@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.2962452465189287,
+      "y": 2.2857638132337867
+    },
+    "rotation": 106.20902492780795
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Far down get"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "scoring far down"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

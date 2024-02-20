@@ -14,13 +14,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Far down get"
+            "pathName": "FarDownGet"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "scoring far down"
+            "pathName": "ScoringFarDown"
           }
         }
       ]

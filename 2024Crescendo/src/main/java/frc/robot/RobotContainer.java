@@ -16,10 +16,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.commands.ZeroGyro;
 import frc.robot.commands.drivetrain.ResetPoseCmd;
 import frc.robot.commands.drivetrain.SetPoseCmd;
 import frc.robot.commands.drivetrain.SwerveDrive;
@@ -69,9 +71,10 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        
+        swerveSys.resetHeading();
+        // return SequentialCommandGroup(new ZeroGyro(swerveSys), autoChooser.getSelected());
+        // return ParallelCommandGroup(new ZeroGyro(swerveSys), autoChooser.getSelected());
         return autoChooser.getSelected();
-        
     }
 
     // For uniformity, any information sent to Shuffleboard/SmartDashboard should go here.

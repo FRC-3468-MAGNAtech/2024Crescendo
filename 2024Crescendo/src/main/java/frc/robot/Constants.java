@@ -8,7 +8,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
 public class Constants {
-
+    
     public static final class CANDevices {
         // FIXME: Set these CAN ID values to the those of your robot, or change your CAN ID's to match this convention.
         public static final int powerDistributionHubId = 1;

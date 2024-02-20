@@ -68,7 +68,7 @@ public class RobotContainer {
         SmartDashboard.putData("Test Scoring", new PathPlannerAuto("Test Scoring"));
 
         SmartDashboard.putData("Far down get", AutoBuilder.pathfindToPose(
-            new Pose2d(1.3, 2.29, Rotation2d.fromDegrees(106)),
+            new Pose2d(1.3, 2.29, Rotation2d.fromDegrees(1)),
             new PathConstraints(3, 2, 
             Units.degreesToRadians(360), Units.degreesToRadians(540)),
             0,0));

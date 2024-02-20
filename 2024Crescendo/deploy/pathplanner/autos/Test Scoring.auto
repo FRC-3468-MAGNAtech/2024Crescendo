@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2.0,
-      "y": 2.0
+      "x": 1.3,
+      "y": 2.29
     },
-    "rotation": 0
+    "rotation": 111.4094915164439
   },
   "command": {
     "type": "sequential",
@@ -14,19 +14,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Example Path 1"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
+            "pathName": "Far down get"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Example Path 2"
+            "pathName": "scoring far down"
           }
         }
       ]

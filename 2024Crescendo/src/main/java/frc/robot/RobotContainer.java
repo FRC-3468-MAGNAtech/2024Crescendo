@@ -1,7 +1,13 @@
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathConstraints;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -14,7 +20,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.auto.routines.PathPlanner;
 import frc.robot.commands.drivetrain.ResetPoseCmd;
 import frc.robot.commands.drivetrain.SetPoseCmd;
 import frc.robot.commands.drivetrain.SwerveDrive;
@@ -22,21 +27,21 @@ import frc.robot.subsystems.SwerveSys;
 
 public class RobotContainer {
 
-    public static final ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
     
     // Initialize subsystems.
     public  final static SwerveSys swerveSys = new SwerveSys();
+    private final SendableChooser<Command> autoChooser;
 
     // Initialize joysticks.
     private final CommandXboxController driverController = new CommandXboxController(ControllerConstants.driverGamepadPort);
     private final JoystickButton zeroGyro = new JoystickButton(driverController.getHID(), XboxController.Button.kBack.value);
 
     // Initialize auto selector.
-    SendableChooser<Command> autoSelector = new SendableChooser<Command>();
 
     public RobotContainer() {
-        PathPlanner.SetPathPlannerSettings();
         configDriverBindings();
+        autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto", autoChooser);
     }
 
     public void configDriverBindings() {
@@ -59,11 +64,25 @@ public class RobotContainer {
 
         driverController.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, ControllerConstants.triggerPressedThreshhold)
             .whileTrue(Commands.runOnce(() -> swerveSys.lock()));
+
+        SmartDashboard.putData("Test Scoring", new PathPlannerAuto("Test Scoring"));
+
+        SmartDashboard.putData("Far down get", AutoBuilder.pathfindToPose(
+            new Pose2d(1.3, 2.29, Rotation2d.fromDegrees(106)),
+            new PathConstraints(3, 2, 
+            Units.degreesToRadians(360), Units.degreesToRadians(540)),
+            0,0));
+
+        SmartDashboard.putData("scoring far down", AutoBuilder.pathfindToPose(
+            new Pose2d(4.57, 1.74, Rotation2d.fromDegrees(154)),
+            new PathConstraints(3, 2, 
+            Units.degreesToRadians(360), Units.degreesToRadians(540)),
+            0,0));
     }
 
     public Command getAutonomousCommand() {
         
-        return PathPlanner.autoChooser.getSelected();
+        return autoChooser.getSelected();
         
     }
 

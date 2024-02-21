@@ -429,7 +429,7 @@ public class SwerveSys extends SubsystemBase {
         backRightMod.setDriveCurrentLimit(amps);
     }
     public boolean PathFlip() {
-        return false;
+        return true;
     }
 
     public void BuilderConfigure() {
@@ -439,8 +439,8 @@ public class SwerveSys extends SubsystemBase {
             this:: getChassisSpeeds, 
             this:: setChassisSpeeds, 
              new HolonomicPathFollowerConfig(
-                new PIDConstants(Constants.DriveConstants.drivekP, DriveConstants.driveI , DriveConstants.drivekD), 
-                new PIDConstants(DriveConstants.steerkP, DriveConstants.steerI, DriveConstants.steerkD), 
+                new PIDConstants(.5, 0, 0), 
+                new PIDConstants(.5, 0, 0), 
                 DriveConstants.maxDriveSpeedMetersPerSec, 
                 DriveConstants.driveBaseRadius, 
                 new ReplanningConfig(true, false)), this::PathFlip, this);

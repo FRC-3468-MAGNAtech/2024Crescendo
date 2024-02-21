@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3,
-      "y": 2.29
+      "x": 1.44445576200797,
+      "y": 2.2335953707440415
     },
-    "rotation": 107.55053482883201
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -14,13 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FarDownGet"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "ScoringFarDown"
+            "pathName": "straight"
           }
         }
       ]

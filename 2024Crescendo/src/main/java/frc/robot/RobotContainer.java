@@ -45,6 +45,7 @@ public class RobotContainer {
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto", autoChooser);
         autoChooser.addOption("TestScoring", new PathPlannerAuto("TestScoring"));
+        autoChooser.addOption("Straight", new PathPlannerAuto("straight Auto"));
     }
 
     public void configDriverBindings() {
@@ -71,9 +72,9 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        swerveSys.resetHeading();
-        // return SequentialCommandGroup(new ZeroGyro(swerveSys), autoChooser.getSelected());
-        // return ParallelCommandGroup(new ZeroGyro(swerveSys), autoChooser.getSelected());
+        // swerveSys.setHeading(Rotation2d.fromDegrees(73));
+        // swerveSys.resetHeading();
+
         return autoChooser.getSelected();
     }
 
@@ -93,6 +94,7 @@ public class RobotContainer {
         SmartDashboard.putNumber("BL CANCoder", swerveSys.backRightMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
 
         SmartDashboard.putNumber("Pigeon Yaw", swerveSys.imu.getYaw().getValueAsDouble());
-        
+        SmartDashboard.putNumber("PigeonX", swerveSys.imu.getAccumGyroX().getValueAsDouble());
+        SmartDashboard.putNumber("PigeonY", swerveSys.imu.getAccumGyroY().getValueAsDouble());
     }
 }

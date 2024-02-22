@@ -1,3 +1,7 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
@@ -6,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ControllerConstants;
@@ -20,7 +25,8 @@ public class RobotContainer {
 
     // Initialize joysticks.
     private final CommandXboxController driverController = new CommandXboxController(ControllerConstants.driverGamepadPort);
-    private final JoystickButton zeroGyro = new JoystickButton(driverController.getHID(), XboxController.Button.kBack.value);
+    private final JoystickButton zeroGyro = new JoystickButton(driverController.getHID(), XboxController.Button.kStart.value);
+    private final JoystickButton turtleEnable = new JoystickButton(driverController.getHID(), XboxController.Button.kBack.value);
 
     // Initialize auto selector.
     SendableChooser<Command> autoSelector = new SendableChooser<Command>();
@@ -40,18 +46,14 @@ public class RobotContainer {
             () -> MathUtil.applyDeadband(driverController.getLeftY(), ControllerConstants.joystickDeadband),
             () -> MathUtil.applyDeadband(driverController.getLeftX(), ControllerConstants.joystickDeadband),
             () -> MathUtil.applyDeadband(driverController.getRightX(), ControllerConstants.joystickDeadband),
-            () -> zeroGyro.getAsBoolean(),
             true,
             true,
             swerveSys
         ));
-
-        // FIXME: Consider building simple commands this way instead of creating a whole file for them.
-        // If you're more comfortable with it, you still can use the other way (i.e. new ResetHeadingCmd(swerveSys)).
-        // Otherwise I would delete those simple commands just to keep things clean.
-
-        // Start is the "three lines" button. Back is the "windows" button.
-        driverController.start().onTrue(Commands.runOnce(() -> swerveSys.resetHeading()));
+        
+        // Turtle and Gyro buttons
+        turtleEnable.onTrue(new InstantCommand(() -> swerveSys.setTurtleMode()));
+        zeroGyro.onTrue(new InstantCommand(() -> swerveSys.resetHeading()));
 
         driverController.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, ControllerConstants.triggerPressedThreshhold)
             .whileTrue(Commands.runOnce(() -> swerveSys.lock()));
@@ -78,5 +80,6 @@ public class RobotContainer {
 
         SmartDashboard.putNumber("Pigeon Yaw", swerveSys.imu.getYaw().getValueAsDouble());
 
+        SmartDashboard.putNumber("Speed Factor", swerveSys.getSpeedFactor());
     }
 }

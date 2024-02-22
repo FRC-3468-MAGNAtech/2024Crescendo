@@ -1,3 +1,7 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot;
 
 import com.pathplanner.lib.util.PIDConstants;
@@ -9,10 +13,11 @@ import edu.wpi.first.math.util.Units;
 
 public class Constants {
 
+    // These IDs are actually backwards because during rotation, the wheels would be an x
     public static final class CANDevices {
-        // FIXME: Set these CAN ID values to the those of your robot, or change your CAN ID's to match this convention.
         public static final int powerDistributionHubId = 1;
 
+        //Pigeon2 ID
         public static final int imuId = 2;
 
         public static final int frontLeftSteerMtrId = 11;
@@ -33,9 +38,9 @@ public class Constants {
     }
 
     public static final class ControllerConstants {
-        public static final int driverGamepadPort = 0;
+        public static final int driverGamepadPort = 0; //Can be found in driver station
 
-        public static final double joystickDeadband = 0.15;
+        public static final double joystickDeadband = 0.15; //Prevent small values from moving the robot (good for old controlers)
 
         public static final double triggerPressedThreshhold = 0.25;
     }
@@ -44,13 +49,11 @@ public class Constants {
         /**
          * The track width from wheel center to wheel center.
          */
-        // FIXME: Make sure to measure from the center of each wheel
         public static final double trackWidth = Units.inchesToMeters(22);
 
         /**
          * The track length from wheel center to wheel center.
          */
-        // FIXME: mature sure to measure from the center of each wheel
         public static final double wheelBase = Units.inchesToMeters(22);
 
         /**
@@ -70,14 +73,16 @@ public class Constants {
          * The drive gear ratios for the different levels can be found from the chart at
          * swervedrivespecialties.com/products/mk41-swerve-module.
          */
-        // FIXME: This is the gear ratio for L3 modules.
         public static final double driveMtrGearReduction = (14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0);
 
         /**
          * The gear reduction from the steer motor to the wheel.
          */
         public static final double steerMtrGearReduction = (14.0 / 50.0) * (10.0 / 60.0);
-
+        
+        /**
+         * Values for our specific MK4i modules
+         */
         public static final double wheelRadiusMeters = Units.inchesToMeters(2);
         public static final double wheelCircumferenceMeters = 2.0 * wheelRadiusMeters * Math.PI;
         public static final double driveBaseRadius = Units.inchesToMeters(14);
@@ -100,34 +105,29 @@ public class Constants {
          */
         public static final double maxTurnRateRadiansPerSec = 2.0 * Math.PI;
 
-        // FIXME: Set line up the swerve modules and set these values.
-
-        // The bolt heads should be pointing to the left. These values are subtracted from the CANCoder reading,
-        // so they should be the raw CANCoder value when set straight. These values should be between 0 and 360
-        // degrees.
-
-        // FIXME: Don't quote me on that they should be pointing to the left. (I'm almost positive though.) If 
-        // the drive base drives 180 off from the commanded direction, flip these readings 180 degrees and change
-        // the comment above for future reference.
+        /**
+         * These offsets are only here for backwards compatibility.
+         * Phoenix Tuner X allows for zeroing CANcoders.
+         */
         public static final double frontLeftModOffset = Units.degreesToRadians(0); 
         public static final double frontRightModOffset = Units.degreesToRadians(0);
         public static final double backLeftModOffset = Units.degreesToRadians(0);
         public static final double backRightModOffset = Units.degreesToRadians(0); 
 
+        // Some wheels would spin backwards
         public static final boolean frontLeftDriveInvert = false;
         public static final boolean frontRightDriveInvert = false;
         public static final boolean backLeftDriveInvert = false;
         public static final boolean backRightDriveInvert = true;
 
+        // This is just-in-case
         public static final boolean frontLeftSteerInvert = false;
         public static final boolean frontRightSteerInvert = false;
         public static final boolean backLeftSteerInvert = false;
         public static final boolean backRightSteerInvert = false;
 
-        // FIXME: You may want to change this value.
         public static final int driveCurrentLimitAmps = 40;
         
-        // FIXME: These values should be fine, but if the modules start to rattle you may want to play with the steer PID values.
         public static final double drivekP = 0.005;
         public static final double drivekD = 0.0;
 
@@ -147,7 +147,6 @@ public class Constants {
          */
         public static final double maxVelMetersPerSec = 3.25;
 
-        // FIXME: These drive and rotation PID constants most likely need to be tuned for better accuracy.
         public static final double drivekP = 12.8;
         public static final double drivekD = 0.085;
 

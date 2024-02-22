@@ -1,3 +1,7 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
@@ -417,5 +421,17 @@ public class SwerveSys extends SubsystemBase {
         frontRightMod.setDriveCurrentLimit(amps);
         backLeftMod.setDriveCurrentLimit(amps);
         backRightMod.setDriveCurrentLimit(amps);
+    }
+
+    /**
+     * Enables or disables Turtle Mode based on the current speedFactor value.
+     */
+    public void setTurtleMode() {
+        if (speedFactor == 1) {
+            speedFactor = 0.3;
+        } else {
+            speedFactor = 1;
+        }
+        for (int i = 0; i < 4; i++) ;
     }
 }

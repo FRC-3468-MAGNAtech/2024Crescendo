@@ -1,3 +1,7 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -48,31 +52,18 @@ public class SwerveModule extends SubsystemBase {
      * @param measuredOffsetRadians Offset of CANCoder reading from forward.
      */
     public SwerveModule(int driveMtrId, int steerMtrId, int canCoderId, double measuredOffsetRadians, boolean invertDrive, boolean invertSteer) {
-        
-        driveMtr = new CANSparkMax(driveMtrId, MotorType.kBrushless);
-        steerMtr = new CANSparkMax(steerMtrId, MotorType.kBrushless);
-
-        driveEnc = driveMtr.getEncoder();
-        steerEnc = steerMtr.getEncoder();
-
+        //CANcoder data and offset
         canCoder = new CANcoder(canCoderId);
-
         offset = new Rotation2d(measuredOffsetRadians);
 
+        //drive motor data
+        driveMtr = new CANSparkMax(driveMtrId, MotorType.kBrushless);
+        driveEnc = driveMtr.getEncoder();
         driveMtr.setIdleMode(IdleMode.kBrake);
-        steerMtr.setIdleMode(IdleMode.kCoast);
-
         driveMtr.setSmartCurrentLimit(DriveConstants.driveCurrentLimitAmps);
-        
         driveMtr.setInverted(invertDrive);
-        steerMtr.setInverted(invertSteer);
 
-        steerController = steerMtr.getPIDController();
         driveController = driveMtr.getPIDController();
-
-        steerController.setP(DriveConstants.steerkP);
-        steerController.setD(DriveConstants.steerkD);
-
         driveController.setP(DriveConstants.drivekP);
         driveController.setD(DriveConstants.drivekD);
 
@@ -82,15 +73,28 @@ public class SwerveModule extends SubsystemBase {
         //set the output of the drive encoder to be in radians per second for velocity measurement
         driveEnc.setVelocityConversionFactor(DriveConstants.driveMetersPerSecPerRPM);
 
-        //set the output of the steeration encoder to be in radians
+        //set the drive encoder position to zero        
+        driveEnc.setPosition(0);
+
+        //steer motor data
+        steerMtr = new CANSparkMax(steerMtrId, MotorType.kBrushless);
+        steerEnc = steerMtr.getEncoder();
+        steerMtr.setIdleMode(IdleMode.kCoast);
+        steerMtr.setInverted(invertSteer);
+        
+        steerController = steerMtr.getPIDController();
+        steerController.setP(DriveConstants.steerkP);
+        steerController.setD(DriveConstants.steerkD);
+
+        //set the output of the steering encoder to be in radians
         steerEnc.setPositionConversionFactor(DriveConstants.steerRadiansPerEncRev);
 
+        //set the output to radians per second for velocity output
         steerEnc.setVelocityConversionFactor(DriveConstants.steerRadiansPerSecPerRPM);
 
-        // Initializes the steer encoder position to the CANCoder position;
+        // Initializes the steer encoder position to the CANCoder position, accounting for an offset if any
         steerEnc.setPosition(getCanCoderAngle().getRadians() - offset.getRadians());
-        driveEnc.setPosition(0);
-        
+
     }
 
     /**

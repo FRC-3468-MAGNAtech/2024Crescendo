@@ -4,24 +4,39 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathConstraints;
+
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.auto.routines.TestPath;
+import frc.robot.commands.ZeroGyro;
+import frc.robot.commands.drivetrain.ResetPoseCmd;
+import frc.robot.commands.drivetrain.SetPoseCmd;
 import frc.robot.commands.drivetrain.SwerveDrive;
 import frc.robot.subsystems.SwerveSys;
 
 public class RobotContainer {
+
     
     // Initialize subsystems.
     public  final static SwerveSys swerveSys = new SwerveSys();
+    private final SendableChooser<Command> autoChooser;
 
     // Initialize joysticks.
     private final CommandXboxController driverController = new CommandXboxController(ControllerConstants.driverGamepadPort);
@@ -29,16 +44,13 @@ public class RobotContainer {
     private final JoystickButton turtleEnable = new JoystickButton(driverController.getHID(), XboxController.Button.kBack.value);
 
     // Initialize auto selector.
-    SendableChooser<Command> autoSelector = new SendableChooser<Command>();
 
     public RobotContainer() {
-        SmartDashboard.putData("auto selector", autoSelector);
-
-        // Add programs to auto selector.
-        autoSelector.setDefaultOption("Do Nothing", null);
-        autoSelector.addOption("TestPath", new TestPath(swerveSys));
-        
         configDriverBindings();
+        autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto", autoChooser);
+        autoChooser.addOption("TestScoring", new PathPlannerAuto("TestScoring"));
+        autoChooser.addOption("Straight", new PathPlannerAuto("straight Auto"));
     }
 
     public void configDriverBindings() {
@@ -57,10 +69,14 @@ public class RobotContainer {
 
         driverController.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, ControllerConstants.triggerPressedThreshhold)
             .whileTrue(Commands.runOnce(() -> swerveSys.lock()));
+
     }
 
     public Command getAutonomousCommand() {
-        return autoSelector.getSelected();
+        // swerveSys.setHeading(Rotation2d.fromDegrees(73));
+        // swerveSys.resetHeading();
+
+        return autoChooser.getSelected();
     }
 
     // For uniformity, any information sent to Shuffleboard/SmartDashboard should go here.
@@ -79,7 +95,7 @@ public class RobotContainer {
         SmartDashboard.putNumber("BL CANCoder", swerveSys.backRightMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
 
         SmartDashboard.putNumber("Pigeon Yaw", swerveSys.imu.getYaw().getValueAsDouble());
-
-        SmartDashboard.putNumber("Speed Factor", swerveSys.getSpeedFactor());
+        SmartDashboard.putNumber("PigeonX", swerveSys.imu.getAccumGyroX().getValueAsDouble());
+        SmartDashboard.putNumber("PigeonY", swerveSys.imu.getAccumGyroY().getValueAsDouble());
     }
 }

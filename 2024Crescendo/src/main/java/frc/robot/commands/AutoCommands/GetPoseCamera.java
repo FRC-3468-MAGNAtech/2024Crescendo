@@ -4,8 +4,10 @@
 
 package frc.robot.commands.AutoCommands;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
+import frc.robot.subsystems.SwerveSys;
 
 public class GetPoseCamera extends Command {
   /** Creates a new GetPoseCamera. */
@@ -20,7 +22,7 @@ public class GetPoseCamera extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    LimelightHelpers.getBotPose2d("tags");
+    SwerveSys.setPose(LimelightHelpers.getBotPose2d("limelight-tags"));
   }
 
   // Called once the command ends or is interrupted.
@@ -30,6 +32,6 @@ public class GetPoseCamera extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

@@ -20,21 +20,21 @@ public class Constants {
         //Pigeon2 ID
         public static final int imuId = 2;
 
-        public static final int frontLeftSteerMtrId = 11;
-        public static final int frontLeftDriveMtrId = 12;
-        public static final int frontLeftCanCoderId = 13;
+        public static final int frontLeftSteerMtrId = 21;
+        public static final int frontLeftDriveMtrId = 22;
+        public static final int frontLeftCanCoderId = 23;
 
-        public static final int frontRightSteerMtrId = 21;
-        public static final int frontRightDriveMtrId = 22;
-        public static final int frontRightCanCoderId = 23;
+        public static final int frontRightSteerMtrId = 11;
+        public static final int frontRightDriveMtrId = 12;
+        public static final int frontRightCanCoderId = 13;
 
-        public static final int backLeftSteerMtrId = 14;
-        public static final int backLeftDriveMtrId = 15;
-        public static final int backLeftCanCoderId = 16;
+        public static final int backLeftSteerMtrId = 24;
+        public static final int backLeftDriveMtrId = 25;
+        public static final int backLeftCanCoderId = 26;
 
-        public static final int backRightSteerMtrId = 24;
-        public static final int backRightDriveMtrId = 25;
-        public static final int backRightCanCoderId = 26;
+        public static final int backRightSteerMtrId = 14;
+        public static final int backRightDriveMtrId = 15;
+        public static final int backRightCanCoderId = 16;
     }
 
     public static final class ControllerConstants {
@@ -98,7 +98,7 @@ public class Constants {
         public static final double steerMtrMaxSpeedRadPerSec = 2.0;
         public static final double steerMtrMaxAccelRadPerSecSq = 1.0;
 
-        public static final double maxDriveSpeedMetersPerSec = 5.0;
+        public static final double maxDriveSpeedMetersPerSec = 3.0;
 
         /**
          * The rate the robot will spin with full Rot command.
@@ -115,16 +115,16 @@ public class Constants {
         public static final double backRightModOffset = Units.degreesToRadians(0); 
 
         // Some wheels would spin backwards
-        public static final boolean frontLeftDriveInvert = false;
+        public static final boolean frontLeftDriveInvert = true;
         public static final boolean frontRightDriveInvert = false;
         public static final boolean backLeftDriveInvert = false;
         public static final boolean backRightDriveInvert = true;
 
         // This is just-in-case
-        public static final boolean frontLeftSteerInvert = false;
-        public static final boolean frontRightSteerInvert = false;
-        public static final boolean backLeftSteerInvert = false;
-        public static final boolean backRightSteerInvert = false;
+        public static final boolean frontLeftSteerInvert = true;
+        public static final boolean frontRightSteerInvert = true;
+        public static final boolean backLeftSteerInvert = true;
+        public static final boolean backRightSteerInvert = true;
 
         public static final int driveCurrentLimitAmps = 40;
         

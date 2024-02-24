@@ -13,8 +13,11 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.LimelightHelpers;
 import frc.robot.commands.AutoCommands.GetPoseCamera;
+import frc.robot.commands.drivetrain.SetHeadingCmd;
+import frc.robot.subsystems.SwerveSys;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -23,15 +26,17 @@ public class TestRoutine extends SequentialCommandGroup {
   /** Creates a new TestRoutine. */
   public TestRoutine() {
 
-    Pose2d targetPose = new Pose2d(7.2, 6.6, Rotation2d.fromDegrees(180));
-    PathConstraints constraints = new PathConstraints(3, 2, Units.degreesToRadians(540), Units.degreesToRadians(720));
-    Command pathfindingCommand = AutoBuilder.pathfindToPose(targetPose, constraints,0,0);
+    final SwerveSys swerveSys;
+    swerveSys = new SwerveSys();
+    Pose2d targetPose = new Pose2d(7.2, 6.6, Rotation2d.fromDegrees(0));
+    PathConstraints constraints = new PathConstraints(3, 4, Units.degreesToRadians(360), Units.degreesToRadians(540));
+    Command pathfindingCommand = AutoBuilder.pathfindToPose(targetPose, constraints,0,0.3);
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new GetPoseCamera(),
-      pathfindingCommand = AutoBuilder.pathfindToPose(targetPose, constraints,0,0)
+      pathfindingCommand
     );
   }
 }

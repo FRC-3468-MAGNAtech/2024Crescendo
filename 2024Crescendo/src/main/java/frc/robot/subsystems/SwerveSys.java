@@ -29,7 +29,7 @@ import frc.robot.Constants.DriveConstants;
 public class SwerveSys extends SubsystemBase {
 
     // Initializes swerve module objects
-    public final SwerveModule frontLeftMod = 
+    public final static SwerveModule frontLeftMod = 
         new SwerveModule(
             CANDevices.frontLeftDriveMtrId,
             CANDevices.frontLeftSteerMtrId,
@@ -39,7 +39,7 @@ public class SwerveSys extends SubsystemBase {
             DriveConstants.frontLeftSteerInvert
         );
 
-    public final SwerveModule frontRightMod = 
+    public final static SwerveModule frontRightMod = 
         new SwerveModule(
             CANDevices.frontRightDriveMtrId,
             CANDevices.frontRightSteerMtrId,
@@ -49,7 +49,7 @@ public class SwerveSys extends SubsystemBase {
             DriveConstants.frontRightSteerInvert
         );
 
-    public final SwerveModule backLeftMod = 
+    public final static SwerveModule backLeftMod = 
         new SwerveModule(
             CANDevices.backLeftDriveMtrId,
             CANDevices.backLeftSteerMtrId,
@@ -59,7 +59,7 @@ public class SwerveSys extends SubsystemBase {
             DriveConstants.backLeftSteerInvert
         );
 
-    public final SwerveModule backRightMod = 
+    public final static SwerveModule backRightMod = 
         new SwerveModule(
             CANDevices.backRightDriveMtrId,
             CANDevices.backRightSteerMtrId,
@@ -92,12 +92,12 @@ public class SwerveSys extends SubsystemBase {
         this.speedFactor = speedFactor;
     }
 
-    public final Pigeon2 imu = new Pigeon2(CANDevices.imuId);
+    public final static Pigeon2 imu = new Pigeon2(CANDevices.imuId);
 
     // Odometry for the robot, measured in meters for linear motion and radians for rotational motion
     // Takes in kinematics and robot angle for parameters
 
-    private SwerveDrivePoseEstimator odometry = 
+    private static SwerveDrivePoseEstimator odometry = 
         new SwerveDrivePoseEstimator(
             DriveConstants.kinematics,
             getHeading(),
@@ -256,7 +256,7 @@ public class SwerveSys extends SubsystemBase {
      * 
      * @return An array of SwerveModulePosition.
      */
-    public SwerveModulePosition[] getModulePositions() {
+    public static SwerveModulePosition[] getModulePositions() {
         return new SwerveModulePosition[] {
             frontLeftMod.getPosition(),
             frontRightMod.getPosition(),
@@ -288,7 +288,7 @@ public class SwerveSys extends SubsystemBase {
         );
     }
 
-    public void setHeading(Rotation2d heading) {
+    public static void setHeading(Rotation2d heading) {
         imu.setYaw(Math.abs(heading.getDegrees() % 360));
     }
 
@@ -297,7 +297,7 @@ public class SwerveSys extends SubsystemBase {
      * 
      * @param pose The pose to set the robot to.
      */
-    public void setPose(Pose2d pose) {
+    public static void setPose(Pose2d pose) {
         setHeading(pose.getRotation());
 
         odometry = new SwerveDrivePoseEstimator(
@@ -389,9 +389,9 @@ public class SwerveSys extends SubsystemBase {
      * 
      * @return The current heading of the robot as a Rotation2d.
      */
-    public Rotation2d getHeading() {
+    public static Rotation2d getHeading() {
         //return Rotation2d.fromRadians(MathUtil.angleModulus(Units.degreesToRadians(-imu.getYaw().getValueAsDouble())));
-        return Rotation2d.fromDegrees(-imu.getYaw().getValueAsDouble());
+        return Rotation2d.fromDegrees(imu.getYaw().getValueAsDouble());
     }
 
     /**
@@ -448,6 +448,7 @@ public class SwerveSys extends SubsystemBase {
         return true;
     }
 
+
     public void BuilderConfigure() {
         AutoBuilder.configureHolonomic(
             this:: getPose, 
@@ -455,8 +456,8 @@ public class SwerveSys extends SubsystemBase {
             this:: getChassisSpeeds, 
             this:: setChassisSpeeds, 
              new HolonomicPathFollowerConfig(
-                new PIDConstants(.5, 0, 0), 
-                new PIDConstants(.5, 0, 0), 
+                new PIDConstants(1, 0, 0), 
+                new PIDConstants(1, 0, 0), 
                 DriveConstants.maxDriveSpeedMetersPerSec, 
                 DriveConstants.driveBaseRadius, 
                 new ReplanningConfig(true, false)), this::PathFlip, this);

@@ -85,7 +85,7 @@ public class SwerveDrive extends Command {
 
         //robot go
         swerveSys.drive(
-            drive,
+            -drive,
             -strafe,
             -rot,
             isFieldRelative

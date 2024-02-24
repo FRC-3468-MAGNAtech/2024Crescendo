@@ -26,7 +26,7 @@ public class SetTranslationCmd extends Command {
 
     @Override
     public void execute() {
-        swerveSys.setTranslation(translation);
+        //swerveSys.setTranslation(translation);
     }
 
     @Override

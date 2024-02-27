@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.44445576200797,
-      "y": 2.2335953707440415
+      "x": 1.9187511360804712,
+      "y": 4.075468245723221
     },
-    "rotation": 0.3802596893476651
+    "rotation": -0.14106693302676587
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "straight"
+            "pathName": "half circle 1"
           }
         }
       ]

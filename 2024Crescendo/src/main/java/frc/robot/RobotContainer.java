@@ -6,30 +6,19 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.commands.ZeroGyro;
-import frc.robot.commands.drivetrain.ResetPoseCmd;
-import frc.robot.commands.drivetrain.SetPoseCmd;
 import frc.robot.commands.drivetrain.SwerveDrive;
-import frc.robot.commands.routines.TestRoutine;
+//import frc.robot.commands.routines.TestRoutine;
 import frc.robot.subsystems.SwerveSys;
 
 public class RobotContainer {
@@ -37,7 +26,7 @@ public class RobotContainer {
     
     // Initialize subsystems.
     public  final static SwerveSys swerveSys = new SwerveSys();
-    public final static TestRoutine test = new TestRoutine();
+    //public final static TestRoutine test = new TestRoutine();
     private final SendableChooser<Command> autoChooser;
 
     // Initialize joysticks.
@@ -53,7 +42,12 @@ public class RobotContainer {
         SmartDashboard.putData("Auto", autoChooser);
         autoChooser.addOption("TestScoring", new PathPlannerAuto("TestScoring"));
         autoChooser.addOption("Straight", new PathPlannerAuto("straight Auto"));
-        autoChooser.addOption("Test", test);
+        autoChooser.addOption("aroundTheWorld", new PathPlannerAuto("around the world"));
+        autoChooser.addOption("figure8", new PathPlannerAuto("figure 8"));
+        autoChooser.addOption("sixNote", new PathPlannerAuto("6 note"));
+        autoChooser.addOption("loop", new PathPlannerAuto("loop"));
+        autoChooser.addOption("Ateeba",new PathPlannerAuto("Ateeba"));
+        //autoChooser.addOption("Test", test);
     }
 
     public void configDriverBindings() {

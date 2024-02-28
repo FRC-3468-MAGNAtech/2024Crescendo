@@ -47,6 +47,11 @@ public class Constants {
     
     public static final class DriveConstants {
         /**
+         * Limelight
+         */
+        public static final String llTags = "limelight-tags";
+        public static final double targetKP = 0.025;
+        /**
          * The track width from wheel center to wheel center.
          */
         public static final double trackWidth = Units.inchesToMeters(22);

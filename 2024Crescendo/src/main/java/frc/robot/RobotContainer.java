@@ -26,15 +26,15 @@ public class RobotContainer {
     
     // Initialize subsystems.
     public  final static SwerveSys swerveSys = new SwerveSys();
-    //public final static TestRoutine test = new TestRoutine();
-    private final SendableChooser<Command> autoChooser;
 
     // Initialize joysticks.
     private final CommandXboxController driverController = new CommandXboxController(ControllerConstants.driverGamepadPort);
     private final JoystickButton zeroGyro = new JoystickButton(driverController.getHID(), XboxController.Button.kStart.value);
     private final JoystickButton turtleEnable = new JoystickButton(driverController.getHID(), XboxController.Button.kBack.value);
+    private final JoystickButton aButton = new JoystickButton(driverController.getHID(), XboxController.Button.kA.value);
 
     // Initialize auto selector.
+    private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
         configDriverBindings();
@@ -47,7 +47,6 @@ public class RobotContainer {
         autoChooser.addOption("sixNote", new PathPlannerAuto("6 note"));
         autoChooser.addOption("loop", new PathPlannerAuto("loop"));
         autoChooser.addOption("Ateeba",new PathPlannerAuto("Ateeba"));
-        //autoChooser.addOption("Test", test);
     }
 
     public void configDriverBindings() {
@@ -55,6 +54,7 @@ public class RobotContainer {
             () -> MathUtil.applyDeadband(driverController.getLeftY(), ControllerConstants.joystickDeadband),
             () -> MathUtil.applyDeadband(driverController.getLeftX(), ControllerConstants.joystickDeadband),
             () -> MathUtil.applyDeadband(driverController.getRightX(), ControllerConstants.joystickDeadband),
+            () -> aButton.getAsBoolean(),
             true,
             true,
             swerveSys
@@ -64,15 +64,14 @@ public class RobotContainer {
         turtleEnable.onTrue(new InstantCommand(() -> swerveSys.setTurtleMode()));
         zeroGyro.onTrue(new InstantCommand(() -> swerveSys.resetHeading()));
 
+        //aButton.whileTrue(new RotateToTarget(swerveSys));
+
         driverController.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, ControllerConstants.triggerPressedThreshhold)
             .whileTrue(Commands.runOnce(() -> swerveSys.lock()));
 
     }
 
     public Command getAutonomousCommand() {
-        // swerveSys.setHeading(Rotation2d.fromDegrees(73));
-        // swerveSys.resetHeading();
-
         return autoChooser.getSelected();
     }
 
@@ -91,8 +90,8 @@ public class RobotContainer {
         SmartDashboard.putNumber("BR CANCoder", swerveSys.backLeftMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
         SmartDashboard.putNumber("BL CANCoder", swerveSys.backRightMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
 
-        SmartDashboard.putNumber("Pigeon Yaw", swerveSys.imu.getYaw().getValueAsDouble());
-        SmartDashboard.putNumber("PigeonX", swerveSys.imu.getAccumGyroX().getValueAsDouble());
-        SmartDashboard.putNumber("PigeonY", swerveSys.imu.getAccumGyroY().getValueAsDouble());
+        SmartDashboard.putNumber("Limelight TA", LimelightHelpers.getTA("limelight-tags"));
+        SmartDashboard.putNumber("Limelight TX", LimelightHelpers.getTX("limelight-tags"));
+        SmartDashboard.putNumber("Limelight TY", LimelightHelpers.getTY("limelight-tags"));
     }
 }

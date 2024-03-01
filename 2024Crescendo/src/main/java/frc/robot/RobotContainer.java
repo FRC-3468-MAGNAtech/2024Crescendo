@@ -32,6 +32,7 @@ public class RobotContainer {
     private final JoystickButton zeroGyro = new JoystickButton(driverController.getHID(), XboxController.Button.kStart.value);
     private final JoystickButton turtleEnable = new JoystickButton(driverController.getHID(), XboxController.Button.kBack.value);
     private final JoystickButton aButton = new JoystickButton(driverController.getHID(), XboxController.Button.kA.value);
+    private final JoystickButton bButton = new JoystickButton(driverController.getHID(), XboxController.Button.kB.value);
 
     // Initialize auto selector.
     private final SendableChooser<Command> autoChooser;
@@ -55,6 +56,7 @@ public class RobotContainer {
             () -> MathUtil.applyDeadband(driverController.getLeftX(), ControllerConstants.joystickDeadband),
             () -> MathUtil.applyDeadband(driverController.getRightX(), ControllerConstants.joystickDeadband),
             () -> aButton.getAsBoolean(),
+            () -> bButton.getAsBoolean(),
             true,
             true,
             swerveSys
@@ -90,8 +92,8 @@ public class RobotContainer {
         SmartDashboard.putNumber("BR CANCoder", swerveSys.backLeftMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
         SmartDashboard.putNumber("BL CANCoder", swerveSys.backRightMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
 
-        SmartDashboard.putNumber("Limelight TA", LimelightHelpers.getTA("limelight-tags"));
-        SmartDashboard.putNumber("Limelight TX", LimelightHelpers.getTX("limelight-tags"));
-        SmartDashboard.putNumber("Limelight TY", LimelightHelpers.getTY("limelight-tags"));
+        SmartDashboard.putNumber("Limelight TA", LimelightHelpers.getTA("limelight-notes"));
+        SmartDashboard.putNumber("Limelight TX", LimelightHelpers.getTX("limelight-notes"));
+        SmartDashboard.putNumber("Limelight TY", LimelightHelpers.getTY("limelight-notes"));
     }
 }

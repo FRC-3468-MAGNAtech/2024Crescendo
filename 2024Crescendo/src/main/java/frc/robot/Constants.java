@@ -44,13 +44,19 @@ public class Constants {
 
         public static final double triggerPressedThreshhold = 0.25;
     }
-    
-    public static final class DriveConstants {
+    public static final class LimelightConstants {
         /**
-         * Limelight
+         * Limelight Strings
          */
         public static final String llTags = "limelight-tags";
+        public static final String llNotes = "limelight-notes";
+        /**
+         * Rotate to Tag P
+         */
         public static final double targetKP = 0.025;
+    }
+    
+    public static final class DriveConstants {
         /**
          * The track width from wheel center to wheel center.
          */

@@ -9,8 +9,8 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
+import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.SwerveSys;
 
@@ -32,11 +32,13 @@ public class SwerveDrive extends Command {
 	private final DoubleSupplier rot;
 
 	private final BooleanSupplier aPressed;
+	private final BooleanSupplier bPressed;
 
 	private final boolean isFieldRelative;
 	private final boolean squareInputs;
 
 	private final PIDController llPIDctrl;
+	private final PIDController llPIDctrlA;
 
 	/**
 	 * Constructs a new ArcadeDriveCmd.
@@ -55,6 +57,7 @@ public class SwerveDrive extends Command {
 		DoubleSupplier strafe, 
 		DoubleSupplier rot,
 		BooleanSupplier aPressed,
+		BooleanSupplier bPressed,
 		boolean isFieldRelative,
 		boolean squareInputs,
 		SwerveSys swerveSys
@@ -65,11 +68,16 @@ public class SwerveDrive extends Command {
 		this.strafe = strafe;
 		this.rot = rot;
 		this.aPressed = aPressed;
+		this.bPressed = bPressed;
 		this.isFieldRelative = isFieldRelative;
 		this.squareInputs = squareInputs;
 
-		llPIDctrl = new PIDController(DriveConstants.targetKP, 0, 0);
+		llPIDctrl = new PIDController(LimelightConstants.targetKP, 0, 0);
 		llPIDctrl.setTolerance(0.3);
+
+		llPIDctrlA = new PIDController(LimelightConstants.targetKP, 0, 0);
+		llPIDctrlA.setSetpoint(45);
+		llPIDctrlA.setTolerance(1);
 
 		addRequirements(swerveSys);
 	}
@@ -85,10 +93,22 @@ public class SwerveDrive extends Command {
 		double strafe = this.strafe.getAsDouble();
 		double rot = this.rot.getAsDouble();
 		boolean aPressed = this.aPressed.getAsBoolean();
+		boolean bPressed = this.bPressed.getAsBoolean();
+		boolean currentlyFieldRelative = isFieldRelative;
 
+		// If the A button is pressed, make it to where the robot automatically aims toward an AprilTag
 		if (aPressed) {
-			double tx = LimelightHelpers.getTX(DriveConstants.llTags);
+			double tx = LimelightHelpers.getTX(LimelightConstants.llTags);
 			rot = -llPIDctrl.calculate(tx);
+		}
+
+		// If the B button is pressed, make it to where the robot automatically aims toward an AprilTag
+		if (bPressed) {
+			double tx = LimelightHelpers.getTX(LimelightConstants.llNotes);
+			double ta = LimelightHelpers.getTA(LimelightConstants.llNotes);
+			strafe = llPIDctrl.calculate(tx);
+			drive = -llPIDctrl.calculate(ta);
+			currentlyFieldRelative = false;
 		}
 
 		if(squareInputs) {
@@ -107,7 +127,7 @@ public class SwerveDrive extends Command {
 			-drive,
 			-strafe,
 			-rot,
-			isFieldRelative
+			currentlyFieldRelative
 		);
 	}
 

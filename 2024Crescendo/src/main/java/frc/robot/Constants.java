@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.pathplanner.lib.util.PIDConstants;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -50,10 +51,11 @@ public class Constants {
          */
         public static final String llTags = "limelight-tags";
         public static final String llNotes = "limelight-notes";
-        /**
-         * Rotate to Tag P
-         */
-        public static final double targetKP = 0.025;
+
+        public static final double driveKP = 0.025;
+        public static final double rotateKP = 0.03;
+	    public static final PIDController llPIDctrlDrive = new PIDController(driveKP, 0, 0);
+	    public static final PIDController llPIDctrlRotate = new PIDController(rotateKP, 0, 0);
     }
     
     public static final class DriveConstants {

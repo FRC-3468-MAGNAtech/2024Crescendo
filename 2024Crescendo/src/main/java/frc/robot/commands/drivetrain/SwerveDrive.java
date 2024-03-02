@@ -10,7 +10,9 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
+import frc.robot.Targeting;
 import frc.robot.Constants.LimelightConstants;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.SwerveSys;
 
@@ -37,8 +39,6 @@ public class SwerveDrive extends Command {
 	private final boolean isFieldRelative;
 	private final boolean squareInputs;
 
-	private final PIDController llPIDctrl;
-	private final PIDController llPIDctrlA;
 
 	/**
 	 * Constructs a new ArcadeDriveCmd.
@@ -72,13 +72,6 @@ public class SwerveDrive extends Command {
 		this.isFieldRelative = isFieldRelative;
 		this.squareInputs = squareInputs;
 
-		llPIDctrl = new PIDController(LimelightConstants.targetKP, 0, 0);
-		llPIDctrl.setTolerance(0.3);
-
-		llPIDctrlA = new PIDController(LimelightConstants.targetKP, 0, 0);
-		llPIDctrlA.setSetpoint(45);
-		llPIDctrlA.setTolerance(1);
-
 		addRequirements(swerveSys);
 	}
 
@@ -98,16 +91,16 @@ public class SwerveDrive extends Command {
 
 		// If the A button is pressed, make it to where the robot automatically aims toward an AprilTag
 		if (aPressed) {
-			double tx = LimelightHelpers.getTX(LimelightConstants.llTags);
-			rot = -llPIDctrl.calculate(tx);
+        	LimelightHelpers.setPipelineIndex(LimelightConstants.llTags, 1);
+			rot = Targeting.aimToAprilTag();
 		}
+		else
+        	LimelightHelpers.setPipelineIndex(LimelightConstants.llTags, 0);
 
 		// If the B button is pressed, make it to where the robot automatically aims toward an AprilTag
 		if (bPressed) {
-			double tx = LimelightHelpers.getTX(LimelightConstants.llNotes);
-			double ta = LimelightHelpers.getTA(LimelightConstants.llNotes);
-			strafe = llPIDctrl.calculate(tx);
-			drive = -llPIDctrl.calculate(ta);
+			rot = Targeting.aimToNote();
+			drive = Targeting.driveToNote();
 			currentlyFieldRelative = false;
 		}
 
@@ -122,7 +115,7 @@ public class SwerveDrive extends Command {
 			rot = Math.copySign(Math.pow(rot, 2.0), rot);
 		}
 
-		//robot go
+		//robot go go
 		swerveSys.drive(
 			-drive,
 			-strafe,

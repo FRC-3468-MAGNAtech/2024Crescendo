@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.LimelightConstants;
 import frc.robot.commands.drivetrain.SwerveDrive;
 //import frc.robot.commands.routines.TestRoutine;
 import frc.robot.subsystems.SwerveSys;
@@ -39,8 +40,14 @@ public class RobotContainer {
 
     public RobotContainer() {
         configDriverBindings();
+        
+		LimelightConstants.llPIDctrlRotate.setTolerance(0.3);
+		LimelightConstants.llPIDctrlDrive.setSetpoint(45);
+		LimelightConstants.llPIDctrlDrive.setTolerance(1);
+
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto", autoChooser);
+
         autoChooser.addOption("TestScoring", new PathPlannerAuto("TestScoring"));
         autoChooser.addOption("Straight", new PathPlannerAuto("straight Auto"));
         autoChooser.addOption("aroundTheWorld", new PathPlannerAuto("around the world"));

@@ -53,7 +53,7 @@ public class RobotContainer {
 
     JoystickButton m_ArmUpButton = new JoystickButton(m_driverController, OperatorConstants.ClimbAscendButton);
     JoystickButton m_ArmDownButton = new JoystickButton(m_driverController, OperatorConstants.ClimbDescendButton);
-    JoystickButton m_ArmHomeButton = new JoystickButton(m_driverController, OperatorConstants.ClimbHomeButton)
+    JoystickButton m_ArmHomeButton = new JoystickButton(m_driverController, OperatorConstants.ClimbHomeButton);
 
     m_ArmDownButton.whileTrue(new ClimbDown(m_climb));
     m_ArmUpButton.whileTrue(new ClimbUp(m_climb));

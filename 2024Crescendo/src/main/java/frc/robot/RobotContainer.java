@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.LimelightConstants;
+import frc.robot.commands.AutoCommands.GetNoteAuto;
 import frc.robot.commands.drivetrain.SwerveDrive;
 //import frc.robot.commands.routines.TestRoutine;
 import frc.robot.subsystems.SwerveSys;
@@ -26,7 +27,7 @@ public class RobotContainer {
 
     
     // Initialize subsystems.
-    public  final static SwerveSys swerveSys = new SwerveSys();
+    public final static SwerveSys swerveSys = new SwerveSys();
 
     // Initialize joysticks.
     private final CommandXboxController driverController = new CommandXboxController(ControllerConstants.driverGamepadPort);
@@ -41,20 +42,14 @@ public class RobotContainer {
     public RobotContainer() {
         configDriverBindings();
         
-		LimelightConstants.llPIDctrlRotate.setTolerance(0.3);
+		LimelightConstants.llPIDctrlRotate.setTolerance(0.5);
 		LimelightConstants.llPIDctrlDrive.setSetpoint(45);
-		LimelightConstants.llPIDctrlDrive.setTolerance(1);
+		LimelightConstants.llPIDctrlDrive.setTolerance(3);
 
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto", autoChooser);
 
-        autoChooser.addOption("TestScoring", new PathPlannerAuto("TestScoring"));
-        autoChooser.addOption("Straight", new PathPlannerAuto("straight Auto"));
-        autoChooser.addOption("aroundTheWorld", new PathPlannerAuto("around the world"));
-        autoChooser.addOption("figure8", new PathPlannerAuto("figure 8"));
-        autoChooser.addOption("sixNote", new PathPlannerAuto("6 note"));
-        autoChooser.addOption("loop", new PathPlannerAuto("loop"));
-        autoChooser.addOption("Ateeba",new PathPlannerAuto("Ateeba"));
+        autoChooser.addOption("BaseAuto", new GetNoteAuto());
     }
 
     public void configDriverBindings() {

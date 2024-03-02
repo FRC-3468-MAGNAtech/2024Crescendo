@@ -9,13 +9,13 @@ import frc.robot.subsystems.Climb;
 
 public class ClimbDown extends Command {
   /** Creates a new ClimbDown. */
-  private Climb m_subsystem;
+  private Climb i_subsystem;
   /** Creates a new LeftArmDescendSpeed. */
   public ClimbDown(Climb subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_subsystem = subsystem;
+    i_subsystem = subsystem;
 
-    addRequirements(m_subsystem);
+    addRequirements(subsystem);
   }
 
   public ClimbDown() {
@@ -29,7 +29,7 @@ public class ClimbDown extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.setLeftDescendSpeed();
+    i_subsystem.setLeftDescendSpeed();
   }
 
   // Called once the command ends or is interrupted.

@@ -8,13 +8,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climb;
 
 public class ClimbStop extends Command {
-  private Climb m_subsystem;
+  private Climb i_subsystem;
+
   /** Creates a new ClimbStop. */
   public ClimbStop(Climb subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_subsystem = subsystem;
+    i_subsystem = subsystem;
 
-    addRequirements(m_subsystem);
+    addRequirements(subsystem);
   }
   public ClimbStop() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -27,7 +28,7 @@ public class ClimbStop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.stopLeftArm();
+    i_subsystem.stopLeftArm();
   }
 
   // Called once the command ends or is interrupted.

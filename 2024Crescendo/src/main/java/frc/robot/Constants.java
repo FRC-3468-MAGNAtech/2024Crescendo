@@ -19,6 +19,7 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
     public static final int ClimbDescendButton = XboxController.Axis.kLeftTrigger.value;
     public static final int ClimbAscendButton = XboxController.Axis.kRightTrigger.value;
+    public static final int ClimbHomeButton = XboxController.Button.kA.value;
   }
   public static final class ClimbConstants {
     public static final int leftSparkMaxID = 0;

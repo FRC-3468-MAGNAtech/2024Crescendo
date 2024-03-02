@@ -50,14 +50,15 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
-        JoystickButton m_ArmUpButton = new JoystickButton(m_driverController,OperatorConstants.ClimbAscendButton);
-        JoystickButton m_ArmDownButton = new JoystickButton(m_driverController,OperatorConstants.ClimbDescendButton);
 
-        m_ArmDownButton.whileHeld(new ClimbDown(m_climb));
-        m_ArmUpButton.whileHeld(new ClimbUp(m_climb));
+    JoystickButton m_ArmUpButton = new JoystickButton(m_driverController, OperatorConstants.ClimbAscendButton);
+    JoystickButton m_ArmDownButton = new JoystickButton(m_driverController, OperatorConstants.ClimbDescendButton);
+    JoystickButton m_ArmHomeButton = new JoystickButton(m_driverController, OperatorConstants.ClimbHomeButton)
+
+    m_ArmDownButton.whileTrue(new ClimbDown(m_climb));
+    m_ArmUpButton.whileTrue(new ClimbUp(m_climb));
+    m_ArmHomeButton.onTrue(new ClimbHome(m_climb));
+
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());

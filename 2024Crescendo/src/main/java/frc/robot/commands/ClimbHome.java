@@ -9,13 +9,13 @@ import frc.robot.subsystems.Climb;
 
 public class ClimbHome extends Command {
   /** Creates a new ClimbHome. */
-  public Climb m_subsystem;
+  public Climb i_subsystem;
   /** Creates a new LeftClimbArmHome. */
   public ClimbHome(Climb subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_subsystem = subsystem;
+    i_subsystem = subsystem;
 
-    addRequirements(m_subsystem);
+    addRequirements(subsystem);
   }
   public ClimbHome() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -24,7 +24,7 @@ public class ClimbHome extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.setHome();
+    i_subsystem.setHome();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

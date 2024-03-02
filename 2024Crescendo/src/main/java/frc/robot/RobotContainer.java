@@ -5,11 +5,18 @@
 package frc.robot;
 
 import frc.robot.Constants.*;
+import frc.robot.commands.AmpShooter;
+import frc.robot.commands.ArmLower;
+import frc.robot.commands.ArmRaise;
+import frc.robot.commands.ArmStop;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Intake.IntakeRing;
+import frc.robot.commands.Intake.IntakeStop;
 import frc.robot.commands.Shooter.AmpOoze;
 import frc.robot.commands.Shooter.Shoot;
+import frc.robot.commands.Shooter.StopShootAmp;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Intake;
@@ -30,7 +37,7 @@ public class RobotContainer {
   private final XboxController secondaryDriveController = new XboxController(driveControllerConstants.secondaryDriveControllerPort);
   private final Shooter m_shooter = new Shooter();
   private final Intake m_intake = new Intake();
-  
+  private final Arm m_arm = new Arm();
 
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
@@ -42,6 +49,10 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
+    m_intake.setDefaultCommand(new IntakeStop(m_intake));
+    // m_shooter.setDefaultCommand(new StopShootAmp(m_shooter));
+    m_arm.setDefaultCommand(new ArmStop(m_arm));
+
     configureBindings();
   }
 
@@ -69,10 +80,23 @@ public class RobotContainer {
       secondaryDriveController,
       driveControllerConstants.intakeButton );
 
+    JoystickButton raiseButton = new JoystickButton(
+      secondaryDriveController, 
+      driveControllerConstants.armRaiseButton);
+
+    JoystickButton lowerButton = new JoystickButton(
+      secondaryDriveController,
+      driveControllerConstants.armLowerButton);
+
+    
+
+
     // buttons
     Speaker.onTrue(new Shoot(m_shooter));
-    // Amp.onTrue(new AmpOoze(m_shooter));
+    Amp.onTrue(new AmpShooter(m_shooter));
     intakeButton.whileTrue(new IntakeRing(m_intake));
+    raiseButton.whileTrue(new ArmRaise(m_arm));
+    lowerButton.whileTrue(new ArmLower(m_arm));
     }
    
   /**

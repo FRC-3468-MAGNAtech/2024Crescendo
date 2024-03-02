@@ -26,6 +26,8 @@ import edu.wpi.first.wpilibj.XboxController;
     public static final int intakeButton = XboxController.Button.kX.value;
     public static final int speakerShooterButton = XboxController.Button.kA.value;
     public static final int ampShooterButton = XboxController.Button.kY.value;
+    public static final int armRaiseButton = XboxController.Button.kRightBumper.value;
+    public static final int armLowerButton = XboxController.Button.kLeftBumper.value;
   }
 
   public static final class IntakeConstants {
@@ -38,10 +40,19 @@ import edu.wpi.first.wpilibj.XboxController;
   public static final class shooterConstants {
     public static final int bottomShootSparkMaxCANID = 0;
     public static final int topShootSparkMaxCANID = 0;
-    public static final double bottomShootSpeed = -1.0;
-    public static final double topShootSpeed = 1.0;
-    public static final double bottomAmpSpeed = -0.5;
-    public static final double topAmpSpeed = 0.5;
+    public static final double bottomShootSpeed = -0.2;
+    public static final double topShootSpeed = 0.2;
+    public static final double bottomAmpSpeed = -0.02;
+    public static final double topAmpSpeed = 0.02;
     public static final double stop = 0.0;
   }    
+
+  public static final class armConstants {
+    public static final int leftArmSparkMaxCANID = 0;
+    public static final int rightArmSparkMaxCANID = 0;
+    public static final double raiseSpeed = 0.2;
+    public static final double lowerSpeed = -0.2;
+    public static final double stop = 0.0;
+    public static final boolean armLimitTriggered = true;
+  }
 }

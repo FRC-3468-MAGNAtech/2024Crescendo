@@ -5,9 +5,6 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants.*;
-
-import javax.sound.midi.MidiChannel;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;

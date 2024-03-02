@@ -7,13 +7,13 @@ package frc.robot.commands.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
-public class StopShootAmp extends Command {
-  Shooter stop;
-
-  /** Creates a new StopShootAmp.*/
-  public void amp(Shooter subsytem) {
-    stop = subsytem;
-    addRequirements(subsytem);
+public class ShootDistance extends Command {
+  private Shooter i_subsystem;
+  
+  /** Creates a new ShootDistance. */
+  public ShootDistance(Shooter subsystem) {
+    i_subsystem = subsystem;
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -23,7 +23,8 @@ public class StopShootAmp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    stop.stop();
+    // distance not working
+    i_subsystem.shoot();
   }
 
   // Called once the command ends or is interrupted.

@@ -39,20 +39,34 @@ import edu.wpi.first.wpilibj.XboxController;
 
   public static final class shooterConstants {
     public static final int bottomShootSparkMaxCANID = 0;
-    public static final int topShootSparkMaxCANID = 0;
+    public static final int topShootSparkMaxCANID = 1;
     public static final double bottomShootSpeed = -0.2;
     public static final double topShootSpeed = 0.2;
     public static final double bottomAmpSpeed = -0.02;
     public static final double topAmpSpeed = 0.02;
-    public static final double stop = 0.0;
+    public static final double shooterP = 0.1;
+    public static final double shooterI = 0.1;
+    public static final double shooterD = 0.1;
+    public static final double shooterIZone = 0.1;
+    public static final double shooterFF = 0.1;
+    public static final double shooterMin = -0.5;
+    public static final double shooterMax = 1.0;
+    public static final double upPIDReference = 85.0;
   }    
 
   public static final class armConstants {
-    public static final int leftArmSparkMaxCANID = 0;
-    public static final int rightArmSparkMaxCANID = 0;
+    public static final int leftArmSparkMaxCANID = 3;
+    public static final int rightArmSparkMaxCANID = 4;
     public static final double raiseSpeed = 0.2;
     public static final double lowerSpeed = -0.2;
-    public static final double stop = 0.0;
     public static final boolean armLimitTriggered = true;
+    public static final double ArmP = 0.1;
+    public static final double ArmI = 0.1;
+    public static final double ArmD = 0.1;
+    public static final double ArmIZone = 0.1;
+    public static final double ArmFF = 0.1;
+    public static final double ArmMin = -0.5;
+    public static final double ArmMax = 1.0;
+    public static final double upPIDReference = 85.0;
   }
 }

@@ -6,38 +6,50 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.armConstants;
 
 public class Arm extends SubsystemBase {
-  /** Creates a new Arm. */
+  private CANSparkMax m_rightRaiseMotor;
+  private SparkPIDController m_PIDController;
 
-    private CANSparkMax m_leftRaiseMotor;
-    private CANSparkMax m_rightRaiseMotor;
+  public Arm() {
+    m_rightRaiseMotor = new CANSparkMax(Constants.armConstants.rightArmSparkMaxCANID, MotorType.kBrushless);
 
-    public void motors() {
-        m_leftRaiseMotor = new CANSparkMax(Constants.armConstants.leftArmSparkMaxCANID, MotorType.kBrushless);
-        m_rightRaiseMotor = new CANSparkMax(Constants.armConstants.rightArmSparkMaxCANID, MotorType.kBrushless);
+    m_PIDController = m_rightRaiseMotor.getPIDController();
 
-        m_leftRaiseMotor.follow(m_rightRaiseMotor);
-        
-    }
-
-  public Arm() {}
+    m_PIDController.setP(armConstants.ArmP);
+    m_PIDController.setI(armConstants.ArmI);
+    m_PIDController.setD(armConstants.ArmD);
+    m_PIDController.setIZone(armConstants.ArmIZone);
+    m_PIDController.setFF(armConstants.ArmFF);
+    m_PIDController.setOutputRange(armConstants.ArmMin, armConstants.ArmMax);
+  }
 
   public void raise() {
     m_rightRaiseMotor.set(Constants.armConstants.raiseSpeed);
   }
 
-  public void stop(){
-    m_rightRaiseMotor.set(Constants.armConstants.stop);
+  public void pointRaise() {
+    m_PIDController.setReference(armConstants.upPIDReference, ControlType.kPosition);
   }
-  
+
   public void lower(){
     m_rightRaiseMotor.set(Constants.armConstants.lowerSpeed);
   }
 
+  public void pointLower() {
+    m_PIDController.setReference(0.0, ControlType.kPosition);
+  }
+
+  public void stop(){
+    m_rightRaiseMotor.set(0);
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -15,23 +15,11 @@ import edu.wpi.first.wpilibj.XboxController;
  * constants are needed, to reduce verbosity.
  */
 
- // 1:1 gear ratio
- // Wheel size: 2 in
  public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
-
   }
-  public static final class IntakeConstants {
   
-    public static final int lowerIntakeMotorID = 0;
-    public static final int upperIntakeMotorID = 1;
-    public static final double lowerIntakeMotorSpeed = .2;
-    public static final double upperIntakeMotorSpeed = .2;
-    public static final boolean lowerIntakeMotorInvert = false;
-    public static final boolean upperIntakeMotorInvert = false;
-  }
-
   public static final class driveControllerConstants {
     public static final int primaryDriveControllerPort = 0;
     public static final int secondaryDriveControllerPort = 1;
@@ -39,7 +27,13 @@ import edu.wpi.first.wpilibj.XboxController;
     public static final int speakerShooterButton = XboxController.Button.kA.value;
     public static final int ampShooterButton = XboxController.Button.kY.value;
   }
-    
+
+  public static final class IntakeConstants {
+    public static final int intakeMotorID = 0;
+    public static final double intakeMotorForward = .2;
+    public static final double intakeMotorReverse = -0.2;
+    public static final boolean intakeMotorInvert = false;
+  }  
 
   public static final class shooterConstants {
     public static final int bottomShootSparkMaxCANID = 0;

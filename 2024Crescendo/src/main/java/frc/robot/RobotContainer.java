@@ -4,13 +4,12 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.AmpOoze;
 import frc.robot.Constants.*;
 import frc.robot.commands.Autos;
-import frc.robot.commands.IntakeSpeed;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.Shoot;
+import frc.robot.commands.Intake.IntakeRing;
+import frc.robot.commands.Shooter.AmpOoze;
+import frc.robot.commands.Shooter.Shoot;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Intake;
@@ -70,14 +69,10 @@ public class RobotContainer {
       secondaryDriveController,
       driveControllerConstants.intakeButton );
 
-
-
     // buttons
     Speaker.onTrue(new Shoot(m_shooter));
-
     // Amp.onTrue(new AmpOoze(m_shooter));
-      
-    intakeButton.whileTrue(new IntakeSpeed(m_intake));
+    intakeButton.whileTrue(new IntakeRing(m_intake));
     }
    
   /**

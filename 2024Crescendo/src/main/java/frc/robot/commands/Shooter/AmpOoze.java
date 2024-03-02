@@ -2,19 +2,18 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 
-public class IntakeStop extends Command {
-  /** Creates a new IntakeStop. */
-  private Intake i_subsystem;
+public class AmpOoze extends Command {
+  private Shooter ooze;
 
-  public IntakeStop(Intake subsystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    subsystem = i_subsystem;
-    addRequirements(subsystem);
+  /** Creates a new AmpOoze. */
+  public void amp(Shooter subsytem) {
+      ooze = subsytem;
+      addRequirements(subsytem);
   }
 
   // Called when the command is initially scheduled.
@@ -24,12 +23,14 @@ public class IntakeStop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    i_subsystem.stop();
+    ooze.amp();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    ooze.stop();
+  }
 
   // Returns true when the command should end.
   @Override

@@ -5,6 +5,9 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants.*;
+
+import javax.sound.midi.MidiChannel;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -15,45 +18,38 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Intake extends SubsystemBase {
   
   // Intake Motor Controllers
-  private CANSparkMax m_upperIntakeBar; // NEO 550 motor  
-  private RelativeEncoder m_upperIntakeBarEncoder;  // NEO 550 encoder
-  private double upperIntakeBarRPM;
+  private CANSparkMax m_intakeMotor; 
+  private RelativeEncoder m_intakeEncoder; 
 
 
-  /** Subsystem for controlling the Intake */
   public Intake() {
     // Instantiate the Intake motor controllers
-    m_upperIntakeBar = new CANSparkMax(IntakeConstants.upperIntakeMotorID, MotorType.kBrushless);
-
+    m_intakeMotor = new CANSparkMax(IntakeConstants.intakeMotorID, MotorType.kBrushless);
 
     // Reverse some of the motors if needed
-    m_upperIntakeBar.setInverted(IntakeConstants.upperIntakeMotorInvert);
-    m_upperIntakeBarEncoder = m_upperIntakeBar.getEncoder();
-
-
-    SmartDashboard.putNumber("Upper Intake Bar Speed", IntakeConstants.upperIntakeMotorSpeed);
-  }
-
-  /* Set power to the intake motors */
-  public void setPower(double upperPower) {
-    m_upperIntakeBar.set(upperPower);
-    
-  }
-  public void stop() {
-    m_upperIntakeBar.set(0);
-  }
-
-  /* Read the speed of the intake motors */
-  public double getLowerIntakeBarRPM() {
-    return upperIntakeBarRPM;
+    m_intakeEncoder = m_intakeMotor.getEncoder();
   }
   
+  public void intake() {
+    m_intakeMotor.set(IntakeConstants.intakeMotorForward); 
+  }
 
+  public void extake(){
+    m_intakeMotor.set(IntakeConstants.intakeMotorReverse);
+  }
+
+  public void stop() {
+    m_intakeMotor.set(0);
+  }
+  
+  public double getIntakeRPM() {
+    return m_intakeEncoder.getVelocity();
+  }
+  
+  
   @Override
-  public void periodic() {
-    upperIntakeBarRPM = m_upperIntakeBarEncoder.getVelocity();
-
+  public void periodic() {    
     // Add intake bar RPM readingss to SmartDashboard for the sake of datalogging
-    SmartDashboard.putNumber("Upper Intake Bar RPM", upperIntakeBarRPM);
+    SmartDashboard.putNumber("Intake RPM", getIntakeRPM());
  }
 }

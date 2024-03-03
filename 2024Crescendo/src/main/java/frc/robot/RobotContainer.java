@@ -6,7 +6,11 @@ package frc.robot;
 
 import frc.robot.Constants.*;
 import frc.robot.commands.Autos;
+import frc.robot.commands.ClimbDown;
+import frc.robot.commands.ClimbHome;
+import frc.robot.commands.ClimbUp;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.Climb;
 import frc.robot.commands.Arm.ArmLower;
 import frc.robot.commands.Arm.ArmRaise;
 import frc.robot.commands.Arm.ArmStop;
@@ -24,6 +28,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -40,6 +45,7 @@ public class RobotContainer {
   private final Arm m_arm = new Arm();
 
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final Climb m_climb = new Climb();
 
 
   // // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -49,6 +55,8 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
+    m_climb.setDefaultCommand(new ClimbHome(m_climb));
+
     m_intake.setDefaultCommand(new IntakeStop(m_intake));
     m_shooter.setDefaultCommand(new ShooterStop(m_shooter));
     m_arm.setDefaultCommand(new ArmStop(m_arm));
@@ -66,6 +74,20 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+
+    JoystickButton m_ArmUpButton = new JoystickButton(m_driverController, OperatorConstants.ClimbAscendButton);
+    JoystickButton m_ArmDownButton = new JoystickButton(m_driverController, OperatorConstants.ClimbDescendButton);
+    JoystickButton m_ArmHomeButton = new JoystickButton(m_driverController, OperatorConstants.ClimbHomeButton);
+
+    m_ArmDownButton.whileTrue(new ClimbDown(m_climb));
+    m_ArmUpButton.whileTrue(new ClimbUp(m_climb));
+    m_ArmHomeButton.onTrue(new ClimbHome(m_climb));
+
+    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
+    // cancelling on release.
+    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+  }
+
 
     // Speaker button
     JoystickButton Speaker = new JoystickButton(

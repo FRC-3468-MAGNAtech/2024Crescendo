@@ -18,6 +18,26 @@ import edu.wpi.first.wpilibj.XboxController;
  public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int ClimbDescendButton = XboxController.Axis.kLeftTrigger.value;
+    public static final int ClimbAscendButton = XboxController.Axis.kRightTrigger.value;
+    public static final int ClimbHomeButton = XboxController.Button.kA.value;
+  }
+  public static final class ClimbConstants {
+    public static final int leftSparkMaxID = 0;
+    public static final int rightSparkMaxID = 0;
+    public static final double ascensionSpeed = 0.25;
+    public static final double descensionSpeed = -0.25;
+    public static final double stopSpeed = 0.0;
+    public static final double leftArmP = 3.0;
+    public static final double leftArmI = 0.0;
+    public static final double leftArmD = 0.0;
+    public static final double leftArmIZone = 0.0;
+    public static final double leftArmFF = 0.0;
+    public static final double leftArmMin = -0.5;
+    public static final double leftArmMax = 1.0;
+    public static final double upPIDReference = 85.0;
+    public static final double downPIDReference = 7.0;
+    public static final double leftPIDTolerance = 0.01;
   }
   
   public static final class driveControllerConstants {

@@ -4,23 +4,22 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Climb;
 
-/** An example command that uses an example subsystem. */
-public class ExampleCommand extends Command {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ExampleSubsystem m_subsystem;
-
-  /**  
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public ExampleCommand(ExampleSubsystem subsystem) {
-    m_subsystem = subsystem;
+public class ClimbDown extends Command {
+  /** Creates a new ClimbDown. */
+  private Climb i_subsystem;
+  /** Creates a new LeftArmDescendSpeed. */
+  public ClimbDown(Climb subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
+    i_subsystem = subsystem;
+
     addRequirements(subsystem);
+  }
+
+  public ClimbDown() {
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -29,7 +28,9 @@ public class ExampleCommand extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    i_subsystem.setLeftDescendSpeed();
+  }
 
   // Called once the command ends or is interrupted.
   @Override

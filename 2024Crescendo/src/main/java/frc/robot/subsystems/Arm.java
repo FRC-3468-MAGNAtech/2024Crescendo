@@ -8,7 +8,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.armConstants;
@@ -17,6 +16,7 @@ public class Arm extends SubsystemBase {
   private CANSparkMax m_rightRaiseMotor;
   private SparkPIDController m_PIDController;
 
+  
   public Arm() {
     m_rightRaiseMotor = new CANSparkMax(Constants.armConstants.rightArmSparkMaxCANID, MotorType.kBrushless);
 

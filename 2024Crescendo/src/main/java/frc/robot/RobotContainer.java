@@ -5,9 +5,11 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.LimelightConstants;
-import frc.robot.commands.AutoCommands.GetNoteAuto;
+import frc.robot.commands.AutoCommands.DriveToNote;
 import frc.robot.commands.drivetrain.SwerveDrive;
 //import frc.robot.commands.routines.TestRoutine;
 import frc.robot.subsystems.SwerveSys;
@@ -40,6 +42,12 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
+        NamedCommands.registerCommand("DriveToNote", new DriveToNote(swerveSys));
+        
+        swerveSys.BuilderConfigure();
+        swerveSys.resetHeading();
+        swerveSys.resetPose(new Pose2d());
+
         configDriverBindings();
         
 		LimelightConstants.llPIDctrlRotate.setTolerance(0.5);
@@ -49,7 +57,7 @@ public class RobotContainer {
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto", autoChooser);
 
-        autoChooser.addOption("BaseAuto", new GetNoteAuto());
+        autoChooser.addOption("BaseAuto", new PathPlannerAuto("base Auto"));
     }
 
     public void configDriverBindings() {

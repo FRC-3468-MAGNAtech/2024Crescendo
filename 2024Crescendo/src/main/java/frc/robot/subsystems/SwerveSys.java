@@ -114,9 +114,6 @@ public class SwerveSys extends SubsystemBase {
         backLeftMod.resetDriveDistance();
         backRightMod.resetDriveDistance();
 
-        BuilderConfigure();
-        resetHeading();
-        resetPose(new Pose2d());
 
         
     }

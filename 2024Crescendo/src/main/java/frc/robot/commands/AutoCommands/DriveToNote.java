@@ -20,7 +20,8 @@ public class DriveToNote extends Command {
 
 	// Called when the command is initially scheduled.
 	@Override
-	public void initialize() {}
+	public void initialize() {
+	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
@@ -55,6 +56,9 @@ public class DriveToNote extends Command {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return LimelightConstants.llPIDctrlDrive.atSetpoint();
+		boolean endNow = LimelightConstants.llPIDctrlDrive.atSetpoint();
+		if (endNow)
+			System.out.println("Cheese");
+		return endNow;
 	}
 }

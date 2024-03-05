@@ -5,7 +5,6 @@
 package frc.robot;
 
 import frc.robot.Constants.*;
-import frc.robot.commands.Autos;
 import frc.robot.subsystems.Climb;
 import frc.robot.commands.Arm.ArmLower;
 import frc.robot.commands.Arm.ArmRaise;
@@ -20,47 +19,114 @@ import frc.robot.commands.Shooter.AmpShooter;
 import frc.robot.commands.Shooter.Shoot;
 import frc.robot.commands.Shooter.ShooterStop;
 import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj.XboxController;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.LimelightConstants;
+import frc.robot.commands.AutoCommands.GetNoteAuto;
+import frc.robot.commands.drivetrain.SwerveDrive;
+//import frc.robot.commands.routines.TestRoutine;
+import frc.robot.subsystems.SwerveSys;
 
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and trigger mappings) should be declared here.
- */
 public class RobotContainer {
   // Initialize subsystems/controllers
   private final XboxController secondaryDriveController = new XboxController(driveControllerConstants.secondaryDriveControllerPort);
   private final Shooter m_shooter = new Shooter();
   private final Intake m_intake = new Intake();
   private final Arm m_arm = new Arm();
-
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Climb m_climb = new Climb();
 
 
-  // // Replace with CommandPS4Controller or CommandJoystick if needed
-  // private final CommandXboxController m_driverController =
-  //     new CommandXboxController(OperatorConstants.kDriverControllerPort);
+    
+    // Initialize subsystems.
+    public final static SwerveSys swerveSys = new SwerveSys();
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    // Configure the trigger bindings
-    m_climb.setDefaultCommand(new ClimbHome(m_climb));
+    // Initialize joysticks.
+    private final CommandXboxController driverController = new CommandXboxController(ControllerConstants.driverGamepadPort);
+    private final JoystickButton zeroGyro = new JoystickButton(driverController.getHID(), XboxController.Button.kStart.value);
+    private final JoystickButton turtleEnable = new JoystickButton(driverController.getHID(), XboxController.Button.kBack.value);
+    private final JoystickButton aButton = new JoystickButton(driverController.getHID(), XboxController.Button.kA.value);
+    private final JoystickButton bButton = new JoystickButton(driverController.getHID(), XboxController.Button.kB.value);
 
-    m_intake.setDefaultCommand(new IntakeStop(m_intake));
-    m_shooter.setDefaultCommand(new ShooterStop(m_shooter));
-    m_arm.setDefaultCommand(new ArmStop(m_arm));
+    // Initialize auto selector.
+    private final SendableChooser<Command> autoChooser;
 
-    configureBindings();
-  }
+    public RobotContainer() {
+      configDriverBindings();
+        
+		  LimelightConstants.llPIDctrlRotate.setTolerance(0.5);
+		  LimelightConstants.llPIDctrlDrive.setSetpoint(45);
+		  LimelightConstants.llPIDctrlDrive.setTolerance(3);
+
+      autoChooser = AutoBuilder.buildAutoChooser();
+      SmartDashboard.putData("Auto", autoChooser);
+
+      autoChooser.addOption("BaseAuto", new GetNoteAuto());
+      m_climb.setDefaultCommand(new ClimbHome(m_climb));
+
+      m_intake.setDefaultCommand(new IntakeStop(m_intake));
+      m_shooter.setDefaultCommand(new ShooterStop(m_shooter));
+      m_arm.setDefaultCommand(new ArmStop(m_arm));
+    }
+
+    public void configDriverBindings() {
+        swerveSys.setDefaultCommand(new SwerveDrive(
+            () -> MathUtil.applyDeadband(driverController.getLeftY(), ControllerConstants.joystickDeadband),
+            () -> MathUtil.applyDeadband(driverController.getLeftX(), ControllerConstants.joystickDeadband),
+            () -> MathUtil.applyDeadband(driverController.getRightX(), ControllerConstants.joystickDeadband),
+            () -> aButton.getAsBoolean(),
+            () -> bButton.getAsBoolean(),
+            true,
+            true,
+            swerveSys
+        ));
+        
+        // Turtle and Gyro buttons
+        turtleEnable.onTrue(new InstantCommand(() -> swerveSys.setTurtleMode()));
+        zeroGyro.onTrue(new InstantCommand(() -> swerveSys.resetHeading()));
+
+        //aButton.whileTrue(new RotateToTarget(swerveSys));
+
+        driverController.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, ControllerConstants.triggerPressedThreshhold)
+            .whileTrue(Commands.runOnce(() -> swerveSys.lock()));
+
+    }
+
+    public Command getAutonomousCommand() {
+        return autoChooser.getSelected();
+    }
+
+    // For uniformity, any information sent to Shuffleboard/SmartDashboard should go here.
+    public void updateInterface() {
+        SmartDashboard.putNumber("heading degrees", swerveSys.getHeading().getDegrees());
+        SmartDashboard.putNumber("speed m/s", swerveSys.getAverageDriveVelocityMetersPerSec());
+
+        SmartDashboard.putNumber("FR angle degrees", swerveSys.getModuleStates()[0].angle.getDegrees());
+        SmartDashboard.putNumber("FL angle degrees", swerveSys.getModuleStates()[1].angle.getDegrees());
+        SmartDashboard.putNumber("BR angle degrees", swerveSys.getModuleStates()[2].angle.getDegrees());
+        SmartDashboard.putNumber("BL angle degrees", swerveSys.getModuleStates()[3].angle.getDegrees());
+
+        SmartDashboard.putNumber("FR CANCoder", swerveSys.frontLeftMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
+        SmartDashboard.putNumber("FL CANCoder", swerveSys.frontRightMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
+        SmartDashboard.putNumber("BR CANCoder", swerveSys.backLeftMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
+        SmartDashboard.putNumber("BL CANCoder", swerveSys.backRightMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
+
+        SmartDashboard.putNumber("Limelight TA", LimelightHelpers.getTA("limelight-notes"));
+        SmartDashboard.putNumber("Limelight TX", LimelightHelpers.getTX("limelight-notes"));
+        SmartDashboard.putNumber("Limelight TY", LimelightHelpers.getTY("limelight-notes"));
+    }
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -115,15 +181,5 @@ public class RobotContainer {
     intakeButton.whileTrue(new IntakeRing(m_intake));
     raiseButton.whileTrue(new ArmRaise(m_arm));
     lowerButton.whileTrue(new ArmLower(m_arm));
-  }
-   
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
   }
 }

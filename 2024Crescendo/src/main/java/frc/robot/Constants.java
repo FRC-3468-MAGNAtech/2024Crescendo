@@ -184,8 +184,8 @@ public class Constants {
   }
   
   public static final class ClimbConstants {
-    public static final int leftSparkMaxID = 0;
-    public static final int rightSparkMaxID = 0;
+    public static final int leftSparkMaxID = 6;
+    public static final int rightSparkMaxID = 5;
     public static final double ascensionSpeed = 0.25;
     public static final double descensionSpeed = -0.25;
     public static final double stopSpeed = 0.0;
@@ -212,15 +212,15 @@ public class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final int intakeMotorID = 0;
+    public static final int intakeMotorID = 7;
     public static final double intakeMotorForward = .2;
     public static final double intakeMotorReverse = -0.2;
     public static final boolean intakeMotorInvert = false;
   }  
 
   public static final class shooterConstants {
-    public static final int bottomShootSparkMaxCANID = 0;
-    public static final int topShootSparkMaxCANID = 1;
+    public static final int bottomShootSparkMaxCANID = 8;
+    public static final int topShootSparkMaxCANID = 9;
     public static final double bottomShootSpeed = -0.2;
     public static final double topShootSpeed = 0.2;
     public static final double bottomAmpSpeed = -0.02;
@@ -236,7 +236,6 @@ public class Constants {
   }    
 
   public static final class armConstants {
-    public static final int leftArmSparkMaxCANID = 3;
     public static final int rightArmSparkMaxCANID = 4;
     public static final double raiseSpeed = 0.2;
     public static final double lowerSpeed = -0.2;

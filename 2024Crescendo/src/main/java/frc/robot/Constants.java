@@ -62,12 +62,12 @@ public class Constants {
         /**
          * The track width from wheel center to wheel center.
          */
-        public static final double trackWidth = Units.inchesToMeters(22);
+        public static final double trackWidth = Units.inchesToMeters(24);
 
         /**
          * The track length from wheel center to wheel center.
          */
-        public static final double wheelBase = Units.inchesToMeters(22);
+        public static final double wheelBase = Units.inchesToMeters(24.5);
 
         /**
          * The SwerveDriveKinematics used for control and odometry.
@@ -128,7 +128,7 @@ public class Constants {
         public static final double backRightModOffset = Units.degreesToRadians(0); 
 
         // Some wheels would spin backwards
-        public static final boolean frontLeftDriveInvert = true;
+        public static final boolean frontLeftDriveInvert = false;
         public static final boolean frontRightDriveInvert = false;
         public static final boolean backLeftDriveInvert = false;
         public static final boolean backRightDriveInvert = true;

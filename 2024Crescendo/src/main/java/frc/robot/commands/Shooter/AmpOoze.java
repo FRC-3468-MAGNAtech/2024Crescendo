@@ -8,33 +8,33 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
 public class AmpOoze extends Command {
-  private Shooter ooze;
+	private Shooter ooze;
 
-  /** Creates a new AmpOoze. */
-  public void amp(Shooter subsytem) {
-      ooze = subsytem;
-      addRequirements(subsytem);
-  }
+	/** Creates a new AmpOoze. */
+	public void amp(Shooter subsytem) {
+		ooze = subsytem;
+		addRequirements(subsytem);
+	}
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    ooze.amp();
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		ooze.amp();
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    ooze.stop();
-  }
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		ooze.stop();
+	}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

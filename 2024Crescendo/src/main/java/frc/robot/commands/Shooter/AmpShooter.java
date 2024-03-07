@@ -9,33 +9,33 @@ import frc.robot.subsystems.Shooter;
 
 
 public class AmpShooter extends Command {
-  private Shooter i_subsystem;
+	private Shooter i_subsystem;
 
-  /** Creates a new AmpShooter. */
-  public AmpShooter(Shooter subsystem) {
-    i_subsystem = subsystem;
-    addRequirements(subsystem);
-  }
+	/** Creates a new AmpShooter. */
+	public AmpShooter(Shooter subsystem) {
+		i_subsystem = subsystem;
+		addRequirements(subsystem);
+	}
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    i_subsystem.amp();
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		i_subsystem.amp();
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    i_subsystem.stop();
-  }
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		i_subsystem.stop();
+	}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

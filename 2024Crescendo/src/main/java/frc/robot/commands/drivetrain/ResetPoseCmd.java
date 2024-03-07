@@ -10,37 +10,37 @@ import frc.robot.subsystems.SwerveSys;
 
 public class ResetPoseCmd extends Command {
 
-    private final SwerveSys swerveSys;
+	private final SwerveSys swerveSys;
 
 
-    public ResetPoseCmd(SwerveSys swerveSys) {
+	public ResetPoseCmd(SwerveSys swerveSys) {
 
-        this.swerveSys = swerveSys;
+		this.swerveSys = swerveSys;
 
-    }
+	}
 
-    @Override
-    public void initialize() {
+	@Override
+	public void initialize() {
 
-    }
+	}
 
-    @Override
-    public void execute() {
+	@Override
+	public void execute() {
 
-        swerveSys.resetPose(new Pose2d());
+		swerveSys.resetPose(new Pose2d());
 
-    }
+	}
 
-    @Override
-    public void end(boolean interrupted) {
+	@Override
+	public void end(boolean interrupted) {
 
-    }
+	}
 
-    @Override
-    public boolean isFinished() {
+	@Override
+	public boolean isFinished() {
 
-        return true;
+		return true;
 
-    }
-    
+	}
+	
 }

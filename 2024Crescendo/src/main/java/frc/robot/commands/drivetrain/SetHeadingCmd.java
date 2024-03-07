@@ -10,35 +10,33 @@ import frc.robot.subsystems.SwerveSys;
 
 public class SetHeadingCmd extends Command {
 
-    private final SwerveSys swerveSys;
 
-    private final Rotation2d heading;
+	private final Rotation2d heading;
 
-    public SetHeadingCmd(Rotation2d heading, SwerveSys swerveSys) {
-        this.swerveSys = swerveSys;
-        this.heading = heading;
-    }
+	public SetHeadingCmd(Rotation2d heading) {
+		this.heading = heading;
+	}
 
-    @Override
-    public void initialize() {
+	@Override
+	public void initialize() {
 
-    }
+	}
 
-    @Override
-    public void execute() {
-        swerveSys.setHeading(heading);
-    }
+	@Override
+	public void execute() {
+		SwerveSys.setHeading(heading);
+	}
 
-    @Override
-    public void end(boolean interrupted) {
+	@Override
+	public void end(boolean interrupted) {
 
-    }
+	}
 
-    @Override
-    public boolean isFinished() {
+	@Override
+	public boolean isFinished() {
 
-        return true;
+		return true;
 
-    }
-    
+	}
+	
 }

@@ -8,31 +8,31 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
 
 public class IntakeRing extends Command {
-  private Intake i_subsystem;
+	private Intake i_subsystem;
 
-  /** Creates a new IntakeRing. */
-  public IntakeRing(Intake subsystem) {
-    i_subsystem = subsystem;
-    addRequirements(subsystem);
-  }
+	/** Creates a new IntakeRing. */
+	public IntakeRing(Intake subsystem) {
+		i_subsystem = subsystem;
+		addRequirements(subsystem);
+	}
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    i_subsystem.intake();
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		i_subsystem.intake();
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

@@ -10,33 +10,33 @@ import frc.robot.subsystems.SwerveSys;
 
 public class SetTranslationCmd extends Command {
 
-    private final SwerveSys swerveSys;
+	//private final SwerveSys swerveSys;
 
-    private final Translation2d translation;
+	//private final Translation2d translation;
 
-    public SetTranslationCmd(Translation2d translation, SwerveSys swerveSys) {
-        this.swerveSys = swerveSys;
-        this.translation = translation;
-    }
+	public SetTranslationCmd(Translation2d translation, SwerveSys swerveSys) {
+		//this.swerveSys = swerveSys;
+		//this.translation = translation;
+	}
 
-    @Override
-    public void initialize() {
+	@Override
+	public void initialize() {
 
-    }
+	}
 
-    @Override
-    public void execute() {
-        //swerveSys.setTranslation(translation);
-    }
+	@Override
+	public void execute() {
+		//swerveSys.setTranslation(translation);
+	}
 
-    @Override
-    public void end(boolean interrupted) {
+	@Override
+	public void end(boolean interrupted) {
 
-    }
+	}
 
-    @Override
-    public boolean isFinished() {
-        return true;
-    }
-    
+	@Override
+	public boolean isFinished() {
+		return true;
+	}
+	
 }

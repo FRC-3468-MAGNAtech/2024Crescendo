@@ -13,40 +13,40 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
 public class Intake extends SubsystemBase {
-  
-  // Intake Motor Controllers
-  private CANSparkMax m_intakeMotor; 
-  private RelativeEncoder m_intakeEncoder; 
+	
+	// Intake Motor Controllers
+	private CANSparkMax m_intakeMotor; 
+	private RelativeEncoder m_intakeEncoder; 
 
 
-  public Intake() {
-    // Instantiate the Intake motor controllers
-    m_intakeMotor = new CANSparkMax(IntakeConstants.intakeMotorID, MotorType.kBrushless);
+	public Intake() {
+		// Instantiate the Intake motor controllers
+		m_intakeMotor = new CANSparkMax(IntakeConstants.intakeMotorID, MotorType.kBrushless);
 
-    // Reverse some of the motors if needed
-    m_intakeEncoder = m_intakeMotor.getEncoder();
-  }
-  
-  public void intake() {
-    m_intakeMotor.set(IntakeConstants.intakeMotorForward); 
-  }
+		// Reverse some of the motors if needed
+		m_intakeEncoder = m_intakeMotor.getEncoder();
+	}
+	
+	public void intake() {
+		m_intakeMotor.set(IntakeConstants.intakeMotorForward); 
+	}
 
-  public void extake(){
-    m_intakeMotor.set(IntakeConstants.intakeMotorReverse);
-  }
+	public void extake(){
+		m_intakeMotor.set(IntakeConstants.intakeMotorReverse);
+	}
 
-  public void stop() {
-    m_intakeMotor.set(0);
-  }
-  
-  public double getIntakeRPM() {
-    return m_intakeEncoder.getVelocity();
-  }
-  
-  
-  @Override
-  public void periodic() {    
-    // Add intake bar RPM readingss to SmartDashboard for the sake of datalogging
-    SmartDashboard.putNumber("Intake RPM", getIntakeRPM());
- }
+	public void stop() {
+		m_intakeMotor.set(0);
+	}
+	
+	public double getIntakeRPM() {
+		return m_intakeEncoder.getVelocity();
+	}
+	
+	
+	@Override
+	public void periodic() {    
+		// Add intake bar RPM readingss to SmartDashboard for the sake of datalogging
+		SmartDashboard.putNumber("Intake RPM", getIntakeRPM());
+	}
 }

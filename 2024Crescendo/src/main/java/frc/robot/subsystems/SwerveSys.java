@@ -20,6 +20,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.CANDevices;
 import frc.robot.Constants.DriveConstants;
 
@@ -457,6 +458,9 @@ public class SwerveSys extends SubsystemBase {
                 new PIDConstants(1, 0, 0), 
                 DriveConstants.maxDriveSpeedMetersPerSec, 
                 DriveConstants.driveBaseRadius, 
-                new ReplanningConfig(true, false)), this::PathFlip, this);
+                new ReplanningConfig(true, false)), 
+            () -> RobotContainer.isRedAlliance(), 
+            this
+        );
     }
 }

@@ -8,31 +8,31 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climb;
 
 public class ClimbStop extends Command {
-  private Climb i_subsystem;
+	private Climb i_subsystem;
 
-  /** Creates a new ClimbStop. */
-  public ClimbStop(Climb subsystem) {
-    i_subsystem = subsystem;
-    addRequirements(subsystem);
-  }
+	/** Creates a new ClimbStop. */
+	public ClimbStop(Climb subsystem) {
+		i_subsystem = subsystem;
+		addRequirements(subsystem);
+	}
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    i_subsystem.stopLeftArm();
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		i_subsystem.stopLeftArm();
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

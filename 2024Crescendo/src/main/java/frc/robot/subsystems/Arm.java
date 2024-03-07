@@ -13,45 +13,45 @@ import frc.robot.Constants;
 import frc.robot.Constants.armConstants;
 
 public class Arm extends SubsystemBase {
-  private CANSparkMax m_rightRaiseMotor;
-  private SparkPIDController m_PIDController;
+	private CANSparkMax m_rightRaiseMotor;
+	private SparkPIDController m_PIDController;
 
-  
-  public Arm() {
-    m_rightRaiseMotor = new CANSparkMax(Constants.armConstants.rightArmSparkMaxCANID, MotorType.kBrushless);
+	
+	public Arm() {
+		m_rightRaiseMotor = new CANSparkMax(Constants.armConstants.rightArmSparkMaxCANID, MotorType.kBrushless);
 
-    m_PIDController = m_rightRaiseMotor.getPIDController();
+		m_PIDController = m_rightRaiseMotor.getPIDController();
 
-    m_PIDController.setP(armConstants.ArmP);
-    m_PIDController.setI(armConstants.ArmI);
-    m_PIDController.setD(armConstants.ArmD);
-    m_PIDController.setIZone(armConstants.ArmIZone);
-    m_PIDController.setFF(armConstants.ArmFF);
-    m_PIDController.setOutputRange(armConstants.ArmMin, armConstants.ArmMax);
-  }
+		m_PIDController.setP(armConstants.ArmP);
+		m_PIDController.setI(armConstants.ArmI);
+		m_PIDController.setD(armConstants.ArmD);
+		m_PIDController.setIZone(armConstants.ArmIZone);
+		m_PIDController.setFF(armConstants.ArmFF);
+		m_PIDController.setOutputRange(armConstants.ArmMin, armConstants.ArmMax);
+	}
 
-  public void raise() {
-    m_rightRaiseMotor.set(Constants.armConstants.raiseSpeed);
-  }
+	public void raise() {
+		m_rightRaiseMotor.set(Constants.armConstants.raiseSpeed);
+	}
 
-  public void pointRaise() {
-    m_PIDController.setReference(armConstants.upPIDReference, ControlType.kPosition);
-  }
+	public void pointRaise() {
+		m_PIDController.setReference(armConstants.upPIDReference, ControlType.kPosition);
+	}
 
-  public void lower(){
-    m_rightRaiseMotor.set(Constants.armConstants.lowerSpeed);
-  }
+	public void lower(){
+		m_rightRaiseMotor.set(Constants.armConstants.lowerSpeed);
+	}
 
-  public void pointLower() {
-    m_PIDController.setReference(0.0, ControlType.kPosition);
-  }
+	public void pointLower() {
+		m_PIDController.setReference(0.0, ControlType.kPosition);
+	}
 
-  public void stop(){
-    m_rightRaiseMotor.set(0);
-  }
-  
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+	public void stop(){
+		m_rightRaiseMotor.set(0);
+	}
+	
+	@Override
+	public void periodic() {
+		// This method will be called once per scheduler run
+	}
 }

@@ -17,80 +17,78 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
 
 public class Climb extends SubsystemBase {
-  private SparkPIDController m_backPIDController;
-  private SparkLimitSwitch m_reverseLimitSwitch;
-  private RelativeEncoder m_leftEncoder;
-  private double m_setPoint;
-  private CANSparkMax m_leftArmNEO;
-  private CANSparkMax m_rightArmNEO;
-  
+	private SparkPIDController m_backPIDController;
+	private SparkLimitSwitch m_reverseLimitSwitch;
+	private RelativeEncoder m_leftEncoder;
+	private double m_setPoint;
+	private CANSparkMax m_leftArmNEO;
+	private CANSparkMax m_rightArmNEO;
 
-  /** Creates a new Climb. */
-  public Climb() {
-    m_leftArmNEO = new CANSparkMax(ClimbConstants.leftSparkMaxID,MotorType.kBrushless);
-    m_rightArmNEO = new CANSparkMax(ClimbConstants.rightSparkMaxID, MotorType.kBrushless);
 
-    m_rightArmNEO.follow(m_leftArmNEO);
+	/** Creates a new Climb. */
+	public Climb() {
+		m_leftArmNEO = new CANSparkMax(ClimbConstants.leftSparkMaxID,MotorType.kBrushless);
+		m_rightArmNEO = new CANSparkMax(ClimbConstants.rightSparkMaxID, MotorType.kBrushless);
 
-    m_leftEncoder = m_leftArmNEO.getEncoder();
+		m_rightArmNEO.follow(m_leftArmNEO);
 
-    m_reverseLimitSwitch = m_leftArmNEO.getReverseLimitSwitch(Type.kNormallyOpen);
-    m_reverseLimitSwitch.enableLimitSwitch(true);
+		m_leftEncoder = m_leftArmNEO.getEncoder();
 
-    m_backPIDController = m_leftArmNEO.getPIDController(); 
+		m_reverseLimitSwitch = m_leftArmNEO.getReverseLimitSwitch(Type.kNormallyOpen);
+		m_reverseLimitSwitch.enableLimitSwitch(true);
 
-    m_backPIDController.setP(ClimbConstants.leftArmP);
-    m_backPIDController.setI(ClimbConstants.leftArmI);
-    m_backPIDController.setD(ClimbConstants.leftArmD);
-    m_backPIDController.setIZone(ClimbConstants.leftArmIZone);
-    m_backPIDController.setFF(ClimbConstants.leftArmFF);
-    m_backPIDController.setOutputRange(ClimbConstants.leftArmMin,ClimbConstants.leftArmMax);
+		m_backPIDController = m_leftArmNEO.getPIDController(); 
 
-    m_leftArmNEO.setIdleMode(IdleMode.kBrake);
+		m_backPIDController.setP(ClimbConstants.leftArmP);
+		m_backPIDController.setI(ClimbConstants.leftArmI);
+		m_backPIDController.setD(ClimbConstants.leftArmD);
+		m_backPIDController.setIZone(ClimbConstants.leftArmIZone);
+		m_backPIDController.setFF(ClimbConstants.leftArmFF);
+		m_backPIDController.setOutputRange(ClimbConstants.leftArmMin,ClimbConstants.leftArmMax);
 
-    m_leftArmNEO.burnFlash();
-  }
+		m_leftArmNEO.setIdleMode(IdleMode.kBrake);
 
-  public void topLeftArmPID(){
-    m_backPIDController.setReference(ClimbConstants.upPIDReference, ControlType.kPosition);
-    m_setPoint = ClimbConstants.upPIDReference;
-  }
+		m_leftArmNEO.burnFlash();
+	}
 
-  public void bottomLeftArmPID(){
-    m_backPIDController.setReference(ClimbConstants.downPIDReference, ControlType.kPosition);
-    m_setPoint = ClimbConstants.downPIDReference; 
-  }
+	public void topLeftArmPID(){
+		m_backPIDController.setReference(ClimbConstants.upPIDReference, ControlType.kPosition);
+		m_setPoint = ClimbConstants.upPIDReference;
+	}
 
-  public void setLeftAscendSpeed() {
-    m_leftArmNEO.set(ClimbConstants.ascensionSpeed);
-  }
+	public void bottomLeftArmPID(){
+		m_backPIDController.setReference(ClimbConstants.downPIDReference, ControlType.kPosition);
+		m_setPoint = ClimbConstants.downPIDReference; 
+	}
 
-  public void setLeftDescendSpeed() {
-    m_leftArmNEO.set(ClimbConstants.descensionSpeed);    
-  }
+	public void setLeftAscendSpeed() {
+		m_leftArmNEO.set(ClimbConstants.ascensionSpeed);
+	}
 
-  public void stopLeftArm(){
-    m_leftArmNEO.set(ClimbConstants.stopSpeed);
-  }
+	public void setLeftDescendSpeed() {
+		m_leftArmNEO.set(ClimbConstants.descensionSpeed);    
+	}
 
-  public boolean leftLimitSwitch() {
-    return m_reverseLimitSwitch.isPressed();
-  }
+	public void stopLeftArm(){
+		m_leftArmNEO.set(ClimbConstants.stopSpeed);
+	}
 
-  public void setHome() {
-    m_leftEncoder.setPosition(0.0);
-  }
+	public boolean leftLimitSwitch() {
+		return m_reverseLimitSwitch.isPressed();
+	}
 
-  public boolean isAtSetPoint() {
-    return Math.abs(m_setPoint - m_leftEncoder.getPosition()) <= ClimbConstants.leftPIDTolerance;
-  }
+	public void setHome() {
+		m_leftEncoder.setPosition(0.0);
+	}
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("LeftLimSwitch", leftLimitSwitch());
-    SmartDashboard.putNumber("Left Arm Position", m_leftEncoder.getPosition());
-  }
+	public boolean isAtSetPoint() {
+		return Math.abs(m_setPoint - m_leftEncoder.getPosition()) <= ClimbConstants.leftPIDTolerance;
+	}
+
+	@Override
+	public void periodic() {
+		// This method will be called once per scheduler run
+		SmartDashboard.putBoolean("LeftLimSwitch", leftLimitSwitch());
+		SmartDashboard.putNumber("Left Arm Position", m_leftEncoder.getPosition());
+	}
 }
-
- 

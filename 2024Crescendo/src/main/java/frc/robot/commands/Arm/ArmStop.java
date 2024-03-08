@@ -12,7 +12,7 @@ public class ArmStop extends Command {
 	
 	/** Creates a new ArmLower. */
 	public ArmStop(Arm subsystem) {
-		subsystem = i_subsystem;
+		i_subsystem = subsystem;
 		addRequirements(subsystem);
 	}
 

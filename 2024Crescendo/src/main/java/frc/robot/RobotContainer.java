@@ -12,6 +12,7 @@ import frc.robot.commands.Arm.ArmStop;
 import frc.robot.commands.Climb.ClimbDown;
 import frc.robot.commands.Climb.ClimbHome;
 import frc.robot.commands.Climb.ClimbUp;
+import frc.robot.commands.Intake.ExtakeRing;
 import frc.robot.commands.Intake.IntakeRing;
 import frc.robot.commands.Intake.IntakeStop;
 import frc.robot.commands.Shooter.AmpShooter;
@@ -132,48 +133,64 @@ public class RobotContainer {
 	 */
 	private void configureSecondBindings() {
 
-		JoystickButton m_ArmUpButton = new JoystickButton(
-		secondaryDriveController, 
-		OperatorConstants.ClimbAscendButton);
+		// JoystickButton m_ArmUpButton = new JoystickButton(
+		// secondaryDriveController, 
+		// OperatorConstants.ClimbAscendButton);
 
-		JoystickButton m_ArmDownButton = new JoystickButton(
-		secondaryDriveController, 
-		OperatorConstants.ClimbDescendButton);
+		// JoystickButton m_ArmDownButton = new JoystickButton(
+		// secondaryDriveController, 
+		// OperatorConstants.ClimbDescendButton);
 
-		JoystickButton m_ArmHomeButton = new JoystickButton(
-		secondaryDriveController, 
-		OperatorConstants.ClimbHomeButton);
+		// JoystickButton m_ArmHomeButton = new JoystickButton(
+		// secondaryDriveController, 
+		// OperatorConstants.ClimbHomeButton);
 
-		JoystickButton Speaker = new JoystickButton(
-		secondaryDriveController,
-		driveControllerConstants.speakerShooterButton); 
+		// JoystickButton Speaker = new JoystickButton(
+		// secondaryDriveController,
+		// driveControllerConstants.speakerShooterButton); 
 
-		JoystickButton Amp = new JoystickButton(
-		secondaryDriveController, 
-		driveControllerConstants.ampShooterButton);
+		// JoystickButton Amp = new JoystickButton(
+		// secondaryDriveController, 
+		// driveControllerConstants.ampShooterButton);
 
-		JoystickButton intakeButton = new JoystickButton(
-		secondaryDriveController,
-		driveControllerConstants.intakeButton);
+		// JoystickButton intakeButton = new JoystickButton(
+		// secondaryDriveController,
+		// driveControllerConstants.intakeButton);
 
-		JoystickButton raiseButton = new JoystickButton(
-		secondaryDriveController, 
-		driveControllerConstants.armRaiseButton);
+		// JoystickButton raiseButton = new JoystickButton(
+		// secondaryDriveController, 
+		// driveControllerConstants.armRaiseButton);
 
-		JoystickButton lowerButton = new JoystickButton(
-		secondaryDriveController,
-		driveControllerConstants.armLowerButton);
+		// JoystickButton lowerButton = new JoystickButton(
+		// secondaryDriveController,
+		// driveControllerConstants.armLowerButton);
 
 
-		// buttons
-		m_ArmDownButton.whileTrue(new ClimbDown(m_climb));
-		m_ArmUpButton.whileTrue(new ClimbUp(m_climb));
-		m_ArmHomeButton.onTrue(new ClimbHome(m_climb));
-		Speaker.onTrue(new Shoot(m_shooter));
-		Amp.onTrue(new AmpShooter(m_shooter));
-		intakeButton.whileTrue(new IntakeRing(m_intake));
-		raiseButton.whileTrue(new ArmRaise(m_arm));
-		lowerButton.whileTrue(new ArmLower(m_arm));
+		// // buttons
+		// m_ArmDownButton.whileTrue(new ClimbDown(m_climb));
+		// m_ArmUpButton.whileTrue(new ClimbUp(m_climb));
+		// m_ArmHomeButton.onTrue(new ClimbHome(m_climb));
+		// Speaker.onTrue(new Shoot(m_shooter));
+		// Amp.onTrue(new AmpShooter(m_shooter));
+		// intakeButton.whileTrue(new IntakeRing(m_intake));
+		// raiseButton.whileTrue(new ArmRaise(m_arm));
+		// lowerButton.whileTrue(new ArmLower(m_arm));
+
+		JoystickButton intake = new JoystickButton(secondaryDriveController, SecondDriveControllerConstants.intakeButton);
+		JoystickButton shoot = new JoystickButton(secondaryDriveController, SecondDriveControllerConstants.shootButton);
+		JoystickButton armUp = new JoystickButton(secondaryDriveController, SecondDriveControllerConstants.shootArmRaiseButton);
+		JoystickButton armDown = new JoystickButton(secondaryDriveController, SecondDriveControllerConstants.shootArmLowerButton);
+		JoystickButton climbUp = new JoystickButton(secondaryDriveController, SecondDriveControllerConstants.climbDownButton);
+		JoystickButton climbDown = new JoystickButton(secondaryDriveController, SecondDriveControllerConstants.climbUpBotton);
+		JoystickButton extake = new JoystickButton(secondaryDriveController, SecondDriveControllerConstants.extakeButton);
+
+		intake.whileTrue(new IntakeRing(m_intake));
+		extake.whileTrue(new ExtakeRing(m_intake));
+		shoot.whileTrue(new Shoot(m_shooter));
+		armUp.whileTrue(new ArmRaise(m_arm));
+		armDown.whileTrue(new ArmLower(m_arm));
+		climbUp.whileTrue(new ClimbUp(m_climb));
+		climbDown.whileTrue(new ClimbDown(m_climb));
 	}
 
 	// For uniformity, any information sent to Shuffleboard/SmartDashboard should go here.

@@ -17,6 +17,7 @@ import frc.robot.commands.Intake.IntakeRing;
 import frc.robot.commands.Intake.IntakeStop;
 import frc.robot.commands.Shooter.AmpShooter;
 import frc.robot.commands.Shooter.Shoot;
+import frc.robot.commands.Shooter.ShootDistance;
 import frc.robot.commands.Shooter.ShooterStop;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Shooter;
@@ -31,6 +32,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -66,11 +69,6 @@ public class RobotContainer {
 
 	public RobotContainer() {
 		configDriverBindings();
-
-		if (isRedAlliance())
-			led.makeItRed();
-		else
-			led.makeItBlue();
 
 		LimelightConstants.llPIDctrlRotate.setTolerance(0.5);
 		LimelightConstants.llPIDctrlDrive.setSetpoint(45);
@@ -133,60 +131,21 @@ public class RobotContainer {
 	 */
 	private void configureSecondBindings() {
 
-		// JoystickButton m_ArmUpButton = new JoystickButton(
-		// secondaryDriveController, 
-		// OperatorConstants.ClimbAscendButton);
-
-		// JoystickButton m_ArmDownButton = new JoystickButton(
-		// secondaryDriveController, 
-		// OperatorConstants.ClimbDescendButton);
-
-		// JoystickButton m_ArmHomeButton = new JoystickButton(
-		// secondaryDriveController, 
-		// OperatorConstants.ClimbHomeButton);
-
-		// JoystickButton Speaker = new JoystickButton(
-		// secondaryDriveController,
-		// driveControllerConstants.speakerShooterButton); 
-
-		// JoystickButton Amp = new JoystickButton(
-		// secondaryDriveController, 
-		// driveControllerConstants.ampShooterButton);
-
-		// JoystickButton intakeButton = new JoystickButton(
-		// secondaryDriveController,
-		// driveControllerConstants.intakeButton);
-
-		// JoystickButton raiseButton = new JoystickButton(
-		// secondaryDriveController, 
-		// driveControllerConstants.armRaiseButton);
-
-		// JoystickButton lowerButton = new JoystickButton(
-		// secondaryDriveController,
-		// driveControllerConstants.armLowerButton);
-
-
-		// // buttons
-		// m_ArmDownButton.whileTrue(new ClimbDown(m_climb));
-		// m_ArmUpButton.whileTrue(new ClimbUp(m_climb));
-		// m_ArmHomeButton.onTrue(new ClimbHome(m_climb));
-		// Speaker.onTrue(new Shoot(m_shooter));
-		// Amp.onTrue(new AmpShooter(m_shooter));
-		// intakeButton.whileTrue(new IntakeRing(m_intake));
-		// raiseButton.whileTrue(new ArmRaise(m_arm));
-		// lowerButton.whileTrue(new ArmLower(m_arm));
-
 		JoystickButton intake = new JoystickButton(secondaryDriveController, SecondDriveControllerConstants.intakeButton);
 		JoystickButton shoot = new JoystickButton(secondaryDriveController, SecondDriveControllerConstants.shootButton);
 		JoystickButton armUp = new JoystickButton(secondaryDriveController, SecondDriveControllerConstants.shootArmRaiseButton);
 		JoystickButton armDown = new JoystickButton(secondaryDriveController, SecondDriveControllerConstants.shootArmLowerButton);
-		JoystickButton climbUp = new JoystickButton(secondaryDriveController, SecondDriveControllerConstants.climbDownButton);
-		JoystickButton climbDown = new JoystickButton(secondaryDriveController, SecondDriveControllerConstants.climbUpBotton);
 		JoystickButton extake = new JoystickButton(secondaryDriveController, SecondDriveControllerConstants.extakeButton);
 
-		intake.whileTrue(new IntakeRing(m_intake));
+		Trigger climbUp = new Trigger(() -> { return secondaryDriveController.getRightTriggerAxis() > 0.5; });
+		Trigger climbDown = new Trigger(() -> { return secondaryDriveController.getLeftTriggerAxis() > 0.5; });
+		Trigger intakeSensor = new Trigger(() ->  m_intake.getIntakeSensor());
+
+		// intake.whileTrue(new IntakeRing(m_intake));
+		intake.and(intakeSensor).whileTrue(new IntakeRing(m_intake));
 		extake.whileTrue(new ExtakeRing(m_intake));
-		shoot.whileTrue(new Shoot(m_shooter));
+		shoot.whileTrue(new SequentialCommandGroup( new Shoot(m_shooter), 
+			new ParallelCommandGroup(new Shoot(m_shooter), new IntakeRing(m_intake))));
 		armUp.whileTrue(new ArmRaise(m_arm));
 		armDown.whileTrue(new ArmLower(m_arm));
 		climbUp.whileTrue(new ClimbUp(m_climb));

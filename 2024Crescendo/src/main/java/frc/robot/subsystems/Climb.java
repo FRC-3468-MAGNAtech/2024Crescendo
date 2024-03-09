@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkLimitSwitch.Type;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkPIDController;
@@ -30,6 +31,9 @@ public class Climb extends SubsystemBase {
 		m_leftArmNEO = new CANSparkMax(ClimbConstants.leftSparkMaxID,MotorType.kBrushless);
 		m_rightArmNEO = new CANSparkMax(ClimbConstants.rightSparkMaxID, MotorType.kBrushless);
 
+		m_leftArmNEO.setIdleMode(IdleMode.kBrake);
+		m_rightArmNEO.setIdleMode(IdleMode.kBrake);
+
 		m_rightArmNEO.follow(m_leftArmNEO);
 
 		m_leftEncoder = m_leftArmNEO.getEncoder();
@@ -46,9 +50,6 @@ public class Climb extends SubsystemBase {
 		m_backPIDController.setFF(ClimbConstants.leftArmFF);
 		m_backPIDController.setOutputRange(ClimbConstants.leftArmMin,ClimbConstants.leftArmMax);
 
-		m_leftArmNEO.setIdleMode(IdleMode.kBrake);
-
-		m_leftArmNEO.burnFlash();
 	}
 
 	public void topLeftArmPID(){

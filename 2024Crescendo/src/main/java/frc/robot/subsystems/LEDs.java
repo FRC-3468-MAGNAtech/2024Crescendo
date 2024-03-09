@@ -4,35 +4,39 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.CANDevices;
 import frc.robot.Constants.LEDConstants;
 
 public class LEDs extends SubsystemBase {
-	private final Solenoid powerLED;
 	private final Solenoid redLED;
 	private final Solenoid greenLED;
 	private final Solenoid blueLED;
 	private final Solenoid whiteLED;
+	private boolean Started = false;
 	/** Creates a new LEDs. */
 	public LEDs() {
-		powerLED = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.LEDPower);
 		redLED = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.LEDRed);
 		greenLED = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.LEDGreen);
 		blueLED = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.LEDBlue);
 		whiteLED = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.LEDWhite);
+		clearColor();
 	}
 
 	@Override
 	public void periodic() {
 		// This method will be called once per scheduler run
-	}
-
-	//Do we need this???
-	public void enableLEDs(boolean enable) {
-		powerLED.set(enable);
+		if (!Started && DriverStation.isEnabled()) {
+			Started = true;
+			if (RobotContainer.isRedAlliance())
+				makeItRed();
+			else
+				makeItBlue();
+		}
 	}
 
 	private void enableRed(boolean enable) {

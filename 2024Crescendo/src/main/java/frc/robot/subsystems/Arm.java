@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkMaxLimitSwitch.Type;
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkLimitSwitch;
@@ -23,14 +24,17 @@ public class Arm extends SubsystemBase {
 	private CANSparkMax m_rightRaiseMotor;
 	private SparkPIDController m_PIDController;
 	private RelativeEncoder m_rEncoder;
+	private AbsoluteEncoder m_Encoder;
 	private SparkLimitSwitch m_bottemLimit;
 
 	
 	public Arm() {
 		m_rightRaiseMotor = new CANSparkMax(Constants.armConstants.rightArmSparkMaxCANID, MotorType.kBrushless);
 		m_rEncoder = m_rightRaiseMotor.getEncoder();
-		m_bottemLimit = m_rightRaiseMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+		m_Encoder = m_rightRaiseMotor.getAbsoluteEncoder();
+		m_bottemLimit = m_rightRaiseMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 		m_bottemLimit.enableLimitSwitch(true);
+		m_rightRaiseMotor.setInverted(true);
 
 		m_PIDController = m_rightRaiseMotor.getPIDController();
 
@@ -72,7 +76,7 @@ public class Arm extends SubsystemBase {
 	public void periodic() {
 		// This method will be called once per scheduler run
 		SmartDashboard.putNumber("Arm Current", m_rightRaiseMotor.getOutputCurrent());
-		SmartDashboard.putNumber("ArmPosition", m_rEncoder.getPosition());
+		SmartDashboard.putNumber("ArmPosition", m_Encoder.getPosition());
 		resetEncoder();
 	}
 }

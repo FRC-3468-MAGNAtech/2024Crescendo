@@ -263,8 +263,8 @@ public class Constants {
 
 	public static final class armConstants {
 		public static final int rightArmSparkMaxCANID = 4;
-		public static final double raiseSpeed = 1.0;
-		public static final double lowerSpeed = -0.5;
+		public static final double raiseSpeed = 0.3;
+		public static final double lowerSpeed = -0.2;
 		public static final boolean armLimitTriggered = true;
 		public static final double ArmP = 0.1;
 		public static final double ArmI = 0.1;

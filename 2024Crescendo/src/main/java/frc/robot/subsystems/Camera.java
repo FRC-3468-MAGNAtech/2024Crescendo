@@ -15,17 +15,15 @@ public class Camera extends SubsystemBase {
 	public static double llHeight = 11.75;
 	public static double goalHieght = 57;
 	public static double angleToGoalDegrees = llDegrees + targetOffSetAngle_vertical;
-	public static double anglleToGoalRadians = angleToGoalDegrees * (3.14159/180);
-	public static double distenceFromllToGoalInches = (goalHieght - llHeight) / Math.tan(anglleToGoalRadians);
+	public static double angleToGoalRadians = angleToGoalDegrees * (Math.PI/180);
+	public static double distanceFromllToGoalInches = (goalHieght - llHeight) / Math.tan(angleToGoalRadians);
 	/** Creates a new Camera. */
 	public Camera() {
 		
 	}
 
-	public double getDistance() {
-		return distenceFromllToGoalInches;
-
-
+	public static double getDistance() {
+		return distanceFromllToGoalInches;
 	}
 
 	@Override

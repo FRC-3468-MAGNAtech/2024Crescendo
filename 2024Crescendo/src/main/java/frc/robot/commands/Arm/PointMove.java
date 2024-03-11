@@ -4,17 +4,18 @@
 
 package frc.robot.commands.Arm;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Arm;
 
 public class PointMove extends Command {
 	private Arm i_subsystem;
-	private double Angle;
 	
 	/** Creates a new PointMove. */
-	public PointMove(Arm subsystem, double angle) {
+	public PointMove(Arm subsystem) {
 		i_subsystem = subsystem;
-		Angle = angle;
 		addRequirements(subsystem);
 	}
 	// Called when the command is initially scheduled.
@@ -24,7 +25,7 @@ public class PointMove extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		i_subsystem.pointMove(Angle);
+		i_subsystem.pointMove(RobotContainer.currentAngle);
 	}
 
 	// Called once the command ends or is interrupted.

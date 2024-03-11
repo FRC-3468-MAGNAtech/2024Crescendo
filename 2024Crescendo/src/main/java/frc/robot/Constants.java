@@ -17,7 +17,9 @@ import edu.wpi.first.math.util.Units;
 public class Constants {
 
 
-	public static final class SecondDriveControllerConstants{
+	public static final class SubsystemControllerConstants {
+		public static final int subsystemControllerPort = 1;
+		public static final int autoAimButton = XboxController.Button.kX.value;
 		public static final int intakeButton = XboxController.Button.kA.value;
 		public static final int extakeButton = XboxController.Button.kY.value;
 		public static final int shootButton = XboxController.Button.kB.value;
@@ -227,17 +229,13 @@ public class Constants {
 	
 	public static final class driveControllerConstants {
 		public static final int primaryDriveControllerPort = 0;
-		public static final int secondaryDriveControllerPort = 1;
-		public static final int intakeButton = XboxController.Button.kX.value;
 		public static final int speakerShooterButton = XboxController.Button.kA.value;
 		public static final int ampShooterButton = XboxController.Button.kY.value;
-		public static final int armRaiseButton = XboxController.Button.kRightBumper.value;
-		public static final int armLowerButton = XboxController.Button.kLeftBumper.value;
 	}
 
 	public static final class IntakeConstants {
 		public static final int intakeMotorID = 7;
-		public static final double intakeMotorForward = 0.15;
+		public static final double intakeMotorForward = 0.25;
 		public static final double intakeMotorReverse = -0.1;
 		public static final boolean intakeMotorInvert = false;
 		public static final int intakeSensorID = 0;
@@ -265,22 +263,24 @@ public class Constants {
 		public static final double raiseSpeed = 0.3;
 		public static final double lowerSpeed = -0.1;
 		public static final boolean armLimitTriggered = true;
-		public static final double ArmP = 10;
+		public static final double ArmP = 5;
 		public static final double ArmI = 0;
 		public static final double ArmD = 0;
 		public static final double ArmIZone = 0.1;
-		public static final double ArmFF = 0.5;
+		public static final double ArmFF = 0.1;
 		public static final double ArmMin = -0.5;
 		public static final double ArmMax = 0.3;
-		public static final double shooterEquationA = 2.4;
+		/*public static final double shooterEquationA = 2.4;
 		public static final double shooterEquationB = 1.9;
-		public static final double shooterEquationC = 39;
+		public static final double shooterEquationC = 39;*/
 
 
 		/**
-		 * Angle References for uppies
+		 * Angle References for uppies by feet
 		 */
-		public static final double upPIDReferenceClose = 0.39;
-		public static final double upPIDReferenceMidClose = 0.43;
+		public static final double upPIDReference0 = 0.39;
+		public static final double upPIDReference3_5 = 0.43;
+		public static final double upPIDReference7 = 0.45;
+		public static final double upPIDReference10 = 0.4635;
 	}
 }               

@@ -9,15 +9,15 @@ import frc.robot.subsystems.Climb;
 import frc.robot.commands.Arm.ArmLower;
 import frc.robot.commands.Arm.ArmRaise;
 import frc.robot.commands.Arm.ArmStop;
+import frc.robot.commands.Arm.ParkArm;
+import frc.robot.commands.Arm.PointMove;
 import frc.robot.commands.Climb.ClimbDown;
 import frc.robot.commands.Climb.ClimbHome;
 import frc.robot.commands.Climb.ClimbUp;
 import frc.robot.commands.Intake.ExtakeRing;
 import frc.robot.commands.Intake.IntakeRing;
 import frc.robot.commands.Intake.IntakeStop;
-import frc.robot.commands.Shooter.AmpShooter;
 import frc.robot.commands.Shooter.Shoot;
-import frc.robot.commands.Shooter.ShootDistance;
 import frc.robot.commands.Shooter.ShooterStop;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Shooter;
@@ -57,6 +57,9 @@ public class RobotContainer {
 	private final JoystickButton aButton = new JoystickButton(driverController.getHID(), XboxController.Button.kA.value);
 	private final JoystickButton bButton = new JoystickButton(driverController.getHID(), XboxController.Button.kB.value);
 
+	private final JoystickButton increaseAngle = new JoystickButton(driverController.getHID(), XboxController.Button.kRightBumper.value);
+	private final JoystickButton decreaseAngle = new JoystickButton(driverController.getHID(), XboxController.Button.kLeftBumper.value);
+
 	// Initialize secondary controller stuff
 	private final XboxController secondaryDriveController = new XboxController(driveControllerConstants.secondaryDriveControllerPort);
 	private final Shooter m_shooter = new Shooter();
@@ -64,11 +67,14 @@ public class RobotContainer {
 	private final Arm m_arm = new Arm();
 	private final Climb m_climb = new Climb();
 
+	private final Trigger bTrigger;
+	boolean pointSet = false;
+	double currentAngle = 0.5;
+
 	// Initialize auto selector.
 	private final SendableChooser<Command> autoChooser;
 
 	public RobotContainer() {
-		configDriverBindings();
 
 		LimelightConstants.llPIDctrlRotate.setTolerance(0.5);
 		LimelightConstants.llPIDctrlDrive.setSetpoint(45);
@@ -83,6 +89,10 @@ public class RobotContainer {
 		m_intake.setDefaultCommand(new IntakeStop(m_intake));
 		m_shooter.setDefaultCommand(new ShooterStop(m_shooter));
 		m_arm.setDefaultCommand(new ArmStop(m_arm));
+		bTrigger = new Trigger(() -> {return pointSet;});
+
+		configDriverBindings();
+
 	}
 
 	public static boolean isRedAlliance() {
@@ -98,7 +108,6 @@ public class RobotContainer {
 			() -> MathUtil.applyDeadband(driverController.getLeftX(), ControllerConstants.joystickDeadband),
 			() -> MathUtil.applyDeadband(driverController.getRightX(), ControllerConstants.joystickDeadband),
 			() -> aButton.getAsBoolean(),
-			() -> bButton.getAsBoolean(),
 			true,
 			true,
 			swerveSys
@@ -108,7 +117,12 @@ public class RobotContainer {
 		turtleEnable.onTrue(new InstantCommand(() -> swerveSys.setTurtleMode()));
 		zeroGyro.onTrue(new InstantCommand(() -> swerveSys.resetHeading()));
 
-		//aButton.whileTrue(new RotateToTarget(swerveSys));
+		increaseAngle.onTrue(new InstantCommand(() -> { currentAngle += 0.04; }));
+		decreaseAngle.onTrue(new InstantCommand(() -> { currentAngle -= 0.04; }));
+
+		bButton.onTrue(new InstantCommand(() -> {pointSet = !pointSet;}));
+		bTrigger.whileTrue(new PointMove(m_arm, currentAngle));
+		bTrigger.onFalse(new ParkArm(m_arm));
 
 		driverController.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, ControllerConstants.triggerPressedThreshhold)
 		.whileTrue(Commands.runOnce(() -> swerveSys.lock()));
@@ -167,8 +181,8 @@ public class RobotContainer {
 		SmartDashboard.putNumber("BR CANCoder", SwerveSys.backLeftMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
 		SmartDashboard.putNumber("BL CANCoder", SwerveSys.backRightMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
 
-		SmartDashboard.putNumber("Limelight TA", LimelightHelpers.getTA("limelight-notes"));
+		/*SmartDashboard.putNumber("Limelight TA", LimelightHelpers.getTA("limelight-notes"));
 		SmartDashboard.putNumber("Limelight TX", LimelightHelpers.getTX("limelight-notes"));
-		SmartDashboard.putNumber("Limelight TY", LimelightHelpers.getTY("limelight-notes"));
+		SmartDashboard.putNumber("Limelight TY", LimelightHelpers.getTY("limelight-notes"));*/
 	}
 }

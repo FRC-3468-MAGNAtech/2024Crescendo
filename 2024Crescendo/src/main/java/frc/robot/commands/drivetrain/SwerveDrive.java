@@ -31,7 +31,6 @@ public class SwerveDrive extends Command {
 	private final DoubleSupplier rot;
 
 	private final BooleanSupplier aPressed;
-	private final BooleanSupplier bPressed;
 
 	private final boolean isFieldRelative;
 	private final boolean squareInputs;
@@ -54,7 +53,6 @@ public class SwerveDrive extends Command {
 		DoubleSupplier strafe, 
 		DoubleSupplier rot,
 		BooleanSupplier aPressed,
-		BooleanSupplier bPressed,
 		boolean isFieldRelative,
 		boolean squareInputs,
 		SwerveSys swerveSys
@@ -65,7 +63,6 @@ public class SwerveDrive extends Command {
 		this.strafe = strafe;
 		this.rot = rot;
 		this.aPressed = aPressed;
-		this.bPressed = bPressed;
 		this.isFieldRelative = isFieldRelative;
 		this.squareInputs = squareInputs;
 
@@ -83,7 +80,6 @@ public class SwerveDrive extends Command {
 		double strafe = this.strafe.getAsDouble();
 		double rot = this.rot.getAsDouble();
 		boolean aPressed = this.aPressed.getAsBoolean();
-		boolean bPressed = this.bPressed.getAsBoolean();
 		boolean currentlyFieldRelative = isFieldRelative;
 
 		// If the A button is pressed, make it to where the robot automatically aims toward an AprilTag
@@ -93,13 +89,6 @@ public class SwerveDrive extends Command {
 		}
 		else
         	LimelightHelpers.setPipelineIndex(LimelightConstants.llTags, 0);
-
-		// If the B button is pressed, make it to where the robot automatically aims toward an AprilTag
-		if (bPressed) {
-			rot = Targeting.aimToNote();
-			drive = Targeting.driveToNote();
-			currentlyFieldRelative = false;
-		}
 
 		if(squareInputs) {
 			// Squaring inputs while preserving commanded lateral direction

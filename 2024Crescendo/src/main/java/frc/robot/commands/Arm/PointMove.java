@@ -7,23 +7,24 @@ package frc.robot.commands.Arm;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm;
 
-public class PointLower extends Command {
+public class PointMove extends Command {
 	private Arm i_subsystem;
+	private double Angle;
 	
-	/** Creates a new PointLower. */
-	public PointLower(Arm subsystem) {
+	/** Creates a new PointMove. */
+	public PointMove(Arm subsystem, double angle) {
 		i_subsystem = subsystem;
+		Angle = angle;
 		addRequirements(subsystem);
 	}
-
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
-	public void execute() {    
-		i_subsystem.pointLower();
+	public void execute() {
+		i_subsystem.pointMove(Angle);
 	}
 
 	// Called once the command ends or is interrupted.

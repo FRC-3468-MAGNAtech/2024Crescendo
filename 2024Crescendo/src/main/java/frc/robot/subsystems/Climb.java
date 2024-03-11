@@ -9,7 +9,6 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkLimitSwitch.Type;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkPIDController;
@@ -40,6 +39,8 @@ public class Climb extends SubsystemBase {
 
 		m_reverseLimitSwitch = m_leftArmNEO.getReverseLimitSwitch(Type.kNormallyOpen);
 		m_reverseLimitSwitch.enableLimitSwitch(true);
+
+
 
 		m_backPIDController = m_leftArmNEO.getPIDController(); 
 
@@ -86,10 +87,15 @@ public class Climb extends SubsystemBase {
 		return Math.abs(m_setPoint - m_leftEncoder.getPosition()) <= ClimbConstants.leftPIDTolerance;
 	}
 
+	public double getEncoderValue() {
+		return m_leftEncoder.getPosition();
+	}
+
 	@Override
 	public void periodic() {
 		// This method will be called once per scheduler run
 		SmartDashboard.putBoolean("LeftLimSwitch", leftLimitSwitch());
 		SmartDashboard.putNumber("Left Arm Position", m_leftEncoder.getPosition());
+		SmartDashboard.putNumber("ClimbPosition", getEncoderValue());
 	}
 }

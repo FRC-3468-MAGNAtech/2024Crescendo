@@ -7,11 +7,11 @@ package frc.robot.commands.Arm;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm;
 
-public class PointRaise extends Command {
+public class ParkArm extends Command {
 	private Arm i_subsystem;
-	
-	/** Creates a new PointRaise. */
-	public PointRaise(Arm subsystem) {
+	/** Creates a new ParkArm. */
+	public ParkArm(Arm subsystem) {
+		// Use addRequirements() here to declare subsystem dependencies.
 		i_subsystem = subsystem;
 		addRequirements(subsystem);
 	}
@@ -23,7 +23,7 @@ public class PointRaise extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		i_subsystem.pointRaise();
+		i_subsystem.lower();
 	}
 
 	// Called once the command ends or is interrupted.
@@ -35,6 +35,6 @@ public class PointRaise extends Command {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return false;
+		return i_subsystem.isParked();
 	}
 }

@@ -5,7 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import com.pathplanner.lib.util.PIDConstants;
 
@@ -264,15 +263,24 @@ public class Constants {
 	public static final class armConstants {
 		public static final int rightArmSparkMaxCANID = 4;
 		public static final double raiseSpeed = 0.3;
-		public static final double lowerSpeed = -0.2;
+		public static final double lowerSpeed = -0.1;
 		public static final boolean armLimitTriggered = true;
-		public static final double ArmP = 0.1;
-		public static final double ArmI = 0.1;
-		public static final double ArmD = 0.1;
+		public static final double ArmP = 10;
+		public static final double ArmI = 0;
+		public static final double ArmD = 0;
 		public static final double ArmIZone = 0.1;
-		public static final double ArmFF = 0.1;
+		public static final double ArmFF = 0.5;
 		public static final double ArmMin = -0.5;
-		public static final double ArmMax = 1.0;
-		public static final double upPIDReference = 85.0;
+		public static final double ArmMax = 0.3;
+		public static final double shooterEquationA = 2.4;
+		public static final double shooterEquationB = 1.9;
+		public static final double shooterEquationC = 39;
+
+
+		/**
+		 * Angle References for uppies
+		 */
+		public static final double upPIDReferenceClose = 0.39;
+		public static final double upPIDReferenceMidClose = 0.43;
 	}
 }               

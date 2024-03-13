@@ -30,13 +30,6 @@ public class LEDs extends SubsystemBase {
 	@Override
 	public void periodic() {
 		// This method will be called once per scheduler run
-		if (!Started && DriverStation.isEnabled()) {
-			Started = true;
-			if (RobotContainer.isRedAlliance())
-				makeItRed();
-			else
-				makeItBlue();
-		}
 	}
 
 	private void enableRed(boolean enable) {

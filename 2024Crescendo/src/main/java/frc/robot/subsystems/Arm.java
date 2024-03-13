@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkBase.ControlType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.armConstants;
 
@@ -61,6 +62,10 @@ public class Arm extends SubsystemBase {
 		m_PIDController.setReference(angle, ControlType.kPosition);
 	}
 
+	public void ampSet() {
+		m_PIDController.setReference(armConstants.ampSetpoint, ControlType.kPosition);
+	}
+
 	public void lower(){
 		m_rightRaiseMotor.set(Constants.armConstants.lowerSpeed);
 	}
@@ -69,9 +74,17 @@ public class Arm extends SubsystemBase {
 		m_rightRaiseMotor.set(0);
 		RobotContainer.currentAngle = getAngle();
 	}
+
+	public void stopPark() {
+		m_rightRaiseMotor.set(0);
+	}
 	
 	public double getAngle() {
 		return m_Encoder.getPosition();
+	}
+
+	public double findAngle() {
+		return -(armConstants.shooterEquationE * Math.pow(Camera.getArea(), 2) + armConstants.shooterEquationB);
 	}
 	@Override
 	public void periodic() {

@@ -12,15 +12,7 @@ public final class Targeting {
     }
 
 	public static double aimArmToSpeaker() {
-		double feet = Camera.getDistance() / 12;
-		if (feet >= 3 || feet < 6.5)
-			return armConstants.upPIDReference0;
-		if (feet >= 6.5 || feet < 10)
-			return armConstants.upPIDReference3_5;
-		if (feet >= 10 || feet < 13)
-			return armConstants.upPIDReference7;
-		
-		return armConstants.upPIDReference10;
+	 return armConstants.shooterEquationE * Math.pow(Camera.getArea(), 2) + armConstants.shooterEquationB;
     }
 
 	public static double driveToNote() {

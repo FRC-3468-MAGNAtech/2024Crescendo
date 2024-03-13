@@ -244,8 +244,8 @@ public class Constants {
 	public static final class shooterConstants {
 		public static final int bottomShootSparkMaxCANID = 8;
 		public static final int topShootSparkMaxCANID = 9;
-		public static final double bottomShootSpeed = 0.7;
-		public static final double topShootSpeed = -0.7;
+		public static final double bottomShootSpeed = 0.3;
+		public static final double topShootSpeed = -0.3;
 		public static final double bottomAmpSpeed = -0.02;
 		public static final double topAmpSpeed = 0.02;
 		public static final double shooterP = 10.0;
@@ -263,6 +263,7 @@ public class Constants {
 		public static final double raiseSpeed = 0.3;
 		public static final double lowerSpeed = -0.1;
 		public static final boolean armLimitTriggered = true;
+		public static final double ampSetpoint = 0.59;
 		public static final double ArmP = 5;
 		public static final double ArmI = 0;
 		public static final double ArmD = 0;
@@ -270,9 +271,8 @@ public class Constants {
 		public static final double ArmFF = 0.1;
 		public static final double ArmMin = -0.5;
 		public static final double ArmMax = 0.3;
-		/*public static final double shooterEquationA = 2.4;
-		public static final double shooterEquationB = 1.9;
-		public static final double shooterEquationC = 39;*/
+		public static final double shooterEquationE = 0.67;
+		public static final double shooterEquationB = 0.40;
 
 
 		/**

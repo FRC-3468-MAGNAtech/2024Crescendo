@@ -6,6 +6,8 @@ package frc.robot;
 
 import frc.robot.Constants.*;
 import frc.robot.subsystems.Climb;
+import frc.robot.commands.LEDAllianceColor;
+import frc.robot.commands.Arm.Amp;
 import frc.robot.commands.Arm.ArmLower;
 import frc.robot.commands.Arm.ArmRaise;
 import frc.robot.commands.Arm.ParkArm;
@@ -19,6 +21,7 @@ import frc.robot.commands.Intake.IntakeStop;
 import frc.robot.commands.Shooter.Shoot;
 import frc.robot.commands.Shooter.ShooterStop;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDs;
@@ -36,8 +39,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.ControllerConstants;
-import frc.robot.Constants.LimelightConstants;
 import frc.robot.commands.AutoCommands.GetNoteAuto;
 import frc.robot.commands.drivetrain.SwerveDrive;
 import frc.robot.subsystems.SwerveSys;
@@ -54,11 +55,10 @@ public class RobotContainer {
 	private final CommandXboxController driverController = new CommandXboxController(ControllerConstants.driverGamepadPort);
 	private final JoystickButton zeroGyro = new JoystickButton(driverController.getHID(), XboxController.Button.kStart.value);
 	private final JoystickButton turtleEnable = new JoystickButton(driverController.getHID(), XboxController.Button.kBack.value);
-	private final JoystickButton aButton = new JoystickButton(driverController.getHID(), XboxController.Button.kA.value);
-	private final JoystickButton bButton = new JoystickButton(driverController.getHID(), XboxController.Button.kB.value);
 
 	// Initialize secondary controller stuff
 	private final XboxController secondaryDriveController = new XboxController(SubsystemControllerConstants.subsystemControllerPort);
+	private final JoystickButton amp = new JoystickButton(secondaryDriveController, XboxController.Button.kStart.value);
 	private final JoystickButton autoAim = new JoystickButton(secondaryDriveController, SubsystemControllerConstants.autoAimButton);
 	private final Shooter m_shooter = new Shooter();
 	private final Intake m_intake = new Intake();
@@ -83,6 +83,8 @@ public class RobotContainer {
 		m_intake.setDefaultCommand(new IntakeStop(m_intake));
 		m_shooter.setDefaultCommand(new ShooterStop(m_shooter));
 		m_arm.setDefaultCommand(new PointMove(m_arm));
+		led.setDefaultCommand(new LEDAllianceColor(led));
+
 
 		configDriverBindings();
 
@@ -109,12 +111,6 @@ public class RobotContainer {
 		// Turtle and Gyro buttons
 		turtleEnable.onTrue(new InstantCommand(() -> swerveSys.setTurtleMode()));
 		zeroGyro.onTrue(new InstantCommand(() -> swerveSys.resetHeading()));
-
-		bButton.onTrue(new ParallelCommandGroup(
-			new InstantCommand(() -> {currentAngle = 0.34;}),
-			new ParkArm(m_arm)
-			));
-
 		driverController.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, ControllerConstants.triggerPressedThreshhold)
 		.whileTrue(Commands.runOnce(() -> swerveSys.lock()));
 
@@ -150,7 +146,15 @@ public class RobotContainer {
 		autoAim.whileTrue(new InstantCommand(() -> {
 			currentAngle = Targeting.aimArmToSpeaker();
 		}));
-		intake.and(intakeSensor).whileTrue(new IntakeRing(m_intake));
+
+		intake.and(intakeSensor).onTrue(new ParallelCommandGroup(
+			new InstantCommand(() -> {currentAngle = 0.36;}),
+			new PointMove(m_arm)
+			)).whileTrue(new IntakeRing(m_intake));
+
+		intakeSensor.whileTrue(new InstantCommand(() -> led.makeItGreen()));
+		shoot.whileTrue(new InstantCommand(() -> led.makeItMagenta()));
+
 		extake.whileTrue(new ExtakeRing(m_intake));
 		shoot.whileTrue(new SequentialCommandGroup( new Shoot(m_shooter), 
 			new ParallelCommandGroup(new Shoot(m_shooter), new IntakeRing(m_intake))));
@@ -160,22 +164,15 @@ public class RobotContainer {
 
 		climbUp.whileTrue(new ClimbUp(m_climb));
 		climbDown.whileTrue(new ClimbDown(m_climb));
+		amp.whileTrue(new Amp(m_arm));
 	}
 
 	// For uniformity, any information sent to Shuffleboard/SmartDashboard should go here.
 	public void updateInterface() {
 		SmartDashboard.putNumber("ArmSetAngle", currentAngle);
 		SmartDashboard.putNumber("speed m/s", swerveSys.getAverageDriveVelocityMetersPerSec());
-
-		SmartDashboard.putNumber("FR angle degrees", swerveSys.getModuleStates()[0].angle.getDegrees());
-		SmartDashboard.putNumber("FL angle degrees", swerveSys.getModuleStates()[1].angle.getDegrees());
-		SmartDashboard.putNumber("BR angle degrees", swerveSys.getModuleStates()[2].angle.getDegrees());
-		SmartDashboard.putNumber("BL angle degrees", swerveSys.getModuleStates()[3].angle.getDegrees());
-
-		SmartDashboard.putNumber("FR CANCoder", SwerveSys.frontLeftMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
-		SmartDashboard.putNumber("FL CANCoder", SwerveSys.frontRightMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
-		SmartDashboard.putNumber("BR CANCoder", SwerveSys.backLeftMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
-		SmartDashboard.putNumber("BL CANCoder", SwerveSys.backRightMod.canCoder.getAbsolutePosition().getValueAsDouble() * 360);
+		SmartDashboard.putNumber("DistanceFromSpeaker", Camera.getArea());
+		SmartDashboard.putNumber("Limelight TA", LimelightHelpers.getTA("limelight-tags"));
 
 		/*SmartDashboard.putNumber("Limelight TA", LimelightHelpers.getTA("limelight-notes"));
 		SmartDashboard.putNumber("Limelight TX", LimelightHelpers.getTX("limelight-notes"));

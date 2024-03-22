@@ -84,7 +84,7 @@ public class SwerveDrive extends Command {
 
 		// If the A button is pressed, make it to where the robot automatically aims toward an AprilTag
 		if (aPressed) {
-        	LimelightHelpers.setPipelineIndex(LimelightConstants.llTags, 1);
+			LimelightHelpers.setPipelineIndex(LimelightConstants.llTags, 1);
 			rot = Targeting.aimToAprilTag();
 		}
 		else

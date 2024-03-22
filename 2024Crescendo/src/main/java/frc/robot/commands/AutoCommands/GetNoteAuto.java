@@ -7,7 +7,6 @@ package frc.robot.commands.AutoCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.RobotContainer;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -18,8 +17,8 @@ public class GetNoteAuto extends SequentialCommandGroup {
 		// Add your commands in the addCommands() call, e.g.
 		// addCommands(new FooCommand(), new BarCommand());
 		addCommands(
-			new PathPlannerAuto("base Auto"),
-			new DriveToNote(RobotContainer.swerveSys)
+			new PathPlannerAuto("base Auto")
+			//new DriveToNote(RobotContainer.m_swerveSys)
 		);
 	}
 }

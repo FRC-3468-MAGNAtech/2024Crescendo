@@ -14,7 +14,6 @@ import com.revrobotics.CANSparkBase.ControlType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.armConstants;
 
@@ -41,12 +40,19 @@ public class Arm extends SubsystemBase {
 		m_PIDController.setIZone(armConstants.ArmIZone);
 		m_PIDController.setFF(armConstants.ArmFF);
 		m_PIDController.setOutputRange(armConstants.ArmMin, armConstants.ArmMax);
-
-		//m_rEncoder.setPositionConversionFactor(armConstants.armGearRatio);
-		
 	}
+
 	public boolean isParked() {
 		return m_bottomLimit.isPressed();
+	}
+
+	public boolean isAtAmp() {
+		return m_Encoder.getPosition() >= 0.61;
+	}
+
+	public boolean isAtTrap() {
+		double pos = m_Encoder.getPosition();
+		return pos > 0.38 && pos < 0.40;
 	}
 
 	public void moveToAngle(double angle) {
@@ -59,11 +65,9 @@ public class Arm extends SubsystemBase {
 
 	public void pointMove(double angle) {
 		//m_PIDController.setReference(armConstants.shooterEquationA * Math.log(armConstants.shooterEquationB * (Camera.distenceFromllToGoalInches/12)) + armConstants.shooterEquationC , ControlType.kPosition);
+		if (angle < 0.355)
+			angle = 0.355;
 		m_PIDController.setReference(angle, ControlType.kPosition);
-	}
-
-	public void ampSet() {
-		m_PIDController.setReference(armConstants.ampSetpoint, ControlType.kPosition);
 	}
 
 	public void lower(){
@@ -84,7 +88,7 @@ public class Arm extends SubsystemBase {
 	}
 
 	public double findAngle() {
-		return -(armConstants.shooterEquationE * Math.pow(Camera.getArea(), 2) + armConstants.shooterEquationB);
+		return -(armConstants.shooterEquationM * Camera.getArea() + armConstants.shooterEquationB);
 	}
 	@Override
 	public void periodic() {

@@ -11,7 +11,7 @@ public class AmpOoze extends Command {
 	private Shooter ooze;
 
 	/** Creates a new AmpOoze. */
-	public void amp(Shooter subsytem) {
+	public AmpOoze(Shooter subsytem) {
 		ooze = subsytem;
 		addRequirements(subsytem);
 	}

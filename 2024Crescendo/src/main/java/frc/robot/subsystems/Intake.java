@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import frc.robot.Constants.*;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -25,6 +26,7 @@ public class Intake extends SubsystemBase {
 	public Intake() {
 		// Instantiate the Intake motor controllers
 		m_intakeMotor = new CANSparkMax(IntakeConstants.intakeMotorID, MotorType.kBrushless);
+		m_intakeMotor.setIdleMode(IdleMode.kBrake);
 		intakeSensor = new DigitalInput(IntakeConstants.intakeSensorID);
 		
 
@@ -34,7 +36,7 @@ public class Intake extends SubsystemBase {
 	}
 
 	public boolean getIntakeSensor() {
-		return intakeSensor.get();
+		return !intakeSensor.get();
 	}
 	
 	public void intake() {
@@ -58,5 +60,6 @@ public class Intake extends SubsystemBase {
 	public void periodic() {    
 		// Add intake bar RPM readingss to SmartDashboard for the sake of datalogging
 		SmartDashboard.putNumber("Intake RPM", getIntakeRPM());
+		SmartDashboard.putBoolean("IntakeSensor", getIntakeSensor());
 	}
 }

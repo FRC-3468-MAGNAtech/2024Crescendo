@@ -2,18 +2,19 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Climb;
+package frc.robot.commands.Arm;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Climb;
+import frc.robot.Constants.armConstants;
+import frc.robot.subsystems.Arm;
 
-public class ClimbStop extends Command {
-	private Climb i_subsystem;
-
-	/** Creates a new ClimbStop. */
-	public ClimbStop(Climb subsystem) {
+public class Trap extends Command {
+	private Arm i_subsystem;
+	/** Creates a new Trap. */
+	public Trap(Arm subsystem) {
 		i_subsystem = subsystem;
 		addRequirements(subsystem);
+		// Use addRequirements() here to declare subsystem dependencies.
 	}
 
 	// Called when the command is initially scheduled.
@@ -23,16 +24,18 @@ public class ClimbStop extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		i_subsystem.stopArms();
+		i_subsystem.pointMove(armConstants.trapSetPoint);
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
-	public void end(boolean interrupted) {}
+	public void end(boolean interrupted) {
+		i_subsystem.stop();
+	}
 
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return true;
+		return i_subsystem.isAtTrap();
 	}
 }

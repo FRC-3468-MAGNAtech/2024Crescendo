@@ -1,0 +1,67 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.9742573214602829,
+      "y": 7.036539787365289
+    },
+    "rotation": -122.15963942280872
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "first note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DriveToNote"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAim"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "second Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DriveToNote"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAim"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

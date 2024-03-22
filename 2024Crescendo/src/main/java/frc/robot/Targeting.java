@@ -5,6 +5,9 @@ import frc.robot.Constants.armConstants;
 import frc.robot.subsystems.Camera;
 
 public final class Targeting {
+	
+
+	//InterpolatingMatrixTreeMap treeMap = new InterpolatingMatrixTreeMap<>().put(, );
 
 	public static double aimToAprilTag() {
 		double tx = LimelightHelpers.getTX(LimelightConstants.llTags);
@@ -12,7 +15,8 @@ public final class Targeting {
     }
 
 	public static double aimArmToSpeaker() {
-	 return armConstants.shooterEquationE * Math.pow(Camera.getArea(), 2) + armConstants.shooterEquationB;
+		return armConstants.shooterEquationM * Camera.getArea() + armConstants.shooterEquationB;
+		
     }
 
 	public static double driveToNote() {

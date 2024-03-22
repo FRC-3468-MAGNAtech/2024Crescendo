@@ -5,29 +5,33 @@
 package frc.robot;
 
 import frc.robot.Constants.*;
-import frc.robot.subsystems.Climb;
+import frc.robot.subsystems.*;
+import frc.robot.subsystems.LEDs.LEDColor;
 import frc.robot.commands.LEDAllianceColor;
+import frc.robot.commands.LEDCustomColor;
 import frc.robot.commands.Arm.Amp;
 import frc.robot.commands.Arm.ArmLower;
 import frc.robot.commands.Arm.ArmRaise;
-import frc.robot.commands.Arm.ParkArm;
 import frc.robot.commands.Arm.PointMove;
+import frc.robot.commands.Arm.PointMoveAuto;
+import frc.robot.commands.Arm.Trap;
 import frc.robot.commands.Climb.ClimbDown;
-import frc.robot.commands.Climb.ClimbHome;
 import frc.robot.commands.Climb.ClimbUp;
 import frc.robot.commands.Intake.ExtakeRing;
 import frc.robot.commands.Intake.IntakeRing;
+import frc.robot.commands.Intake.IntakeRingS;
 import frc.robot.commands.Intake.IntakeStop;
+import frc.robot.commands.Shooter.AmpOoze;
 import frc.robot.commands.Shooter.Shoot;
 import frc.robot.commands.Shooter.ShooterStop;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Camera;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.LEDs;
+import frc.robot.commands.AutoCommands.*;
+import frc.robot.commands.drivetrain.SwerveDrive;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -39,51 +43,53 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.AutoCommands.GetNoteAuto;
-import frc.robot.commands.drivetrain.SwerveDrive;
-import frc.robot.subsystems.SwerveSys;
 
 public class RobotContainer {
 
 	// Initialize subsystems.
-	public final static SwerveSys swerveSys = new SwerveSys();
-	public final static LEDs led = new LEDs();
+	public final static Arm m_arm = new Arm();
+	public final static LEDs m_led = new LEDs();
+	public final static Shooter m_shooter = new Shooter();
+	public final static Intake m_intake = new Intake();
+	public final static Climb m_climb = new Climb();
+	public final static SwerveSys m_swerveSys = new SwerveSys();
 
 	public static double currentAngle = 0.5;
 
 	// Initialize joysticks.
-	private final CommandXboxController driverController = new CommandXboxController(ControllerConstants.driverGamepadPort);
+	private final  CommandXboxController driverController = new CommandXboxController(ControllerConstants.driverGamepadPort);
 	private final JoystickButton zeroGyro = new JoystickButton(driverController.getHID(), XboxController.Button.kStart.value);
 	private final JoystickButton turtleEnable = new JoystickButton(driverController.getHID(), XboxController.Button.kBack.value);
 
 	// Initialize secondary controller stuff
 	private final XboxController secondaryDriveController = new XboxController(SubsystemControllerConstants.subsystemControllerPort);
 	private final JoystickButton amp = new JoystickButton(secondaryDriveController, XboxController.Button.kStart.value);
+	private final JoystickButton trap = new JoystickButton(secondaryDriveController, XboxController.Button.kBack.value);
 	private final JoystickButton autoAim = new JoystickButton(secondaryDriveController, SubsystemControllerConstants.autoAimButton);
-	private final Shooter m_shooter = new Shooter();
-	private final Intake m_intake = new Intake();
-	private final Arm m_arm = new Arm();
-	private final Climb m_climb = new Climb();
 
 	// Initialize auto selector.
 	private final SendableChooser<Command> autoChooser;
 
 	public RobotContainer() {
+		RobotContainer.registerNamedCommands();
+		m_swerveSys.BuilderConfigure();
 
 		LimelightConstants.llPIDctrlRotate.setTolerance(0.5);
 		LimelightConstants.llPIDctrlDrive.setSetpoint(45);
 		LimelightConstants.llPIDctrlDrive.setTolerance(3);
 
+		
 		autoChooser = AutoBuilder.buildAutoChooser();
 		SmartDashboard.putData("Auto", autoChooser);
 
 		autoChooser.addOption("BaseAuto", new GetNoteAuto());
-		m_climb.setDefaultCommand(new ClimbHome(m_climb));
+		autoChooser.addOption("Test3Note", new PathPlannerAuto("TestAuto"));
+		autoChooser.addOption("Test2Note", new PathPlannerAuto("Test Auto 2"));
 
 		m_intake.setDefaultCommand(new IntakeStop(m_intake));
 		m_shooter.setDefaultCommand(new ShooterStop(m_shooter));
 		m_arm.setDefaultCommand(new PointMove(m_arm));
-		led.setDefaultCommand(new LEDAllianceColor(led));
+		m_led.setDefaultCommand(new LEDAllianceColor(m_led));
 
 
 		configDriverBindings();
@@ -98,21 +104,21 @@ public class RobotContainer {
 	}
 
 	public void configDriverBindings() {
-		swerveSys.setDefaultCommand(new SwerveDrive(
+		m_swerveSys.setDefaultCommand(new SwerveDrive(
 			() -> MathUtil.applyDeadband(driverController.getLeftY(), ControllerConstants.joystickDeadband),
 			() -> MathUtil.applyDeadband(driverController.getLeftX(), ControllerConstants.joystickDeadband),
 			() -> MathUtil.applyDeadband(driverController.getRightX(), ControllerConstants.joystickDeadband),
-			() -> autoAim.getAsBoolean(),
+			() -> { return false; },
 			true,
 			true,
-			swerveSys
+			m_swerveSys
 		));
 
 		// Turtle and Gyro buttons
-		turtleEnable.onTrue(new InstantCommand(() -> swerveSys.setTurtleMode()));
-		zeroGyro.onTrue(new InstantCommand(() -> swerveSys.resetHeading()));
+		turtleEnable.onTrue(new InstantCommand(() -> m_swerveSys.setTurtleMode()));
+		zeroGyro.onTrue(new InstantCommand(() -> m_swerveSys.resetHeading()));
 		driverController.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, ControllerConstants.triggerPressedThreshhold)
-		.whileTrue(Commands.runOnce(() -> swerveSys.lock()));
+		.whileTrue(Commands.runOnce(() -> m_swerveSys.lock()));
 
 		configureSecondBindings();
 	}
@@ -143,36 +149,65 @@ public class RobotContainer {
 		Trigger intakeSensor = new Trigger(() ->  m_intake.getIntakeSensor());
 
 		// intake.whileTrue(new IntakeRing(m_intake));
-		autoAim.whileTrue(new InstantCommand(() -> {
-			currentAngle = Targeting.aimArmToSpeaker();
-		}));
+		autoAim.onTrue(new SequentialCommandGroup(
+			new InstantCommand(() -> {currentAngle = armConstants.parkSetPoint;}),
+			new PointMove(m_arm)
+		));
 
-		intake.and(intakeSensor).onTrue(new ParallelCommandGroup(
-			new InstantCommand(() -> {currentAngle = 0.36;}),
+		intake.onTrue(new ParallelCommandGroup(
+			new InstantCommand(() -> {currentAngle = armConstants.intakeSetPoint;}),
 			new PointMove(m_arm)
 			)).whileTrue(new IntakeRing(m_intake));
 
-		intakeSensor.whileTrue(new InstantCommand(() -> led.makeItGreen()));
-		shoot.whileTrue(new InstantCommand(() -> led.makeItMagenta()));
+		intakeSensor.whileTrue(new InstantCommand(() -> m_led.makeItGreen()));
+		shoot.whileTrue(new InstantCommand(() -> m_led.makeItMagenta()));
 
 		extake.whileTrue(new ExtakeRing(m_intake));
 		shoot.whileTrue(new SequentialCommandGroup( new Shoot(m_shooter), 
-			new ParallelCommandGroup(new Shoot(m_shooter), new IntakeRing(m_intake))));
+			new ParallelCommandGroup(new Shoot(m_shooter), new IntakeRingS(m_intake))));
 
 		armUp.whileTrue(new ArmRaise(m_arm));
 		armDown.whileTrue(new ArmLower(m_arm));
 
 		climbUp.whileTrue(new ClimbUp(m_climb));
 		climbDown.whileTrue(new ClimbDown(m_climb));
-		amp.whileTrue(new Amp(m_arm));
+		amp.whileTrue(new SequentialCommandGroup( new Amp(m_arm), new ParallelCommandGroup( new AmpOoze(m_shooter), new IntakeRing(m_intake) )));
+		trap.whileTrue(
+			new SequentialCommandGroup(
+				new Trap(m_arm), 
+				new SequentialCommandGroup( 
+					new Shoot(m_shooter), 
+					new ParallelCommandGroup(
+						new Trap(m_arm), 
+						new Shoot(m_shooter), 
+						new IntakeRing(m_intake)
+
+
+					)
+				)
+			)
+		);
+	}
+
+	public static void registerNamedCommands() {
+		NamedCommands.registerCommand("DriveToNote", new ParallelCommandGroup(
+			new InstantCommand(() -> {currentAngle = 0.335;}),
+			new PointMoveAuto(m_arm), new DriveToNote(m_swerveSys, m_intake)));
+		NamedCommands.registerCommand("AutoAim", new AutoAim(m_swerveSys, m_arm));
+		NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(new LEDCustomColor(m_led, LEDColor.Yellow), new Shoot(m_shooter), 
+			new ParallelCommandGroup(new Shoot(m_shooter), new IntakeRingS(m_intake))));
+		NamedCommands.registerCommand("SimplePark", new ParallelCommandGroup(
+			new InstantCommand(() -> {currentAngle = 0.335;}),
+			new PointMoveAuto(m_arm)));
+		
 	}
 
 	// For uniformity, any information sent to Shuffleboard/SmartDashboard should go here.
 	public void updateInterface() {
 		SmartDashboard.putNumber("ArmSetAngle", currentAngle);
-		SmartDashboard.putNumber("speed m/s", swerveSys.getAverageDriveVelocityMetersPerSec());
+		SmartDashboard.putNumber("speed m/s", m_swerveSys.getAverageDriveVelocityMetersPerSec());
 		SmartDashboard.putNumber("DistanceFromSpeaker", Camera.getArea());
-		SmartDashboard.putNumber("Limelight TA", LimelightHelpers.getTA("limelight-tags"));
+		SmartDashboard.putNumber("LimelightZ", Camera.getTZ());
 
 		/*SmartDashboard.putNumber("Limelight TA", LimelightHelpers.getTA("limelight-notes"));
 		SmartDashboard.putNumber("Limelight TX", LimelightHelpers.getTX("limelight-notes"));

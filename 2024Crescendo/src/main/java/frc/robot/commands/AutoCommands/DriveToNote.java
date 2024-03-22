@@ -6,16 +6,19 @@ package frc.robot.commands.AutoCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Targeting;
-import frc.robot.Constants.LimelightConstants;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SwerveSys;
 
 public class DriveToNote extends Command {
 	SwerveSys swerveSys;
+	Intake intakeSys;
 	/** Creates a new DriveToNote. */
-	public DriveToNote(SwerveSys sys) {
+	public DriveToNote(SwerveSys sys, Intake sys2 ) {
 		// Use addRequirements() here to declare subsystem dependencies.
 		swerveSys = sys;
 		addRequirements(swerveSys);
+		intakeSys = sys2;
+		addRequirements(intakeSys);
 	}
 
 	// Called when the command is initially scheduled.
@@ -45,16 +48,19 @@ public class DriveToNote extends Command {
 			-rot,
 			false
 		);
+		intakeSys.intake();
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
+		intakeSys.stop();
+		swerveSys.stop();
 	}
 
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return LimelightConstants.llPIDctrlDrive.atSetpoint();
+		return intakeSys.getIntakeSensor();
 	}
 }

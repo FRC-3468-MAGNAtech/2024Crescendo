@@ -2,19 +2,25 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.228158664848135,
-      "y": 3.073622829710114
+      "x": 1.336590141851963,
+      "y": 3.9914874817218315
     },
-    "rotation": 117.05059700708613
+    "rotation": 178.83086067209265
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "SimplePark"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "base path"
+            "pathName": "Far Note 1"
           }
         }
       ]

@@ -58,11 +58,14 @@ public class Constants {
 	 * LED Light display on robot for statuses
 	 */
 	public static final class LEDConstants {
-		public static final int LEDPower = 0;
 		public static final int LEDRed = 1;
 		public static final int LEDGreen = 2;
 		public static final int LEDBlue = 3;
 		public static final int LEDWhite = 4;
+		public static final int LEDRed2 = 14;
+		public static final int LEDGreen2 = 13;
+		public static final int LEDBlue2 = 12;
+		public static final int LEDWhite2 = 11;
 		
 	}
 
@@ -212,17 +215,10 @@ public class Constants {
 	public static final class ClimbConstants {
 		public static final int leftSparkMaxID = 6;
 		public static final int rightSparkMaxID = 5;
-		public static final double ascensionSpeed = 0.7;
-		public static final double descensionSpeed = -0.5;
+		public static final double ascensionSpeed = 1;
+		public static final double descensionSpeed = -1;
 		public static final double stopSpeed = 0.0;
-		public static final double leftArmP = 3.0;
-		public static final double leftArmI = 0.0;
-		public static final double leftArmD = 0.0;
-		public static final double leftArmIZone = 0.0;
-		public static final double leftArmFF = 0.0;
-		public static final double leftArmMin = -0.5;
-		public static final double leftArmMax = 1.0;
-		public static final double upPIDReference = 85.0;
+		public static final double upPIDReference = 190;
 		public static final double downPIDReference = 7.0;
 		public static final double leftPIDTolerance = 0.01;
 	}
@@ -235,7 +231,7 @@ public class Constants {
 
 	public static final class IntakeConstants {
 		public static final int intakeMotorID = 7;
-		public static final double intakeMotorForward = 0.25;
+		public static final double intakeMotorForward = 0.28;
 		public static final double intakeMotorReverse = -0.1;
 		public static final boolean intakeMotorInvert = false;
 		public static final int intakeSensorID = 0;
@@ -244,10 +240,10 @@ public class Constants {
 	public static final class shooterConstants {
 		public static final int bottomShootSparkMaxCANID = 8;
 		public static final int topShootSparkMaxCANID = 9;
-		public static final double bottomShootSpeed = 0.3;
-		public static final double topShootSpeed = -0.3;
-		public static final double bottomAmpSpeed = -0.02;
-		public static final double topAmpSpeed = 0.02;
+		public static final double bottomShootSpeed = 0.7;
+		public static final double topShootSpeed = -0.7;
+		public static final double bottomAmpSpeed = 0.055;
+		public static final double topAmpSpeed = -0.055;
 		public static final double shooterP = 10.0;
 		public static final double shooterI = 0.1;
 		public static final double shooterD = 0.1;
@@ -256,14 +252,17 @@ public class Constants {
 		public static final double shooterMin = -0.5;
 		public static final double shooterMax = 1.0;
 		public static final double upPIDReference = 1085.0;
-	}    
+	}     
 
 	public static final class armConstants {
 		public static final int rightArmSparkMaxCANID = 4;
 		public static final double raiseSpeed = 0.3;
 		public static final double lowerSpeed = -0.1;
 		public static final boolean armLimitTriggered = true;
-		public static final double ampSetpoint = 0.59;
+		public static final double ampSetpoint = 0.61;
+		public static final double trapSetPoint = 0.38;
+		public static final double parkSetPoint = 0.42;
+		public static final double intakeSetPoint = 0.355;
 		public static final double ArmP = 5;
 		public static final double ArmI = 0;
 		public static final double ArmD = 0;
@@ -271,16 +270,7 @@ public class Constants {
 		public static final double ArmFF = 0.1;
 		public static final double ArmMin = -0.5;
 		public static final double ArmMax = 0.3;
-		public static final double shooterEquationE = 0.67;
-		public static final double shooterEquationB = 0.40;
-
-
-		/**
-		 * Angle References for uppies by feet
-		 */
-		public static final double upPIDReference0 = 0.39;
-		public static final double upPIDReference3_5 = 0.43;
-		public static final double upPIDReference7 = 0.45;
-		public static final double upPIDReference10 = 0.4635;
+		public static final double shooterEquationM = 0.15;
+		public static final double shooterEquationB = 0.42;
 	}
 }               

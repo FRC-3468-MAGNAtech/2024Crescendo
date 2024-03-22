@@ -4,26 +4,41 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
 import frc.robot.Constants.CANDevices;
 import frc.robot.Constants.LEDConstants;
 
 public class LEDs extends SubsystemBase {
+	public static enum LEDColor {
+		Black,
+		White,
+		Red,
+		Green,
+		Blue,
+		Magenta,
+		Yellow,
+		Cyan
+	}
 	private final Solenoid redLED;
 	private final Solenoid greenLED;
 	private final Solenoid blueLED;
 	private final Solenoid whiteLED;
-	private boolean Started = false;
+	private final Solenoid redLED2;
+	private final Solenoid greenLED2;
+	private final Solenoid blueLED2;
+	private final Solenoid whiteLED2;
 	/** Creates a new LEDs. */
 	public LEDs() {
 		redLED = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.LEDRed);
 		greenLED = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.LEDGreen);
 		blueLED = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.LEDBlue);
 		whiteLED = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.LEDWhite);
+		redLED2 = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.LEDRed2);
+		greenLED2 = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.LEDGreen2);
+		blueLED2 = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.LEDBlue2);
+		whiteLED2 = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.LEDWhite2);
 		clearColor();
 	}
 
@@ -34,18 +49,22 @@ public class LEDs extends SubsystemBase {
 
 	private void enableRed(boolean enable) {
 		redLED.set(enable);
+		redLED2.set(enable);
 	}
 
 	private void enableGreen(boolean enable) {
 		greenLED.set(enable);
+		greenLED2.set(enable);
 	}
 
 	private void enableBlue(boolean enable) {
 		blueLED.set(enable);
+		blueLED2.set(enable);
 	}
 
 	private void enableWhite(boolean enable) {
 		whiteLED.set(enable);
+		whiteLED2.set(enable);
 	}
 
 	public void makeItRed() {

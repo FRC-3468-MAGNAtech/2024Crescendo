@@ -231,6 +231,14 @@ public class Constants {
 
 	public static final class IntakeConstants {
 		public static final int intakeMotorID = 7;
+		public static final double intakeP = 0.0001;
+		public static final double intakeI = 0.1;
+		public static final double intakeD = 0.1;
+		public static final double intakeIZone = 0.1;
+		public static final double intakeFF = 0.01;
+		public static final double intakeMin = -0.5;
+		public static final double intakeMax = 0.2;
+		public static final double intakeRPM = 2000;
 		public static final double intakeMotorForward = 0.28;
 		public static final double intakeMotorReverse = -0.1;
 		public static final boolean intakeMotorInvert = false;
@@ -269,7 +277,7 @@ public class Constants {
 		public static final double ArmIZone = 0.1;
 		public static final double ArmFF = 0.1;
 		public static final double ArmMin = -0.5;
-		public static final double ArmMax = 0.3;
+		public static final double ArmMax = 0.5;
 		public static final double shooterEquationM = 0.15;
 		public static final double shooterEquationB = 0.42;
 	}

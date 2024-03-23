@@ -55,10 +55,6 @@ public class Arm extends SubsystemBase {
 		return pos > 0.38 && pos < 0.40;
 	}
 
-	public void moveToAngle(double angle) {
-		m_PIDController.setReference(angle, ControlType.kPosition);
-	}
-
 	public void raise() {
 		m_rightRaiseMotor.set(Constants.armConstants.raiseSpeed);
 	}

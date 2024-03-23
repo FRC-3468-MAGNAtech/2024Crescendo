@@ -218,7 +218,7 @@ public class Constants {
 		public static final double ascensionSpeed = 1;
 		public static final double descensionSpeed = -1;
 		public static final double stopSpeed = 0.0;
-		public static final double upPIDReference = 190;
+		public static final double upPIDReference = 185;
 		public static final double downPIDReference = 7.0;
 		public static final double leftPIDTolerance = 0.01;
 	}
@@ -248,8 +248,8 @@ public class Constants {
 	public static final class shooterConstants {
 		public static final int bottomShootSparkMaxCANID = 8;
 		public static final int topShootSparkMaxCANID = 9;
-		public static final double bottomShootSpeed = 0.7;
-		public static final double topShootSpeed = -0.7;
+		public static double bottomShootSpeed = 0.7;
+		public static double topShootSpeed = -0.7;
 		public static final double bottomAmpSpeed = 0.055;
 		public static final double topAmpSpeed = -0.055;
 		public static final double shooterP = 10.0;
@@ -269,7 +269,7 @@ public class Constants {
 		public static final boolean armLimitTriggered = true;
 		public static final double ampSetpoint = 0.61;
 		public static final double trapSetPoint = 0.38;
-		public static final double parkSetPoint = 0.42;
+		public static final double parkSetPoint = 0.39;
 		public static final double intakeSetPoint = 0.355;
 		public static final double ArmP = 5;
 		public static final double ArmI = 0;
@@ -278,7 +278,7 @@ public class Constants {
 		public static final double ArmFF = 0.1;
 		public static final double ArmMin = -0.5;
 		public static final double ArmMax = 0.5;
-		public static final double shooterEquationM = 0.15;
-		public static final double shooterEquationB = 0.42;
+		public static final double shooterEquationM = 0.035696;
+		public static final double shooterEquationB = 0.346181;
 	}
 }               

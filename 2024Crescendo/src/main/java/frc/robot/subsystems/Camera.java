@@ -4,18 +4,38 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
 import frc.robot.Constants.LimelightConstants;
 
 public class Camera extends SubsystemBase {
 
-	 
+	public InterpolatingDoubleTreeMap speedMap = new InterpolatingDoubleTreeMap();
+	public InterpolatingDoubleTreeMap angleMap = new InterpolatingDoubleTreeMap();
 	 
 	 
 	/** Creates a new Camera. */
 	public Camera() {
+		speedMap.put(0.858, 0.55);
+		speedMap.put(1.978, 0.55);
+		speedMap.put(2.086, 0.65);
+		speedMap.put(2.460, 0.65);
+		speedMap.put(2.100, 0.65);
+		speedMap.put(3.100, 0.90);
+		speedMap.put(3.800, 0.85);
+		speedMap.put(2.300, 0.85);
+		speedMap.put(2.800, 0.80);
 
+		angleMap.put(0.858, 0.3848);
+		angleMap.put(1.978, 0.4206);
+		angleMap.put(2.086, 0.4400);
+		angleMap.put(2.460, 0.4300);
+		angleMap.put(2.100, 0.4400);
+		angleMap.put(3.100, 0.4600);
+		angleMap.put(3.800, 0.4600);
+		angleMap.put(2.300, 0.4400);
+		angleMap.put(2.800, 0.4400);
 	}
 
 	public static double getArea() {

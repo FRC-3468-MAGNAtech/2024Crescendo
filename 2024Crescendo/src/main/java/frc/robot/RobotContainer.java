@@ -28,6 +28,9 @@ import frc.robot.commands.AutoCommands.*;
 import frc.robot.commands.drivetrain.SwerveDrive;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+
+import java.lang.annotation.Target;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -57,7 +60,7 @@ public class RobotContainer {
 	public static double currentAngle = 0.5;
 
 	// Initialize joysticks.
-	private final  CommandXboxController driverController = new CommandXboxController(ControllerConstants.driverGamepadPort);
+	private final CommandXboxController driverController = new CommandXboxController(ControllerConstants.driverGamepadPort);
 	private final JoystickButton zeroGyro = new JoystickButton(driverController.getHID(), XboxController.Button.kStart.value);
 	private final JoystickButton turtleEnable = new JoystickButton(driverController.getHID(), XboxController.Button.kBack.value);
 
@@ -78,7 +81,6 @@ public class RobotContainer {
 		LimelightConstants.llPIDctrlDrive.setSetpoint(45);
 		LimelightConstants.llPIDctrlDrive.setTolerance(3);
 
-		
 		autoChooser = AutoBuilder.buildAutoChooser();
 		SmartDashboard.putData("Auto", autoChooser);
 
@@ -120,6 +122,19 @@ public class RobotContainer {
 		driverController.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, ControllerConstants.triggerPressedThreshhold)
 		.whileTrue(Commands.runOnce(() -> m_swerveSys.lock()));
 
+		JoystickButton incMotorSpeed = new JoystickButton(driverController.getHID(), XboxController.Button.kRightBumper.value);
+		JoystickButton decMotorSpeed = new JoystickButton(driverController.getHID(), XboxController.Button.kLeftBumper.value);
+
+		incMotorSpeed.onTrue(new InstantCommand(() -> {
+			shooterConstants.bottomShootSpeed += 0.05; 
+			shooterConstants.topShootSpeed -= 0.05; 
+
+		}));
+		decMotorSpeed.onTrue(new InstantCommand(() -> {
+			shooterConstants.bottomShootSpeed -= 0.05; 
+			shooterConstants.topShootSpeed += 0.05; 
+		}));
+
 		configureSecondBindings();
 	}
 
@@ -150,7 +165,7 @@ public class RobotContainer {
 
 		// intake.whileTrue(new IntakeRing(m_intake));
 		autoAim.onTrue(new SequentialCommandGroup(
-			new InstantCommand(() -> {currentAngle = armConstants.parkSetPoint;}),
+			new InstantCommand(() -> {currentAngle = Targeting.aimArmToSpeaker();}),
 			new PointMove(m_arm)
 		));
 
@@ -159,12 +174,9 @@ public class RobotContainer {
 			new PointMove(m_arm)
 			)).whileTrue(new IntakeRing(m_intake));
 
-		intakeSensor.whileTrue(new InstantCommand(() -> m_led.makeItGreen()));
-		shoot.whileTrue(new InstantCommand(() -> m_led.makeItMagenta()));
-
 		extake.whileTrue(new ExtakeRing(m_intake));
-		shoot.whileTrue(new SequentialCommandGroup( new Shoot(m_shooter), 
-			new ParallelCommandGroup(new Shoot(m_shooter), new IntakeRingS(m_intake))));
+		shoot.whileTrue(new SequentialCommandGroup( new Shoot(m_shooter, m_led), 
+			new ParallelCommandGroup(new Shoot(m_shooter, m_led), new IntakeRingS(m_intake))));
 
 		armUp.whileTrue(new ArmRaise(m_arm));
 		armDown.whileTrue(new ArmLower(m_arm));
@@ -176,10 +188,10 @@ public class RobotContainer {
 			new SequentialCommandGroup(
 				new Trap(m_arm), 
 				new SequentialCommandGroup( 
-					new Shoot(m_shooter), 
+					new Shoot(m_shooter, m_led), 
 					new ParallelCommandGroup(
 						new Trap(m_arm), 
-						new Shoot(m_shooter), 
+						new Shoot(m_shooter, m_led), 
 						new IntakeRing(m_intake)
 
 
@@ -194,8 +206,8 @@ public class RobotContainer {
 			new InstantCommand(() -> {currentAngle = 0.335;}),
 			new PointMoveAuto(m_arm), new DriveToNote(m_swerveSys, m_intake)));
 		NamedCommands.registerCommand("AutoAim", new AutoAim(m_swerveSys, m_arm));
-		NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(new LEDCustomColor(m_led, LEDColor.Yellow), new Shoot(m_shooter), 
-			new ParallelCommandGroup(new Shoot(m_shooter), new IntakeRingS(m_intake))));
+		NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(new LEDCustomColor(m_led, LEDColor.Yellow), new Shoot(m_shooter, m_led), 
+			new ParallelCommandGroup(new Shoot(m_shooter, m_led), new IntakeRingS(m_intake))));
 		NamedCommands.registerCommand("SimplePark", new ParallelCommandGroup(
 			new InstantCommand(() -> {currentAngle = 0.335;}),
 			new PointMoveAuto(m_arm)));

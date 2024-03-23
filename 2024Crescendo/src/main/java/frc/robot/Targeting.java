@@ -15,8 +15,7 @@ public final class Targeting {
     }
 
 	public static double aimArmToSpeaker() {
-		return armConstants.shooterEquationM * Camera.getArea() + armConstants.shooterEquationB;
-		
+		return armConstants.shooterEquationM * Camera.getTZ() + armConstants.shooterEquationB;
     }
 
 	public static double driveToNote() {

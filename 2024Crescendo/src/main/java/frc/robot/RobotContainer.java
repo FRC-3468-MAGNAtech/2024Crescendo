@@ -29,8 +29,6 @@ import frc.robot.commands.drivetrain.SwerveDrive;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 
-import java.lang.annotation.Target;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -56,6 +54,7 @@ public class RobotContainer {
 	public final static Intake m_intake = new Intake();
 	public final static Climb m_climb = new Climb();
 	public final static SwerveSys m_swerveSys = new SwerveSys();
+	public final static Camera m_camera = new Camera();
 
 	public static double currentAngle = 0.5;
 
@@ -122,19 +121,6 @@ public class RobotContainer {
 		driverController.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, ControllerConstants.triggerPressedThreshhold)
 		.whileTrue(Commands.runOnce(() -> m_swerveSys.lock()));
 
-		JoystickButton incMotorSpeed = new JoystickButton(driverController.getHID(), XboxController.Button.kRightBumper.value);
-		JoystickButton decMotorSpeed = new JoystickButton(driverController.getHID(), XboxController.Button.kLeftBumper.value);
-
-		incMotorSpeed.onTrue(new InstantCommand(() -> {
-			shooterConstants.bottomShootSpeed += 0.05; 
-			shooterConstants.topShootSpeed -= 0.05; 
-
-		}));
-		decMotorSpeed.onTrue(new InstantCommand(() -> {
-			shooterConstants.bottomShootSpeed -= 0.05; 
-			shooterConstants.topShootSpeed += 0.05; 
-		}));
-
 		configureSecondBindings();
 	}
 
@@ -161,11 +147,10 @@ public class RobotContainer {
 
 		Trigger climbUp = new Trigger(() -> { return secondaryDriveController.getRightTriggerAxis() > 0.5; });
 		Trigger climbDown = new Trigger(() -> { return secondaryDriveController.getLeftTriggerAxis() > 0.5; });
-		Trigger intakeSensor = new Trigger(() ->  m_intake.getIntakeSensor());
 
 		// intake.whileTrue(new IntakeRing(m_intake));
 		autoAim.onTrue(new SequentialCommandGroup(
-			new InstantCommand(() -> {currentAngle = Targeting.aimArmToSpeaker();}),
+			new InstantCommand(() -> {currentAngle = Targeting.aimArmToSpeakerInt();}),
 			new PointMove(m_arm)
 		));
 
@@ -218,11 +203,6 @@ public class RobotContainer {
 	public void updateInterface() {
 		SmartDashboard.putNumber("ArmSetAngle", currentAngle);
 		SmartDashboard.putNumber("speed m/s", m_swerveSys.getAverageDriveVelocityMetersPerSec());
-		SmartDashboard.putNumber("DistanceFromSpeaker", Camera.getArea());
-		SmartDashboard.putNumber("LimelightZ", Camera.getTZ());
-
-		/*SmartDashboard.putNumber("Limelight TA", LimelightHelpers.getTA("limelight-notes"));
-		SmartDashboard.putNumber("Limelight TX", LimelightHelpers.getTX("limelight-notes"));
-		SmartDashboard.putNumber("Limelight TY", LimelightHelpers.getTY("limelight-notes"));*/
+		SmartDashboard.putNumber("DistanceFromSpeaker", Camera.getTZ());
 	}
 }

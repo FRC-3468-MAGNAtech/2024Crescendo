@@ -82,10 +82,7 @@ public class Arm extends SubsystemBase {
 	public double getAngle() {
 		return m_Encoder.getPosition();
 	}
-
-	public double findAngle() {
-		return -(armConstants.shooterEquationM * Camera.getArea() + armConstants.shooterEquationB);
-	}
+	
 	@Override
 	public void periodic() {
 		// This method will be called once per scheduler run

@@ -22,6 +22,8 @@ public class Shooter extends SubsystemBase {
 	private SparkPIDController m_PIDControllerBottom;
 	private RelativeEncoder topEncoder;
 
+	public double setSpeed = 0.7;
+
 
 	/** Creates a new Shooter. */
 	public Shooter() {
@@ -49,8 +51,8 @@ public class Shooter extends SubsystemBase {
 	}
 
 	public void shoot() {
-		m_bottomShootMotor.set(Constants.shooterConstants.bottomShootSpeed);
-		m_topShootMotor.set(Constants.shooterConstants.topShootSpeed);
+		m_bottomShootMotor.set(setSpeed);
+		m_topShootMotor.set(-setSpeed);
 	}
 
 	public void shootDistance() {

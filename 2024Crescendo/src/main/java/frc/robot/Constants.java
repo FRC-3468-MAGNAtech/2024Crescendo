@@ -171,7 +171,7 @@ public class Constants {
 		public static final boolean backLeftSteerInvert = true;
 		public static final boolean backRightSteerInvert = true;
 
-		public static final int driveCurrentLimitAmps = 40;
+		public static final int driveCurrentLimitAmps = 80;
 		
 		public static final double drivekP = 0.005;
 		public static final double driveI = 0;
@@ -248,8 +248,8 @@ public class Constants {
 	public static final class shooterConstants {
 		public static final int bottomShootSparkMaxCANID = 8;
 		public static final int topShootSparkMaxCANID = 9;
-		public static double bottomShootSpeed = 0.7;
-		public static double topShootSpeed = -0.7;
+		public static final double bottomShootSpeed = 0.7;
+		public static final double topShootSpeed = -0.7;
 		public static final double bottomAmpSpeed = 0.055;
 		public static final double topAmpSpeed = -0.055;
 		public static final double shooterP = 10.0;
@@ -279,6 +279,6 @@ public class Constants {
 		public static final double ArmMin = -0.5;
 		public static final double ArmMax = 0.5;
 		public static final double shooterEquationM = 0.035696;
-		public static final double shooterEquationB = 0.346181;
+		public static final double shooterEquationB = 0.356181;
 	}
 }               

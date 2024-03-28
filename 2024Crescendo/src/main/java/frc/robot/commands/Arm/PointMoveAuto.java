@@ -30,6 +30,7 @@ public class PointMoveAuto extends Command {
 	@Override
 	public void end(boolean interrupted) {
 		i_subsystem.stop();
+		System.out.println("AutoPointEnd");
 	}
 
 	// Returns true when the command should end.

@@ -29,20 +29,22 @@ public class Camera extends SubsystemBase {
 
 		angleMap.put(0.858, 0.3748);
 		angleMap.put(1.978, 0.3806);
-		angleMap.put(2.086, 0.4300);
-		angleMap.put(2.460, 0.4400);
-		angleMap.put(2.100, 0.4500);
-		angleMap.put(3.100, 0.4700);
-		angleMap.put(3.800, 0.4700);
-		angleMap.put(4.900, 0.4780);
-		angleMap.put(2.300, 0.4500);
-		angleMap.put(1.730, 0.4465);
-		angleMap.put(0.770, 0.4026);
-		angleMap.put(2.530, 0.4560);
-		angleMap.put(2.800, 0.4500);
-		angleMap.put(4.190, 0.4826);
-		angleMap.put(4.350, 0.4835);
-		angleMap.put(3.790, 0.4826);
+		angleMap.put(2.086, 0.4350);
+		angleMap.put(2.460, 0.450);
+		angleMap.put(2.100, 0.440);
+		angleMap.put(3.100, 0.4650);
+		angleMap.put(3.800, 0.4650);
+		angleMap.put(4.900, 0.4680);
+		angleMap.put(2.300, 0.4492);
+		angleMap.put(1.730, 0.4365);
+		angleMap.put(0.770, 0.3926);
+		angleMap.put(2.530, 0.460);
+		angleMap.put(2.800, 0.460);
+		angleMap.put(4.190, 0.4726);
+		angleMap.put(4.350, 0.4735);
+		angleMap.put(3.790, 0.4726);
+		angleMap.put(2.31, 0.4492);
+		angleMap.put(2.27, 0.4453);
 
 	}
 	

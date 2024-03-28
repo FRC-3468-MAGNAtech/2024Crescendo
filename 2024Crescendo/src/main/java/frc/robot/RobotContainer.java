@@ -190,10 +190,11 @@ public class RobotContainer {
 	public static void registerNamedCommands() {
 		NamedCommands.registerCommand("Intake", new IntakeRing(m_intake));
 		NamedCommands.registerCommand("AutoAim", new AutoAim(m_arm));
+		NamedCommands.registerCommand("KeepArmUp", new PointMove(m_arm));
 		NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(new LEDCustomColor(m_led, LEDColor.Yellow), new Shoot(m_shooter, m_led), 
 			new ParallelCommandGroup(new Shoot(m_shooter, m_led), new IntakeRingS(m_intake))));
 		NamedCommands.registerCommand("SimplePark", new ParallelCommandGroup(
-			new InstantCommand(() -> {currentAngle = 0.335;}),
+			new InstantCommand(() -> {currentAngle = 0.35;}),
 			new PointMoveAuto(m_arm)));
 		NamedCommands.registerCommand("ZeroGyro", new InstantCommand(() -> m_swerveSys.resetHeading()));
 		

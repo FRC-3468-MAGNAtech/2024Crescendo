@@ -86,13 +86,14 @@ public class RobotContainer {
 		autoChooser.addOption("BaseAuto", new GetNoteAuto());
 		autoChooser.addOption("Test3Note", new PathPlannerAuto("TestAuto"));
 		autoChooser.addOption("Test2Note", new PathPlannerAuto("Test Auto 2"));
+		autoChooser.addOption("CheeseAuto", new PathPlannerAuto("CheeseAuto"));
 
 		m_intake.setDefaultCommand(new IntakeStop(m_intake));
 		m_shooter.setDefaultCommand(new ShooterStop(m_shooter));
 		m_arm.setDefaultCommand(new PointMove(m_arm));
 		m_led.setDefaultCommand(new LEDAllianceColor(m_led));
 
-
+		LimelightHelpers.setPipelineIndex(LimelightConstants.llTags, 0);
 		configDriverBindings();
 
 	}
@@ -187,15 +188,14 @@ public class RobotContainer {
 	}
 
 	public static void registerNamedCommands() {
-		NamedCommands.registerCommand("DriveToNote", new ParallelCommandGroup(
-			new InstantCommand(() -> {currentAngle = 0.335;}),
-			new PointMoveAuto(m_arm), new DriveToNote(m_swerveSys, m_intake)));
-		NamedCommands.registerCommand("AutoAim", new AutoAim(m_swerveSys, m_arm));
+		NamedCommands.registerCommand("Intake", new IntakeRing(m_intake));
+		NamedCommands.registerCommand("AutoAim", new AutoAim(m_arm));
 		NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(new LEDCustomColor(m_led, LEDColor.Yellow), new Shoot(m_shooter, m_led), 
 			new ParallelCommandGroup(new Shoot(m_shooter, m_led), new IntakeRingS(m_intake))));
 		NamedCommands.registerCommand("SimplePark", new ParallelCommandGroup(
 			new InstantCommand(() -> {currentAngle = 0.335;}),
 			new PointMoveAuto(m_arm)));
+		NamedCommands.registerCommand("ZeroGyro", new InstantCommand(() -> m_swerveSys.resetHeading()));
 		
 	}
 

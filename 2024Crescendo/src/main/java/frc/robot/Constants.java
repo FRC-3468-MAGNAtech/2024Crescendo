@@ -237,7 +237,7 @@ public class Constants {
 		public static final double intakeIZone = 0.1;
 		public static final double intakeFF = 0.01;
 		public static final double intakeMin = -0.5;
-		public static final double intakeMax = 0.2;
+		public static final double intakeMax = 0.28;
 		public static final double intakeRPM = 2000;
 		public static final double intakeMotorForward = 0.28;
 		public static final double intakeMotorReverse = -0.1;
@@ -272,7 +272,7 @@ public class Constants {
 		public static final double parkSetPoint = 0.39;
 		public static final double intakeSetPoint = 0.355;
 		public static final double ArmP = 5;
-		public static final double ArmI = 0;
+		public static final double ArmI = 0.0007;
 		public static final double ArmD = 0;
 		public static final double ArmIZone = 0.1;
 		public static final double ArmFF = 0.1;

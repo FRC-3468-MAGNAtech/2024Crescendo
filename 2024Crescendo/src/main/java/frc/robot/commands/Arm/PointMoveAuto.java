@@ -36,6 +36,6 @@ public class PointMoveAuto extends Command {
 	@Override
 	public boolean isFinished() {
 		double angle = i_subsystem.getAngle();
-		return ((angle > RobotContainer.currentAngle - 0.1) && (angle < RobotContainer.currentAngle + 0.1));
+		return ((angle > RobotContainer.currentAngle - 0.01) && (angle < RobotContainer.currentAngle + 0.01));
 	}
 }

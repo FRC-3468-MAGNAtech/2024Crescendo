@@ -24,6 +24,10 @@ public class LEDAllianceColor extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
+		if (RobotContainer.m_intake.getIntakeSensor()) {
+			m_led.makeItGreen();
+			return;
+		}
 		if (RobotContainer.isRedAlliance())
 			m_led.makeItRed();
 		else

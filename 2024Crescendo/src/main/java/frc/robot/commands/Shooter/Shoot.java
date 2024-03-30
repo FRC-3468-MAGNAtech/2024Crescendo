@@ -6,10 +6,8 @@ package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.LEDs.LEDColor;
 
 public class Shoot extends Command {
 	private Shooter pew;

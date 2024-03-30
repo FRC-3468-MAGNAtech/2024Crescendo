@@ -7,19 +7,20 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.CANDevices;
 import frc.robot.Constants.LEDConstants;
 
 public class LEDs extends SubsystemBase {
 	public static enum LEDColor {
-		Black,
-		White,
-		Red,
-		Green,
-		Blue,
-		Magenta,
-		Yellow,
-		Cyan
+		Black
+	,	White
+	,	Red
+	,	Green
+	,	Blue
+	,	Magenta
+	,	Yellow
+	,	Cyan
 	}
 	private final Solenoid redLED;
 	private final Solenoid greenLED;
@@ -29,8 +30,11 @@ public class LEDs extends SubsystemBase {
 	private final Solenoid greenLED2;
 	private final Solenoid blueLED2;
 	private final Solenoid whiteLED2;
+	private final Solenoid shooterLEDRed;
+	private final Solenoid shooterLEDBlue;
 	/** Creates a new LEDs. */
 	public LEDs() {
+		//climber colors
 		redLED = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.LEDRed);
 		greenLED = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.LEDGreen);
 		blueLED = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.LEDBlue);
@@ -39,6 +43,9 @@ public class LEDs extends SubsystemBase {
 		greenLED2 = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.LEDGreen2);
 		blueLED2 = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.LEDBlue2);
 		whiteLED2 = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.LEDWhite2);
+		//shooter colors
+		shooterLEDRed = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.ShooterLEDRed);
+		shooterLEDBlue = new Solenoid(CANDevices.pneumaticHubId, PneumaticsModuleType.REVPH, LEDConstants.ShooterLEDBlue);
 		clearColor();
 	}
 
@@ -121,5 +128,15 @@ public class LEDs extends SubsystemBase {
 		enableGreen(false);
 		enableBlue(false);
 		enableWhite(false);
+	}
+
+	public void setShooterAllianceColor() {
+		if (RobotContainer.isRedAlliance()) {
+			shooterLEDBlue.set(false);
+			shooterLEDRed.set(true);
+		} else {
+			shooterLEDBlue.set(true);
+			shooterLEDRed.set(false);
+		}
 	}
 }

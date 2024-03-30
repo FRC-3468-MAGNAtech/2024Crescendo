@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.LEDs;
 
-public class LEDAllianceColor extends Command {
+public class LEDColor extends Command {
 	LEDs m_led;
 	/** Creates a new LEDAllianceColor. */
-	public LEDAllianceColor(LEDs led) {
+	public LEDColor(LEDs led) {
 		// Use addRequirements() here to declare subsystem dependencies.
 		m_led = led;
 		addRequirements(led);
@@ -24,6 +24,7 @@ public class LEDAllianceColor extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
+		m_led.setShooterAllianceColor();
 		if (RobotContainer.m_intake.getIntakeSensor()) {
 			m_led.makeItGreen();
 			return;

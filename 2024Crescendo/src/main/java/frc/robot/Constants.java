@@ -66,7 +66,9 @@ public class Constants {
 		public static final int LEDGreen2 = 13;
 		public static final int LEDBlue2 = 12;
 		public static final int LEDWhite2 = 11;
-		
+
+		public static final int ShooterLEDRed = 6;
+		public static final int ShooterLEDBlue = 7;
 	}
 
 	public static final class ControllerConstants {

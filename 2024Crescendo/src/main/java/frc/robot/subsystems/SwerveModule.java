@@ -92,7 +92,7 @@ public class SwerveModule extends SubsystemBase {
 		//set the output to radians per second for velocity output
 		steerEnc.setVelocityConversionFactor(DriveConstants.steerRadiansPerSecPerRPM);
 
-		// Initializes the steer encoder position to the CANCoder position, accounting for an offset if any
+		//initializes the steer encoder position to the CANCoder position, accounting for an offset if any
 		steerEnc.setPosition(getCanCoderAngle().getRadians() - offset.getRadians());
 
 	}
@@ -120,9 +120,7 @@ public class SwerveModule extends SubsystemBase {
 	 * @return The current drive distance of the module.
 	 */
 	public double getDriveDistanceMeters() {
-
 		return driveEnc.getPosition();
-
 	}
 	
 	/**

@@ -434,11 +434,10 @@ public class SwerveSys extends SubsystemBase {
      * Enables or disables Turtle Mode based on the current speedFactor value.
      */
     public void setTurtleMode() {
-        if (speedFactor == 1) {
+        if (speedFactor == 1)
             speedFactor = 0.3;
-        } else {
+        else 
             speedFactor = 1;
-        }
         for (int i = 0; i < 4; i++) ;
     }
     public boolean PathFlip() {

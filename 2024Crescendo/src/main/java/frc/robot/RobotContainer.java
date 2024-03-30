@@ -6,7 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.*;
 import frc.robot.subsystems.*;
-import frc.robot.commands.LEDAllianceColor;
+import frc.robot.commands.LEDColor;
 import frc.robot.commands.Arm.Amp;
 import frc.robot.commands.Arm.ArmLower;
 import frc.robot.commands.Arm.ArmRaise;
@@ -89,7 +89,7 @@ public class RobotContainer {
 		m_intake.setDefaultCommand(new IntakeStop(m_intake));
 		m_shooter.setDefaultCommand(new ShooterStop(m_shooter));
 		m_arm.setDefaultCommand(new PointMove(m_arm));
-		m_led.setDefaultCommand(new LEDAllianceColor(m_led));
+		m_led.setDefaultCommand(new LEDColor(m_led));
 
 		LimelightHelpers.setPipelineIndex(LimelightConstants.llTags, 0);
 		configDriverBindings();

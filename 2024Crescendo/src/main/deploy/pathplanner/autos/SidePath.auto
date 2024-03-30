@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.38,
-      "y": 5.53
+      "x": 0.7230001556777316,
+      "y": 6.732437881749213
     },
-    "rotation": 180.0
+    "rotation": -120.46554491945986
   },
   "command": {
     "type": "sequential",
@@ -37,19 +37,13 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "SimplePark"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "CheeseNote1"
+                  "pathName": "SidePathNote 1"
                 }
               },
               {
@@ -87,19 +81,13 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "SimplePark"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "CheeseNote2"
+                  "pathName": "SidePathNote 2"
                 }
               },
               {
@@ -112,71 +100,15 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "shootNote 2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoAim"
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "KeepArmUp"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "SimplePark"
           }
         },
         {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "CheeseNote3"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "ShootNote 3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoAim"
+            "pathName": "SidePathShoot 1"
           }
         },
         {

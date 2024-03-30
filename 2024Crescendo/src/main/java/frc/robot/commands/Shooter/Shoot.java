@@ -47,7 +47,7 @@ public class Shoot extends Command {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return timer.hasElapsed(0.8);
+		return timer.hasElapsed(0.4);
 		/*if (pew.getVelocity() < -3600.0)
 			return true;
 		return false;*/

@@ -6,9 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.*;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.LEDs.LEDColor;
 import frc.robot.commands.LEDAllianceColor;
-import frc.robot.commands.LEDCustomColor;
 import frc.robot.commands.Arm.Amp;
 import frc.robot.commands.Arm.ArmLower;
 import frc.robot.commands.Arm.ArmRaise;
@@ -162,7 +160,6 @@ public class RobotContainer {
 
 		Trigger climbUp = new Trigger(() -> { return secondaryDriveController.getRightTriggerAxis() > 0.5; });
 		Trigger climbDown = new Trigger(() -> { return secondaryDriveController.getLeftTriggerAxis() > 0.5; });
-		Trigger hasNote = new Trigger(() -> { return m_intake.getIntakeSensor(); });
 
 		// intake.whileTrue(new IntakeRing(m_intake));
 		/*autoAim.onTrue(new SequentialCommandGroup(
@@ -187,8 +184,6 @@ public class RobotContainer {
 
 		armUp.whileTrue(new ArmRaise(m_arm));
 		armDown.whileTrue(new ArmLower(m_arm));
-
-		hasNote.whileTrue(new LEDCustomColor(m_led, LEDColor.Green));
 
 		climbUp.whileTrue(new ClimbUp(m_climb));
 		climbDown.whileTrue(new ClimbDown(m_climb));

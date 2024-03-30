@@ -116,11 +116,25 @@ public class RobotContainer {
 			m_swerveSys
 		));
 
+		
+		JoystickButton intakeSource = new JoystickButton(driverController.getHID(), SubsystemControllerConstants.intakeButton);
+		JoystickButton parkButton = new JoystickButton(driverController.getHID(), XboxController.Button.kB.value);
+
 		// Turtle and Gyro buttons
 		turtleEnable.onTrue(new InstantCommand(() -> m_swerveSys.setTurtleMode()));
 		zeroGyro.onTrue(new InstantCommand(() -> m_swerveSys.resetHeading()));
 		driverController.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, ControllerConstants.triggerPressedThreshhold)
 		.whileTrue(Commands.runOnce(() -> m_swerveSys.lock()));
+
+		intakeSource.onTrue(new ParallelCommandGroup(
+			new InstantCommand(() -> {currentAngle = 0.529;}),
+			new PointMove(m_arm)
+			)).whileTrue(new IntakeRing(m_intake));
+
+		parkButton.onTrue(new ParallelCommandGroup(
+			new InstantCommand(() -> {currentAngle = 0.37;}),
+			new PointMove(m_arm)
+			));
 
 		configureSecondBindings();
 	}
@@ -148,11 +162,18 @@ public class RobotContainer {
 
 		Trigger climbUp = new Trigger(() -> { return secondaryDriveController.getRightTriggerAxis() > 0.5; });
 		Trigger climbDown = new Trigger(() -> { return secondaryDriveController.getLeftTriggerAxis() > 0.5; });
+		Trigger hasNote = new Trigger(() -> { return m_intake.getIntakeSensor(); });
 
 		// intake.whileTrue(new IntakeRing(m_intake));
-		autoAim.onTrue(new SequentialCommandGroup(
+		/*autoAim.onTrue(new SequentialCommandGroup(
 			new InstantCommand(() -> {currentAngle = Targeting.aimArmToSpeakerInt();}),
 			new PointMove(m_arm)
+		));*/
+
+		autoAim.onTrue(new SequentialCommandGroup(
+			new AutoAim(m_arm),
+			new SequentialCommandGroup(new Shoot(m_shooter, m_led), 
+			new ParallelCommandGroup(new Shoot(m_shooter, m_led), new IntakeRingS(m_intake)))
 		));
 
 		intake.onTrue(new ParallelCommandGroup(
@@ -166,6 +187,8 @@ public class RobotContainer {
 
 		armUp.whileTrue(new ArmRaise(m_arm));
 		armDown.whileTrue(new ArmLower(m_arm));
+
+		hasNote.whileTrue(new LEDCustomColor(m_led, LEDColor.Green));
 
 		climbUp.whileTrue(new ClimbUp(m_climb));
 		climbDown.whileTrue(new ClimbDown(m_climb));
@@ -191,7 +214,7 @@ public class RobotContainer {
 		NamedCommands.registerCommand("Intake", new IntakeRing(m_intake));
 		NamedCommands.registerCommand("AutoAim", new AutoAim(m_arm));
 		NamedCommands.registerCommand("KeepArmUp", new PointMove(m_arm));
-		NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(new LEDCustomColor(m_led, LEDColor.Yellow), new Shoot(m_shooter, m_led), 
+		NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(new Shoot(m_shooter, m_led), 
 			new ParallelCommandGroup(new Shoot(m_shooter, m_led), new IntakeRingS(m_intake))));
 		NamedCommands.registerCommand("SimplePark", new ParallelCommandGroup(
 			new InstantCommand(() -> {currentAngle = 0.35;}),

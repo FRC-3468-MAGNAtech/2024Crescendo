@@ -26,13 +26,13 @@ public class LEDColor extends Command {
 	public void execute() {
 		m_led.setShooterAllianceColor();
 		if (RobotContainer.m_intake.getIntakeSensor()) {
-			m_led.makeItGreen();
+			m_led.setColor(LEDs.LEDColor.Green);
 			return;
 		}
 		if (RobotContainer.isRedAlliance())
-			m_led.makeItRed();
+			m_led.setColor(LEDs.LEDColor.Red);
 		else
-			m_led.makeItBlue();
+			m_led.setColor(LEDs.LEDColor.Blue);
 	}
 
 	// Called once the command ends or is interrupted.

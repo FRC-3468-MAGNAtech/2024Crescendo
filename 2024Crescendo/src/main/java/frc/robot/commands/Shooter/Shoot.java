@@ -24,7 +24,7 @@ public class Shoot extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		led.makeItMagenta();
+		led.setColor(LEDs.LEDColor.Magenta);
 		timer.reset();
 		timer.start();
 	}

@@ -32,6 +32,8 @@ public class LEDs extends SubsystemBase {
 	private final Solenoid whiteLED2;
 	private final Solenoid shooterLEDRed;
 	private final Solenoid shooterLEDBlue;
+
+	private LEDColor currentColor = LEDColor.Black;
 	/** Creates a new LEDs. */
 	public LEDs() {
 		//climber colors
@@ -74,56 +76,56 @@ public class LEDs extends SubsystemBase {
 		whiteLED2.set(enable);
 	}
 
-	public void makeItRed() {
+	private void makeItRed() {
 		enableRed(true);
 		enableGreen(false);
 		enableBlue(false);
 		enableWhite(false);
 	}
 
-	public void makeItGreen() {
+	private void makeItGreen() {
 		enableRed(false);
 		enableGreen(true);
 		enableBlue(false);
 		enableWhite(false);
 	}
 
-	public void makeItBlue() {
+	private void makeItBlue() {
 		enableRed(false);
 		enableGreen(false);
 		enableBlue(true);
 		enableWhite(false);
 	}
 
-	public void makeItMagenta() {
+	private void makeItMagenta() {
 		enableRed(true);
 		enableGreen(false);
 		enableBlue(true);
 		enableWhite(false);
 	}
 
-	public void makeItCyan() {
+	private void makeItCyan() {
 		enableRed(false);
 		enableGreen(true);
 		enableBlue(true);
 		enableWhite(false);
 	}
 
-	public void makeItYellow() {
+	private void makeItYellow() {
 		enableRed(true);
 		enableGreen(true);
 		enableBlue(false);
 		enableWhite(false);
 	}
 
-	public void makeItWhite() {
+	private void makeItWhite() {
 		enableRed(false);
 		enableGreen(false);
 		enableBlue(false);
 		enableWhite(true);
 	}
 
-	public void clearColor() {
+	private void clearColor() {
 		enableRed(false);
 		enableGreen(false);
 		enableBlue(false);
@@ -137,6 +139,40 @@ public class LEDs extends SubsystemBase {
 		} else {
 			shooterLEDBlue.set(true);
 			shooterLEDRed.set(false);
+		}
+	}
+	
+	public void setColor(LEDColor color) {
+		boolean colorChanged = color != currentColor;
+		currentColor = color;
+		if (!colorChanged) return;
+		switch (color) {
+			case Red:
+				makeItRed();
+				break;
+			case Green:
+				makeItGreen();
+				break;
+			case Blue:
+				makeItBlue();
+				break;
+			case White:
+				makeItWhite();
+				break;
+			case Cyan:
+				makeItCyan();
+				break;
+			case Yellow:
+				makeItYellow();
+				break;
+			case Magenta:
+				makeItMagenta();
+				break;
+			case Black:
+				clearColor();
+				break;
+			default:
+				break;
 		}
 	}
 }

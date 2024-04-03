@@ -14,16 +14,14 @@ public final class Targeting {
 		return -LimelightConstants.llPIDctrlRotate.calculate(tx);
     }
 
-	public static double aimArmToSpeaker() {
-		return armConstants.shooterEquationM * Camera.getTZ() + armConstants.shooterEquationB;
-    }
-
 	public static double aimArmToSpeakerInt() {
 		double shootSpeed = RobotContainer.m_camera.speedMap.get(Camera.getTZ());
 		if (shootSpeed < 0.65)
 			shootSpeed = 0.65;
 		RobotContainer.m_shooter.setSpeed = shootSpeed;
-		return RobotContainer.m_camera.angleMap.get(Camera.getTZ());
+		double angle = RobotContainer.m_camera.angleMap.get(Camera.getTZ());
+		if (angle > 0.47) angle = 0.47;
+		return angle;
     }
 
 	public static double driveToNote() {

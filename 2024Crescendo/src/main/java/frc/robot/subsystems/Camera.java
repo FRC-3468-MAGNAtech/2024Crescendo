@@ -27,24 +27,32 @@ public class Camera extends SubsystemBase {
 		speedMap.put(2.300, 0.85);
 		speedMap.put(2.800, 0.80);
 
-		angleMap.put(0.858, 0.3748);
-		angleMap.put(1.978, 0.3806);
-		angleMap.put(2.086, 0.4350);
-		angleMap.put(2.460, 0.440);
-		angleMap.put(2.100, 0.430);
-		angleMap.put(3.100, 0.4550);
-		angleMap.put(3.800, 0.4550);
-		angleMap.put(4.900, 0.4680);
-		angleMap.put(2.300, 0.4392);
-		angleMap.put(1.730, 0.4365);
 		angleMap.put(0.770, 0.3926);
-		angleMap.put(2.530, 0.440);
-		angleMap.put(2.800, 0.460);
-		angleMap.put(4.190, 0.4726);
-		angleMap.put(4.350, 0.4735);
-		angleMap.put(3.790, 0.4726);
-		angleMap.put(2.31, 0.4492);
-		angleMap.put(2.27, 0.4453);
+		angleMap.put(0.858, 0.3948);
+		angleMap.put(1.120, 0.4300);
+		angleMap.put(1.490, 0.3900);
+		angleMap.put(1.730, 0.4365);
+		angleMap.put(1.978, 0.3906);
+		angleMap.put(2.086, 0.4450);
+		angleMap.put(2.100, 0.4464);
+		angleMap.put(2.160, 0.4474);
+		angleMap.put(2.200, 0.4476);
+		angleMap.put(2.230, 0.4476);
+		angleMap.put(2.270, 0.4500);
+		angleMap.put(2.300, 0.4500);
+		angleMap.put(2.310, 0.4590);
+		angleMap.put(2.430, 0.4600);
+		angleMap.put(2.460, 0.4610);
+		angleMap.put(2.530, 0.4620);
+		angleMap.put(2.750, 0.4630);
+		angleMap.put(2.800, 0.4640);
+		angleMap.put(3.100, 0.4650);
+		angleMap.put(3.520, 0.4660);
+		angleMap.put(3.790, 0.4670);
+		angleMap.put(3.800, 0.4680);
+		angleMap.put(4.190, 0.4690);
+		angleMap.put(4.350, 0.4700);
+		angleMap.put(4.900, 0.4700);
 
 	}
 	

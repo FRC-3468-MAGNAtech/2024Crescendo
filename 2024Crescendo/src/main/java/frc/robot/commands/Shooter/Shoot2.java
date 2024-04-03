@@ -9,13 +9,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Shooter;
 
-public class Shoot extends Command {
+public class Shoot2 extends Command {
 	private Shooter pew;
 	private LEDs led;
 	private Timer timer = new Timer();
 	
 	/** Creates a new Shoot. */
-	public Shoot(Shooter subsytem, LEDs led) {
+	public Shoot2(Shooter subsytem, LEDs led) {
 		pew = subsytem;
 		this.led = led;
 		addRequirements(subsytem, led);
@@ -45,9 +45,6 @@ public class Shoot extends Command {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return timer.hasElapsed(0.4);
-		/*if (pew.getVelocity() < -3600.0)
-			return true;
-		return false;*/
+		return timer.hasElapsed(0.1);
 	}
 }

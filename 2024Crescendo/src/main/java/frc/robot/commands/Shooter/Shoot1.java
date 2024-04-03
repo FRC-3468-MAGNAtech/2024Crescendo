@@ -4,35 +4,47 @@
 
 package frc.robot.commands.Shooter;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Shooter;
 
-public class ShootDistance extends Command {
-	private Shooter i_subsystem;
+public class Shoot1 extends Command {
+	private Shooter pew;
+	private LEDs led;
+	private Timer timer = new Timer();
 	
-	/** Creates a new ShootDistance. */
-	public ShootDistance(Shooter subsystem) {
-		i_subsystem = subsystem;
-		addRequirements(subsystem);
+	/** Creates a new Shoot. */
+	public Shoot1(Shooter subsytem, LEDs led) {
+		pew = subsytem;
+		this.led = led;
+		addRequirements(subsytem, led);
 	}
 
 	// Called when the command is initially scheduled.
 	@Override
-	public void initialize() {}
+	public void initialize() {
+		led.setColor(LEDs.LEDColor.Magenta);
+		timer.reset();
+		timer.start();
+	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		i_subsystem.shootDistance();
+		pew.shoot();
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
-	public void end(boolean interrupted) {}
+	public void end(boolean interrupted) {
+		pew.stop();
+		timer.stop();
+	}
 
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return false;
+		return timer.hasElapsed(0.3);
 	}
 }

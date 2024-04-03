@@ -280,7 +280,7 @@ public class Constants {
 		public static final double ArmIZone = 0.1;
 		public static final double ArmFF = 0.1;
 		public static final double ArmMin = -0.5;
-		public static final double ArmMax = 0.5;
+		public static final double ArmMax = 0.7;
 		public static final double shooterEquationM = 0.035696;
 		public static final double shooterEquationB = 0.356181;
 	}

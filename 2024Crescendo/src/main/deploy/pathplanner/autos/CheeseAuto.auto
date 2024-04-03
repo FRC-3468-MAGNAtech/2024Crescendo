@@ -87,12 +87,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "SimplePark"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -107,14 +101,14 @@
                 "data": {
                   "name": "Intake"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SimplePark"
+                }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "shootNote 2"
           }
         },
         {
@@ -143,12 +137,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "SimplePark"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -163,14 +151,14 @@
                 "data": {
                   "name": "Intake"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SimplePark"
+                }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "ShootNote 3"
           }
         },
         {

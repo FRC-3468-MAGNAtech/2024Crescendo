@@ -20,7 +20,9 @@ import frc.robot.commands.Intake.IntakeRing;
 import frc.robot.commands.Intake.IntakeRingS;
 import frc.robot.commands.Intake.IntakeStop;
 import frc.robot.commands.Shooter.AmpOoze;
-import frc.robot.commands.Shooter.Shoot;
+import frc.robot.commands.Shooter.RunShooter;
+import frc.robot.commands.Shooter.Shoot1;
+import frc.robot.commands.Shooter.Shoot2;
 import frc.robot.commands.Shooter.ShooterStop;
 import frc.robot.commands.AutoCommands.*;
 import frc.robot.commands.drivetrain.SwerveDrive;
@@ -38,6 +40,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -85,6 +88,8 @@ public class RobotContainer {
 		autoChooser.addOption("Test3Note", new PathPlannerAuto("TestAuto"));
 		autoChooser.addOption("Test2Note", new PathPlannerAuto("Test Auto 2"));
 		autoChooser.addOption("CheeseAuto", new PathPlannerAuto("CheeseAuto"));
+		autoChooser.addOption("SidePath", new PathPlannerAuto("SidePath"));
+		autoChooser.addOption("CornnerPath", new PathPlannerAuto("CornerPath Auto"));
 
 		m_intake.setDefaultCommand(new IntakeStop(m_intake));
 		m_shooter.setDefaultCommand(new ShooterStop(m_shooter));
@@ -169,8 +174,12 @@ public class RobotContainer {
 
 		autoAim.onTrue(new SequentialCommandGroup(
 			new AutoAim(m_arm),
-			new SequentialCommandGroup(new Shoot(m_shooter, m_led), 
-			new ParallelCommandGroup(new Shoot(m_shooter, m_led), new IntakeRingS(m_intake)))
+			new ParallelRaceGroup(
+				new SequentialCommandGroup(new Shoot1(m_shooter, m_led), 
+				new ParallelCommandGroup(new Shoot2(m_shooter, m_led), new IntakeRingS(m_intake))
+				),
+				new PointMove(m_arm)
+			)
 		));
 
 		intake.onTrue(new ParallelCommandGroup(
@@ -179,8 +188,8 @@ public class RobotContainer {
 			)).whileTrue(new IntakeRing(m_intake));
 
 		extake.whileTrue(new ExtakeRing(m_intake));
-		shoot.whileTrue(new SequentialCommandGroup( new Shoot(m_shooter, m_led), 
-			new ParallelCommandGroup(new Shoot(m_shooter, m_led), new IntakeRingS(m_intake))));
+		shoot.whileTrue(new SequentialCommandGroup( new Shoot1(m_shooter, m_led), 
+			new ParallelCommandGroup(new Shoot2(m_shooter, m_led), new IntakeRingS(m_intake))));
 
 		armUp.whileTrue(new ArmRaise(m_arm));
 		armDown.whileTrue(new ArmLower(m_arm));
@@ -192,10 +201,10 @@ public class RobotContainer {
 			new SequentialCommandGroup(
 				new Trap(m_arm), 
 				new SequentialCommandGroup( 
-					new Shoot(m_shooter, m_led), 
+					new Shoot1(m_shooter, m_led), 
 					new ParallelCommandGroup(
 						new Trap(m_arm), 
-						new Shoot(m_shooter, m_led), 
+						new Shoot1(m_shooter, m_led), 
 						new IntakeRing(m_intake)
 
 
@@ -207,12 +216,17 @@ public class RobotContainer {
 
 	public static void registerNamedCommands() {
 		NamedCommands.registerCommand("Intake", new IntakeRing(m_intake));
-		NamedCommands.registerCommand("AutoAim", new AutoAim(m_arm));
+		NamedCommands.registerCommand("RunShooter", new RunShooter(m_shooter));
+		NamedCommands.registerCommand("AutoAim",
+			new AutoAim(m_arm));
 		NamedCommands.registerCommand("KeepArmUp", new PointMove(m_arm));
-		NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(new Shoot(m_shooter, m_led), 
-			new ParallelCommandGroup(new Shoot(m_shooter, m_led), new IntakeRingS(m_intake))));
+		NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(new Shoot1(m_shooter, m_led), 
+			new ParallelCommandGroup(new Shoot2(m_shooter, m_led), new IntakeRingS(m_intake))));
 		NamedCommands.registerCommand("SimplePark", new ParallelCommandGroup(
-			new InstantCommand(() -> {currentAngle = 0.35;}),
+			new InstantCommand(() -> {currentAngle = 0.36;}),
+			new PointMoveAuto(m_arm)));
+		NamedCommands.registerCommand("ShootFromSide", new ParallelCommandGroup(
+			new InstantCommand(() -> {currentAngle = 0.40;}),
 			new PointMoveAuto(m_arm)));
 		NamedCommands.registerCommand("ZeroGyro", new InstantCommand(() -> m_swerveSys.resetHeading()));
 		

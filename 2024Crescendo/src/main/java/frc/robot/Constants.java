@@ -26,7 +26,6 @@ public class Constants {
 		public static final int shootArmRaiseButton = XboxController.Button.kRightBumper.value;
 		public static final int shootArmLowerButton = XboxController.Button.kLeftBumper.value;
 		public static final int climbUpBotton = XboxController.Axis.kRightTrigger.value;
-		public static final int climbDownButton = XboxController.Axis.kLeftTrigger.value;
 	}
 
 	// These IDs are actually backwards because during rotation, the wheels would be an x
@@ -146,7 +145,7 @@ public class Constants {
 		public static final double steerMtrMaxSpeedRadPerSec = 2.0;
 		public static final double steerMtrMaxAccelRadPerSecSq = 1.0;
 
-		public static final double maxDriveSpeedMetersPerSec = 3.0;
+		public static final double maxDriveSpeedMetersPerSec = 3.5;
 
 		/**
 		 * The rate the robot will spin with full Rot command.
@@ -165,7 +164,7 @@ public class Constants {
 		// Some wheels would spin backwards
 		public static final boolean frontLeftDriveInvert = false;
 		public static final boolean frontRightDriveInvert = false;
-		public static final boolean backLeftDriveInvert = false;
+		public static final boolean backLeftDriveInvert = true;
 		public static final boolean backRightDriveInvert = true;
 
 		// This is just-in-case
@@ -174,7 +173,7 @@ public class Constants {
 		public static final boolean backLeftSteerInvert = true;
 		public static final boolean backRightSteerInvert = true;
 
-		public static final int driveCurrentLimitAmps = 80;
+		public static final int driveCurrentLimitAmps = 100;
 		
 		public static final double drivekP = 0.005;
 		public static final double driveI = 0;
@@ -279,7 +278,7 @@ public class Constants {
 		public static final double ArmD = 0;
 		public static final double ArmIZone = 0.1;
 		public static final double ArmFF = 0.1;
-		public static final double ArmMin = -0.5;
+		public static final double ArmMin = -0.7;
 		public static final double ArmMax = 0.7;
 		public static final double shooterEquationM = 0.035696;
 		public static final double shooterEquationB = 0.356181;

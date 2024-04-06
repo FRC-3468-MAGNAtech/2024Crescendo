@@ -4,6 +4,8 @@
 
 package frc.robot.commands.Climb;
 
+import java.lang.annotation.Retention;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.subsystems.Climb;
@@ -24,6 +26,10 @@ public class ClimbUp extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
+		if (i_subsystem.getEncoderValue() >= ClimbConstants.upPIDReference) {
+			i_subsystem.stopArms();
+			return;
+		}
 		i_subsystem.setLeftAscendSpeed();
 	}
 
@@ -36,6 +42,6 @@ public class ClimbUp extends Command {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return i_subsystem.getEncoderValue() >= ClimbConstants.upPIDReference;
+		return false;
 	}
 }

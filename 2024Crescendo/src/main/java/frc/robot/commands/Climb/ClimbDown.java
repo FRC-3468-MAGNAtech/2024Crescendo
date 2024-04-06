@@ -35,6 +35,6 @@ public class ClimbDown extends Command {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return false;
+		return i_subsystem.leftLimitSwitch() && i_subsystem.rightLimitSwitch();
 	}
 }

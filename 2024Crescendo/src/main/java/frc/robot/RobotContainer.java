@@ -27,6 +27,7 @@ import frc.robot.commands.Shooter.ShooterStop;
 import frc.robot.commands.AutoCommands.*;
 import frc.robot.commands.drivetrain.SwerveDrive;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -62,7 +63,8 @@ public class RobotContainer {
 	// Initialize joysticks.
 	private final CommandXboxController driverController = new CommandXboxController(ControllerConstants.driverGamepadPort);
 	private final JoystickButton zeroGyro = new JoystickButton(driverController.getHID(), XboxController.Button.kStart.value);
-	private final JoystickButton turtleEnable = new JoystickButton(driverController.getHID(), XboxController.Button.kBack.value);
+	private final JoystickButton turtleEnable = new JoystickButton(driverController.getHID(), XboxController.Button.kLeftBumper.value);
+	Joystick stick = new Joystick(3);
 
 	// Initialize secondary controller stuff
 	private final XboxController secondaryDriveController = new XboxController(SubsystemControllerConstants.subsystemControllerPort);
@@ -70,10 +72,12 @@ public class RobotContainer {
 	private final JoystickButton trap = new JoystickButton(secondaryDriveController, XboxController.Button.kBack.value);
 	private final JoystickButton autoAim = new JoystickButton(secondaryDriveController, SubsystemControllerConstants.autoAimButton);
 
+
 	// Initialize auto selector.
 	private final SendableChooser<Command> autoChooser;
 
 	public RobotContainer() {
+		JoystickButton button = new JoystickButton(stick, 0);
 		RobotContainer.registerNamedCommands();
 		m_swerveSys.BuilderConfigure();
 
@@ -164,13 +168,8 @@ public class RobotContainer {
 		JoystickButton extake = new JoystickButton(secondaryDriveController, SubsystemControllerConstants.extakeButton);
 
 		Trigger climbUp = new Trigger(() -> { return secondaryDriveController.getRightTriggerAxis() > 0.5; });
-		Trigger climbDown = new Trigger(() -> { return secondaryDriveController.getLeftTriggerAxis() > 0.5; });
 
-		// intake.whileTrue(new IntakeRing(m_intake));
-		/*autoAim.onTrue(new SequentialCommandGroup(
-			new InstantCommand(() -> {currentAngle = Targeting.aimArmToSpeakerInt();}),
-			new PointMove(m_arm)
-		));*/
+		m_climb.setDefaultCommand(new ClimbDown(m_climb));
 
 		autoAim.onTrue(new SequentialCommandGroup(
 			new AutoAim(m_arm),
@@ -195,8 +194,12 @@ public class RobotContainer {
 		armDown.whileTrue(new ArmLower(m_arm));
 
 		climbUp.whileTrue(new ClimbUp(m_climb));
-		climbDown.whileTrue(new ClimbDown(m_climb));
-		amp.whileTrue(new SequentialCommandGroup( new Amp(m_arm), new ParallelCommandGroup( new AmpOoze(m_shooter), new IntakeRing(m_intake) )));
+
+		amp.whileTrue(new SequentialCommandGroup(
+			new Amp(m_arm), 
+			new ParallelCommandGroup( new AmpOoze(m_shooter), new IntakeRing(m_intake) )
+			));
+			
 		trap.whileTrue(
 			new SequentialCommandGroup(
 				new Trap(m_arm), 

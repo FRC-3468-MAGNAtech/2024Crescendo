@@ -16,8 +16,10 @@ public final class Targeting {
 
 	public static double aimArmToSpeakerInt() {
 		double shootSpeed = RobotContainer.m_camera.speedMap.get(Camera.getTZ());
-		if (shootSpeed < 0.65)
-			shootSpeed = 0.65;
+		if (shootSpeed < 0.7)
+			shootSpeed = 0.7;
+		if (shootSpeed > 0.9)
+			shootSpeed = 0.9;
 		RobotContainer.m_shooter.setSpeed = shootSpeed;
 		double angle = RobotContainer.m_camera.angleMap.get(Camera.getTZ());
 		if (angle > 0.47) angle = 0.47;

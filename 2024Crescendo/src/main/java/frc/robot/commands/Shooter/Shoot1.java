@@ -45,6 +45,6 @@ public class Shoot1 extends Command {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return timer.hasElapsed(0.3);
+		return timer.hasElapsed(0.4);
 	}
 }

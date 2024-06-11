@@ -36,6 +36,10 @@ public class PointMoveAuto extends Command {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
+		if (i_subsystem.getAngle() > 0.62) {
+			i_subsystem.stop();
+			return true;
+		}
 		double angle = i_subsystem.getAngle();
 		return ((angle > RobotContainer.currentAngle - 0.01) && (angle < RobotContainer.currentAngle + 0.01));
 	}

@@ -11,6 +11,7 @@ import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -38,8 +39,8 @@ public class Arm extends SubsystemBase {
 		m_PIDController.setI(armConstants.ArmI);
 		m_PIDController.setD(armConstants.ArmD);
 		m_PIDController.setIZone(armConstants.ArmIZone);
-		m_PIDController.setFF(armConstants.ArmFF);
 		m_PIDController.setOutputRange(armConstants.ArmMin, armConstants.ArmMax);
+		
 	}
 
 	public boolean isParked() {
@@ -47,12 +48,7 @@ public class Arm extends SubsystemBase {
 	}
 
 	public boolean isAtAmp() {
-		return m_Encoder.getPosition() >= 0.61;
-	}
-
-	public boolean isAtTrap() {
-		double pos = m_Encoder.getPosition();
-		return pos > 0.38 && pos < 0.40;
+		return m_Encoder.getPosition() >= 0.60;
 	}
 
 	public void raise() {
@@ -86,6 +82,9 @@ public class Arm extends SubsystemBase {
 	@Override
 	public void periodic() {
 		// This method will be called once per scheduler run
+		m_PIDController.setFF((float)(Rotation2d.fromRotations(Math.abs(getAngle() - armConstants.ArmFFOffset)).getCos()/10));
+		SmartDashboard.putNumber("ArmFF", (float)(Rotation2d.fromRotations(Math.abs(getAngle() - armConstants.ArmFFOffset)).getCos()/10));
+		SmartDashboard.putNumber("ArmFFAngle", Math.abs(getAngle() - armConstants.ArmFFOffset));
 		SmartDashboard.putNumber("Arm Set Speed", m_rightRaiseMotor.get());
 		SmartDashboard.putNumber("ArmPositionA", m_Encoder.getPosition());
 	}

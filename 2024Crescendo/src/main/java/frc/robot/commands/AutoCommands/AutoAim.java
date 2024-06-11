@@ -38,6 +38,10 @@ public class AutoAim extends Command {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
+		if (m_arm.getAngle() > 0.62) {
+			m_arm.stop();
+			return true;
+		}
 		double angle = m_arm.getAngle();
 		return angle > armAngle - 0.01 && angle < armAngle + 0.01;
 	}

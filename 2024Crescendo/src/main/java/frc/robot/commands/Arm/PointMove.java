@@ -35,6 +35,10 @@ public class PointMove extends Command {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
+		if (i_subsystem.getAngle() > 0.62) {
+			i_subsystem.stop();
+			return true;
+		}
 		return false;
 	}
 }

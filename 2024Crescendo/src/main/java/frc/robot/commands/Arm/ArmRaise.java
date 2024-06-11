@@ -35,6 +35,10 @@ public class ArmRaise extends Command {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
+		if (uppies.getAngle() > 0.62) {
+			uppies.stop();
+			return true;
+		}
 		return false;
 	}
 }

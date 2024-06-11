@@ -10,9 +10,9 @@ import frc.robot.commands.LEDColor;
 import frc.robot.commands.Arm.Amp;
 import frc.robot.commands.Arm.ArmLower;
 import frc.robot.commands.Arm.ArmRaise;
+import frc.robot.commands.Arm.ArmStop;
 import frc.robot.commands.Arm.PointMove;
 import frc.robot.commands.Arm.PointMoveAuto;
-import frc.robot.commands.Arm.Trap;
 import frc.robot.commands.Climb.ClimbDown;
 import frc.robot.commands.Climb.ClimbUp;
 import frc.robot.commands.Intake.ExtakeRing;
@@ -58,7 +58,7 @@ public class RobotContainer {
 	public final static SwerveSys m_swerveSys = new SwerveSys();
 	public final static Camera m_camera = new Camera();
 
-	public static double currentAngle = 0.5;
+	public static double currentAngle = 0.4;
 
 	// Initialize joysticks.
 	private final CommandXboxController driverController = new CommandXboxController(ControllerConstants.driverGamepadPort);
@@ -69,7 +69,6 @@ public class RobotContainer {
 	// Initialize secondary controller stuff
 	private final XboxController secondaryDriveController = new XboxController(SubsystemControllerConstants.subsystemControllerPort);
 	private final JoystickButton amp = new JoystickButton(secondaryDriveController, XboxController.Button.kStart.value);
-	private final JoystickButton trap = new JoystickButton(secondaryDriveController, XboxController.Button.kBack.value);
 	private final JoystickButton autoAim = new JoystickButton(secondaryDriveController, SubsystemControllerConstants.autoAimButton);
 
 
@@ -197,24 +196,8 @@ public class RobotContainer {
 
 		amp.whileTrue(new SequentialCommandGroup(
 			new Amp(m_arm), 
-			new ParallelCommandGroup( new AmpOoze(m_shooter), new IntakeRing(m_intake) )
+			new ParallelCommandGroup( new AmpOoze(m_shooter), new IntakeRingS(m_intake) )
 			));
-			
-		trap.whileTrue(
-			new SequentialCommandGroup(
-				new Trap(m_arm), 
-				new SequentialCommandGroup( 
-					new Shoot1(m_shooter, m_led), 
-					new ParallelCommandGroup(
-						new Trap(m_arm), 
-						new Shoot1(m_shooter, m_led), 
-						new IntakeRing(m_intake)
-
-
-					)
-				)
-			)
-		);
 	}
 
 	public static void registerNamedCommands() {

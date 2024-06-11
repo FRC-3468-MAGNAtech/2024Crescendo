@@ -269,18 +269,18 @@ public class Constants {
 		public static final double raiseSpeed = 0.3;
 		public static final double lowerSpeed = -0.1;
 		public static final boolean armLimitTriggered = true;
-		public static final double ampSetpoint = 0.61;
+		public static final double ampSetpoint = 0.60;
 		public static final double trapSetPoint = 0.38;
 		public static final double parkSetPoint = 0.39;
 		public static final double intakeSetPoint = 0.355;
-		public static final double ArmP = 5;
-		public static final double ArmI = 0.0007;
-		public static final double ArmD = 0;
+		//public static final double ArmP = 5;
+		public static final double ArmP = 3.5;
+		public static final double ArmI = 0.0009;
+		public static final double ArmD = 0.0000001;
 		public static final double ArmIZone = 0.1;
-		public static final double ArmFF = 0.1;
 		public static final double ArmMin = -0.7;
 		public static final double ArmMax = 0.7;
-		public static final double shooterEquationM = 0.035696;
-		public static final double shooterEquationB = 0.356181;
+		public static final double ArmFFOffset = 0.356181;
+
 	}
 }               
